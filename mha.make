@@ -11,13 +11,10 @@ api = 2
 ; ==============================================================================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][download][type] = "git"
-projects[admin_menu][download][url] = "git://git.drupal.org/project/admin_menu.git"
-projects[admin_menu][download][revision] = "34190ed8d6721dda84866e2a00f858ab7059d14f"
-projects[admin_menu][patch][] = "http://drupal.org/files/issues/admin-menu-shortcuts-742184-32-no-prefix.patch"
+projects[admin_menu][version] = "3.0-rc3"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.0-beta1"
+projects[advanced_help][version] = "1.0"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta3"
@@ -28,21 +25,20 @@ projects[block_class][download][url] = "git://git.drupal.org/project/block_class
 projects[block_class][download][revision] = "b0959d085e2b978277504bcd33b8363f7e86bff9"
 
 projects[boxes][subdir] = "contrib"
-projects[boxes][version] = "1.0-beta3"
+projects[boxes][version] = "1.0"
 projects[boxes][patch][] = "http://drupal.org/files/issues/boxes.1154126.drushmake.patch"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.0-alpha3"
+projects[captcha][version] = "1.0-beta2"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.0-beta1"
+projects[context][version] = "3.0-beta3"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.0-beta1"
+projects[ctools][version] = "1.0"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.0-alpha3"
-projects[date][patch][] = "http://dl.dropbox.com/u/1169608/date-1110708-22-no-prefix.patch"
+projects[date][version] = "2.5"
 
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
@@ -54,7 +50,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.0-beta1"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.0-beta10"
+projects[entity][version] = "1.0-rc3"
 
 projects[fb][subdir] = "contrib"
 projects[fb][type] = "module"
@@ -83,23 +79,10 @@ projects[fb][patch][] = "http://drupal.org/files/issues/fb-default-locale-settin
 projects[fb][patch][] = "http://drupal.org/files/issues/fb-undefined-render-element.patch"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "1.0-beta3"
-
-projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha4"
-projects[feeds][patch][] = "http://drupal.org/files/issues/feeds-1151438-1-drush-make.patch"
-; Add a real_target property to the link mapper, see: http://drupal.org/node/1182462
-projects[feeds][patch][] = "http://drupal.org/files/issues/feeds-link-mapper-real-target-1182462.patch"
-; And now make sure feeds actually correctly uses real_targets when clearing stuff out. Lol.
-projects[feeds][patch][] = "http://drupal.org/files/issues/996808-11-update_existing.patch"
+projects[features][version] = "1.0-rc2"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.0"
-
-projects[gmap][subdir] = "contrib"
-projects[gmap][download][type] = "git"
-projects[gmap][download][url] = "git://git.drupal.org/project/gmap.git"
-projects[gmap][download][revision] = "245740ebfe0f657d4991a1d67fbd7696ac573fd2"
 
 projects[hint][subdir] = "contrib"
 projects[hint][version] = "1.2"
@@ -108,22 +91,11 @@ projects[hint][patch][] = "http://drupal.org/files/issues/hint-multiple-hints.pa
 projects[jquery_colorpicker][subdir] = "contrib"
 projects[jquery_colorpicker][version] = "1.0-beta2"
 
-projects[job_scheduler][subdir] = "contrib"
-projects[job_scheduler][version] = "2.0-alpha2"
-
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "1.0"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.0-alpha3"
-
-projects[location][subdir] = "contrib"
-projects[location][download][type] = "git"
-projects[location][download][url] = "git://git.drupal.org/project/location.git"
-projects[location][download][revision] = "20d62eb4d5dbb2bd32f77253955da36d1003c87a"
-projects[location][patch][] = "http://drupal.org/files/issues/location.1083128.patch"
-; this is only needed for 7.x-3.0 to make the user cck field work
-projects[location][patch][] = "http://drupal.org/files/issues/1064666-support-insert-and-update-user-or-profile2-location-info.patch"
 
 projects[maillog][subdir] = "development"
 projects[maillog][download][type] = "git"
@@ -133,29 +105,16 @@ projects[maillog][patch][] = "http://drupal.org/files/issues/d7-port-hook_theme-
 projects[maillog][patch][] = "http://drupal.org/files/issues/maillog-format-body-no-prefix.patch"
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "1.0-beta5"
+projects[media][version] = "1.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "1.0-alpha5"
+projects[media_youtube][version] = "1.0-beta3"
 
 projects[nodequeue][subdir] = "contrib"
-projects[nodequeue][version] = "2.0-alpha2"
+projects[nodequeue][version] = "2.0-beta1"
 
-projects[og][subdir] = "contrib"
-projects[og][version] = "1.1-rc3"
-projects[og][patch][] = "http://drupal.org/files/issues/og-default-permissions-drush-no-prefix.patch"
-
-projects[og_email][subdir] = "contrib"
-projects[og_email][type] = "module"
-projects[og_email][download][type] = "git"
-projects[og_email][download][url] = "git://git.drupal.org/sandbox/jamsilver/1210666.git"
-projects[og_email][download][branch] = "master"
-
-projects[og_invite_link][subdir] = "contrib"
-projects[og_invite_link][type] = "module"
-projects[og_invite_link][download][type] = "git"
-projects[og_invite_link][download][url] = "git://git.drupal.org/sandbox/jameswilliams/1228942.git"
-projects[og_invite_link][download][branch] = "master"
+projects[omega_tools][subdir] = "contrib"
+projects[omega_tools][version] = "3.0-rc4"
 
 projects[onecomment][subdir] = "contrib"
 projects[onecomment][download][type] = "git"
@@ -163,19 +122,19 @@ projects[onecomment][download][url] = "git://git.drupal.org/project/onecomment.g
 projects[onecomment][download][revision] = "0eaf6bb8a19c6376a44b9fea393123cb3d1ef95c"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.0-alpha3"
+projects[panels][version] = "3.2"
 
 projects[pathauto][subdir] = "contrib"
-projects[pathauto][version] = "1.0-rc2"
+projects[pathauto][version] = "1.1"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.0-alpha2"
+projects[quicktabs][version] = "3.4"
 
 projects[recaptcha][subdir] = "contrib"
 projects[recaptcha][version] = "1.7"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-beta3"
+projects[redirect][version] = "1.0-beta4"
 
 projects[references][subdir] = "contrib"
 projects[references][download][type] = "git"
@@ -186,7 +145,7 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.0-beta2"
 
 projects[strongarm][subdir] = "contrib"
-projects[strongarm][version] = "2.0-beta2"
+projects[strongarm][version] = "2.0-rc1"
 
 projects[styles][subdir] = "contrib"
 projects[styles][version] = "2.0-alpha8"
@@ -229,6 +188,13 @@ projects[views_slideshow][download][type] = "git"
 projects[views_slideshow][download][url] = "git://git.drupal.org/project/views_slideshow.git"
 projects[views_slideshow][download][revision] = "9a91a5f6459c324568b0146531b8303d02c4b651"
 
+projects[workbench][subdir] = "contrib"
+projects[workbench][version] = "1.1"
+
+projects[workbench_moderation][subdir] = "contrib"
+projects[workbench_moderation][version] = "1.1"
+projects[workbench_moderation][patch][] = "http://drupal.org/files/1436260-disable-node-publish-unpublish-action.patch"
+
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][type] = "module"
 projects[wysiwyg][download][type] = "git"
@@ -265,8 +231,9 @@ libraries[json2][download][type] = "file"
 libraries[json2][download][url] = "http://dl.dropbox.com/u/1169608/douglascrockford-JSON-js-8e0b15c.tar.gz"
 
 libraries[tinymce][download][type] = "file"
-libraries[tinymce][download][url] = "http://github.com/downloads/tinymce/tinymce/tinymce_3_4.zip"
+libraries[tinymce][download][url] = "http://cloud.github.com/downloads/tinymce/tinymce/tinymce_3.5.zip"
 libraries[tinymce][directory_name] = "tinymce"
+libraries[tinymce][destination] = "/libraries/"
 
 ; Themes
 ; ==============================================================================
