@@ -10,5 +10,5 @@ projects[drupal][patch][] = "http://drupal.org/files/issues/844388-clone-node_1.
 
 projects[mha][type] = profile
 projects[mha][download][type] = git
-projects[mha][download][url] = git@github.com:computerminds/bcs_academy.git
+projects[mha][download][url] = git@github.com:chrisdidcote/MHA.git
 projects[mha][download][branch] = master
