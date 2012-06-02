@@ -1,0 +1,87 @@
+name = Manor Hall Association
+description = Install profile for the Manor Hall Association
+core = 7.x
+
+; Dependencies: Core modules
+; ==============================================================================
+dependencies[] = block
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = overlay
+dependencies[] = path
+dependencies[] = shortcut
+dependencies[] = taxonomy
+dependencies[] = rdf
+
+; Dependencies: Contrib modules
+; ==============================================================================
+dependencies[] = admin_menu
+dependencies[] = admin_menu_toolbar
+dependencies[] = advanced_help
+dependencies[] = block_class
+dependencies[] = boxes
+dependencies[] = captcha
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+dependencies[] = date_views
+dependencies[] = entity
+dependencies[] = fb
+dependencies[] = fb_app
+dependencies[] = fb_connect
+dependencies[] = fb_permission
+dependencies[] = fb_user
+dependencies[] = features
+dependencies[] = feeds
+dependencies[] = feeds_ui
+dependencies[] = file_entity
+dependencies[] = file_styles
+dependencies[] = gmap
+dependencies[] = hint
+dependencies[] = job_scheduler
+dependencies[] = libraries
+dependencies[] = location
+dependencies[] = location_cck
+dependencies[] = media
+dependencies[] = media_internet
+dependencies[] = media_youtube
+dependencies[] = nodequeue
+dependencies[] = og
+dependencies[] = og_email
+dependencies[] = og_invite_link
+dependencies[] = og_ui
+dependencies[] = onecomment
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = pathauto
+dependencies[] = quicktabs
+dependencies[] = quicktabs_tabstyles
+dependencies[] = recaptcha
+dependencies[] = redirect
+dependencies[] = strongarm
+dependencies[] = styles
+dependencies[] = styles_ui
+dependencies[] = token
+;dependencies[] = varnish
+dependencies[] = video_filter
+dependencies[] = views
+dependencies[] = views_area_options
+dependencies[] = views_content
+dependencies[] = views_data_export
+dependencies[] = views_slideshow
+dependencies[] = views_slideshow_cycle
+dependencies[] = wysiwyg
+
+; Dependencies: Custom modules/features
+; ==============================================================================
+
