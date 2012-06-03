@@ -40,9 +40,6 @@ projects[ctools][version] = "1.0"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.5"
 
-projects[delta][subdir] = "development"
-projects[delta][version] = "3.0-beta9"
-
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
 
