@@ -170,7 +170,6 @@ projects[workbench][version] = "1.1"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.1"
-projects[workbench_moderation][patch][] = "http://drupal.org/files/1436260-disable-node-publish-unpublish-action.patch"
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][type] = "module"
