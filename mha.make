@@ -40,6 +40,9 @@ projects[ctools][version] = "1.0"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.5"
 
+projects[delta][subdir] = "development"
+projects[delta][version] = "3.0-beta9"
+
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
 
@@ -60,6 +63,9 @@ projects[features][version] = "1.0-rc2"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.0"
+
+projects[galleryformatter][subdir] = "contrib"
+projects[galleryformatter][version] = "1.0"
 
 projects[hint][subdir] = "contrib"
 projects[hint][version] = "1.2"
@@ -87,8 +93,14 @@ projects[media][version] = "1.1"
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "1.0-beta3"
 
+projects[menu_block][subdir] = "contrib"
+projects[menu_block][version] = "2.3"
+
 projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
+
+projects[oauth][subdir] = "contrib"
+projects[oauth][version] = "3.0"
 
 projects[omega_tools][subdir] = "contrib"
 projects[omega_tools][version] = "3.0-rc4"
@@ -129,6 +141,9 @@ projects[styles][version] = "2.0-alpha8"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.0-beta2"
+
+projects[twitter][subdir] = "contrib"
+projects[twitter][version] = "3.0"
 
 projects[varnish][subdir] = "contrib"
 projects[varnish][type] = "module"

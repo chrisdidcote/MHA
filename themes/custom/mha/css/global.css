@@ -22,18 +22,20 @@ ol.breadcrumbs , ul.breadcrumbs  {
 h1, h2, h3, h4 {
   color: #AF1E2D;
   font-family: "Helvetica Neue", helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-weight: normal;
   margin-bottom: 10px;
 }
 h1 {
-  font-size: 1.5em;
+  font-size: 2em;
+}
+h1.title{
+	font-weight: normal;
 }
 .site-name a{
 	text-decoration: none;
 }
 h2 {
   font-size: 1.3em;
-  font-weight: bolder;
 }
 h3, h4 {
   font-size: 1.2em;
@@ -169,4 +171,78 @@ h2.pane-title {
 
 #zone-branding-wrapper{
 	height: 100px;
+}
+
+.block-fboauth{
+	float: right;
+}
+
+.pane-block-1{
+	background: #AF1E2D;
+	padding: 10px;
+}
+
+.pane-block-1 h2.pane-title{
+	color: #fcb514;
+}
+
+.pane-block-1 .pane-content p{
+	color: #fff;
+}
+
+.not-front #region-content .region-content-inner{
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 0 10px;
+}
+
+#region-sidebar-second{
+	margin: 0;
+}
+
+.view-id-news.view-display-id-page img{
+	float: left;
+	margin-right: 10px;
+}
+
+.feed-icon{
+	position: absolute;
+	top: 17px;
+	right: 10px;
+}
+
+.view-id-news.view-display-id-page .view-header{
+	margin-bottom: 20px;
+	font-size: 1.5em;
+	color: #999;
+}
+
+.view-id-news.view-display-id-page .views-row{
+	border-top: 1px solid #AF1E2D;
+	padding: 10px;
+}
+
+/**
+ ** Gallery Formatter
+ **/
+.galleryformatter-greenarrows .gallery-thumbs .arrow,
+.galleryformatter-greenarrows .gallery-thumbs .wrapper,
+.galleryformatter-greenarrows .gallery-thumbs li.active a,
+.galleryformatter-greenarrows .gallery-thumbs li a:hover,
+.galleryformatter-greenarrows .view-full{
+	background: none;
+}
+
+.gallery-thumbs{
+	display: none;
+}
+
+#sliding-popup{
+	border: 1px solid #AF1E2D;
+	background: #fcb514;
+}
+#sliding-popup .cookie-button{
+	background: #AF1E2D;
+	font-weight: bold;
+	color: #fff;
 }
