@@ -52,31 +52,8 @@ projects[email][version] = "1.0-beta1"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.0-rc3"
 
-projects[fb][subdir] = "contrib"
-projects[fb][type] = "module"
-projects[fb][download][type] = "git"
-projects[fb][download][url] = "git://git.drupal.org/project/fb.git"
-projects[fb][download][revision] = "49c588760ce0d6fe2b38e9ab7203c580f1a6ce4d"
-; Fixes a couple of PHP notices
-projects[fb][patch][] = "http://dl.dropbox.com/u/1169608/fb-global-_fb-notice.patch"
-; Alters user_register_form rather than D6's user_register
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-register-formid-1032636-2.patch"
-; Fixes PHP notice
-projects[fb][patch][] = "http://drupal.org/files/issues/fb_user_user-1117214-1.patch"
-; Fix FB user module to use user_load_by_mail(), see http://drupal.org/node/1064250
-projects[fb][patch][] = "http://drupal.org/files/issues/fb_user.module.patch"
-; Port fb_permission to D7, http://drupal.org/node/1173898#comment-4537420
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-permission-1173898-D7-no-prefix.patch"
-; Fixes app deletion form for D7, see http://drupal.org/node/1175632
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-app-deletion-errors.patch"
-; Fixes fb_settings() not always being defined, see: http://drupal.org/node/1182190
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-settings-error-1182190-no-prefix.patch"
-; Fixes notices within fb_get_fbu function, see: http://drupal.org/node/1182218
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-get-fbu-notices-1182218-no-prefix.patch"
-; Fixes default locale settings on FB config form
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-default-locale-setting.patch"
-; Fixes PHP notice
-projects[fb][patch][] = "http://drupal.org/files/issues/fb-undefined-render-element.patch"
+projects[fboauth][subdir] = "contrib"
+projects[fboauth][version] = "1.5"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "1.0-rc2"
