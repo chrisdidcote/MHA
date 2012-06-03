@@ -1,0 +1,76 @@
+#zone-branding .block-bcs-accessibility {
+  float: right;
+  line-height: 20px;
+  display: block;
+  margin-left: 0;
+}
+
+#zone-branding .block-bcs-accessibility > div {
+  display: inline;
+}
+
+#zone-branding .block-bcs-accessibility .block-title {
+  display: block;
+  float: left;
+  margin-right: 5px;
+  padding-top: 16px;
+  line-height: 20px;
+}
+
+#zone-branding .block-bcs-accessibility .item-list {
+  display: block;
+}
+
+#zone-branding .block-bcs-accessibility .item-list ul {
+  display: block;
+}
+#zone-branding .block-bcs-accessibility .item-list li {
+  margin: 0 2px;
+  display: block;
+  float: left;
+  padding-top: 9px;
+}
+
+#zone-branding #block-bcs-accessibility-pagestyle .item-list li {
+  padding-top: 13px;
+}
+
+.textsize-change-link,
+.pagestyle-change-link {
+  display: inline;  
+}
+
+/* Fix padding issue - forcing bullet point, numbered list rendering outside panel */
+.zone-content .field-name-body {
+  margin-left: -10px;
+}
+.zone-content .field-name-body .field-items {
+  padding-left: 10px;
+}
+.zone-content .field-name-body .field-items ol {
+  margin-left: 7px;
+}
+
+
+/* Basic page - Fix IE7 incorrect width */
+.bcs-layout-basicpage-3-6-3 {
+  width: 960px; 
+}
+
+/* Landing page - Fix IE7 incorrect width */
+.bcs-layout-landingpage-8-4 {
+  width: 960px; 
+}
+
+/* Events page - Fix IE7 incorrect width */
+.page-events .grid-12.region.region-content {
+  margin-left: 0;
+}
+
+/* Fix Homepage Blocks Incorrect Positioning */
+.page-home .bcs-layout-homepage {
+  width: 960px;
+}
+.page-home .grid-8 .omega-grid {
+  width: 640px;
+}

@@ -70,6 +70,8 @@ dependencies[] = views_content
 dependencies[] = views_data_export
 dependencies[] = views_slideshow
 dependencies[] = views_slideshow_cycle
+dependencies[] = workbench
+dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 
 ; Dependencies: Custom modules/features

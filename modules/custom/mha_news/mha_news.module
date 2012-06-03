@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the mha_news feature.
+ */
+
+include_once 'mha_news.features.inc';
