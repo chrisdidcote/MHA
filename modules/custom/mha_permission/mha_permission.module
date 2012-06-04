@@ -60,14 +60,14 @@ function mha_permission_settings(){
 
   $form['application']['mha_permission_return'] = array(
   	'#type' => 'textfield',
-  	'#title' => t('Membership Duration (Years)'),
+  	'#title' => t('Return URL for Payment Provider'),
   	'#default_value' => variable_get('mha_permission_return', 'http://mha.dwelli.co.uk'),
   );
 
   $form['application']['mha_permission_paypal_email'] = array(
   	'#type' => 'textfield',
-  	'#title' => t('Membership Duration (Years)'),
-  	'#default_value' => variable_get('mha_permission_return', 'example@example.com'),
+  	'#title' => t('PayPal Email Address'),
+  	'#default_value' => variable_get('mha_permission_email', 'example@example.com'),
   );
 
   return system_settings_form($form);
@@ -112,7 +112,7 @@ function mha_permission_membership_apply(){
   		$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
  
  <!-- Identify your business so that you can collect the payments. --> 
- <input type="hidden" name="business" value="herschelgomez@xyzzyu.com"> 
+ <input type="hidden" name="business" value="' . variable_get('mha_permission_email', 'example@example.com') .'"> 
  
  <!-- Specify a Buy Now button. --> 
  <input type="hidden" name="cmd" value="_xclick"> 
@@ -164,4 +164,12 @@ function _mha_permission_check($user){
 		return TRUE;
 	}
   }	
+}
+
+/**
+  * A function to consume the IPN
+  */
+function mha_permission_ipn(){
+  //TODO: Need to run this through the PayPa sandbox
+  //TODO: Make sure the user gets granted the Affiliate Member Role.
 }
