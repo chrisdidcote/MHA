@@ -1,5 +1,5 @@
 <div class="panel-display omega-grid bcs-layout-homepage clearfix" <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
-  <div class="panel-panel grid-8">
+  <div class="panel-panel grid-12">
     <div class="inside"><?php print $content['top_left']; ?></div>
   </div>
 </div>

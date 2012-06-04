@@ -246,3 +246,28 @@ h2.pane-title {
 	font-weight: bold;
 	color: #fff;
 }
+
+#views_slideshow_controls_text_hero_widget-block{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	z-index: 100;
+}
+
+#views_slideshow_controls_text_previous_hero_widget-block,
+#views_slideshow_controls_text_next_hero_widget-block{
+	background: #fcb514;
+	border: 1px solid #AF1E2D;
+	padding: 5px;
+}
+
+#views_slideshow_controls_text_previous_hero_widget-block a,
+#views_slideshow_controls_text_next_hero_widget-block a{
+	color: #AF1E2D;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.pane-hero-widget{
+	margin-bottom: 20px;
+}

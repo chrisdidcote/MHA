@@ -1,0 +1,167 @@
+<?php
+/**
+  * Implements hook_permission()
+  */
+function mha_permission_permission() {
+  return array(
+    'administer membership' => array(
+      'title' => t('Administer Membership'), 
+      'description' => t('Controll how the website handles membership applications'),
+    ),
+    'apply for membership' => array(
+      'title' => t('Apply for Membership'), 
+    ),
+  );
+}
+
+/**
+  * Implements hook_menu()
+  */
+function mha_permission_menu(){
+  $items['membership/apply'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_membership_apply', 
+    'access arguments' => array('apply for membership'), 
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/membership/settings'] = array(
+    'title' => 'Membership Settings', 
+    'page callback' => 'drupal_get_form', 
+    'page arguments' => array('mha_permission_settings'), 
+    'access arguments' => array('administer membership'), 
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+  * Settings for the the membership
+  */
+function mha_permission_settings(){
+  $form['application']['mha_permission_introduction'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Introduction Text'),
+  	'#default_value' => variable_get('mha_permission_introduction', 'Please ensure your details are correct being proceeding.'),
+  );
+
+  $form['application']['mha_permission_cost'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Fees (£)'),
+  	'#default_value' => variable_get('mha_permission_cost', '20'),
+  );
+
+  $form['application']['mha_permission_duration'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Duration (Years)'),
+  	'#default_value' => variable_get('mha_permission_duration', '3'),
+  );
+
+  $form['application']['mha_permission_return'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Duration (Years)'),
+  	'#default_value' => variable_get('mha_permission_return', 'http://mha.dwelli.co.uk'),
+  );
+
+  $form['application']['mha_permission_paypal_email'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Duration (Years)'),
+  	'#default_value' => variable_get('mha_permission_return', 'example@example.com'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+  * The page callback for the membership application
+  */
+function mha_permission_membership_apply(){
+  global $user;
+  $output = variable_get('mha_permission_introduction', 'Please ensure your details are correct being proceeding.');
+
+  if(_mha_permission_check($user)){
+  	$entity = entity_load('user', array($user->uid));
+  	foreach($entity AS $record){
+  		$output .= '<h2>' . t('Personal Details') . '</h2>';
+  		$output .= drupal_render(field_view_field('user', $record, 'field_first_name'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_last_name'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_address_1'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_address_2'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_town'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_county'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_post_code'));
+  		$output .= drupal_render(field_view_field('user', $record, 'field_years_in_hall'));
+
+  		if(empty($record->field_years_in_hall['und'][0]['safe_value'])){
+  			$output .= '<h2>' . t('Affiliate Membership Application') . '</h2>';
+  			$output .= t('<p>According to the details that are included on your user account you have never been resident in Manor Hall, according to the Association\'s constitution you are only eligiable to apply for <strong>Afilliate Membership</strong>.</p>');
+  			$type = 'Affiliate Membership of the Manor Hall Association - Expires: ' . date('jS, F Y', strtotime('+ 3 Years'));
+  		}
+  		else{
+  			$output .= '<h2>' . t('Full Membership Application') . '</h2>';
+  			$output .= t('<p>According to the details that are included on your user account you have been resident in Manor Hall, are eligiable to apply for <stron>Full Membership</strong>.</p>');
+  			$type = 'Full Membership of the Manor Hall Association - Expires: ' . date('jS, F Y', strtotime('+ 3 Years'));
+  		}
+
+  		$output .= t('<p>Upon success receipt of your membership subscription you will automatically be granted affiliate membership of the Association. If you have applied for Full Membership then your details will be updated to reflect this as soon as your application has been before the committee to allow for the neccessary checks.');
+
+  		$output .= '<h2>' . t('Declaration') . '</h2>';
+  		$output .= t('<p>I wish to apply for the grade of membership stated above and understand that in doing so I am agreeing to be bound by the Constitution and Bye-Laws of the Association.</p>');
+
+  		$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
+ 
+ <!-- Identify your business so that you can collect the payments. --> 
+ <input type="hidden" name="business" value="herschelgomez@xyzzyu.com"> 
+ 
+ <!-- Specify a Buy Now button. --> 
+ <input type="hidden" name="cmd" value="_xclick"> 
+ 
+ <!-- Specify details about the item that buyers will purchase. --> 
+ <input type="hidden" name="item_name" value="' . $type .'"> 
+ <input type="hidden" name="amount" value="' . variable_get('mha_permission_cost', '20') . '">  
+ <input type="hidden" name="currency_code" value="GBP"> 
+  <input type="hidden" name="return" value="' . variable_get('mha_permission_return', 'http://mha.dwelli.co.uk') .'"> 
+ 
+ <!-- Display the payment button. --> 
+ <input type="submit" name="submit" border="0" 
+ value="Proceed to Payment"> 
+ <img alt="" border="0" width="1" height="1" 
+ src="https://www.paypal.com/en_US/i/scr/pixel.gif" > 
+</form>';
+
+  	}
+  }
+  else{
+  	drupal_set_message(t('You have an incomplete user profile, you will need to complete it before continuing with the Application Process. Click !here to edit your account.', array('!here' => l('here', 'user/' . $user->uid . '/edit'))), 'error');
+  }
+  
+  return $output;
+}
+
+/**
+  * Helper function to check that we have all he details we need to process the membership
+  */
+function _mha_permission_check($user){
+  //Load the user entity
+  $entity = entity_load('user', array($user->uid));
+
+  foreach($entity AS $record){
+	if(empty($record->field_first_name['und'][0]['safe_value']) ||
+       empty($record->field_last_name['und'][0]['safe_value']) ||
+       empty($record->field_address_1['und'][0]['safe_value']) ||
+       empty($record->field_town['und'][0]['safe_value']) ||
+       empty($record->field_county['und'][0]['safe_value']) ||
+       empty($record->field_post_code['und'][0]['safe_value'])){
+       	//The user profile hasn't been completed
+		return FALSE;
+	}
+	else{
+		if(empty($record->field_years_in_hall['und'][0]['safe_value'])){
+		  //The user profile has been completed but no years in hall were entered
+		  drupal_set_message(t('Your profile doesn\'t include any years in hall, you can continue with your application but will only be able to apply for affiliate membership. Click !here to edit your account.', array('!here' => l('here', 'user/' . $user->uid . '/edit'))), 'warning');
+		}
+		return TRUE;
+	}
+  }	
+}
