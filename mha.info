@@ -73,3 +73,10 @@ dependencies[] = wysiwyg
 ; Dependencies: Custom modules/features
 ; ==============================================================================
 
+
+
+; Information added by drush on 2012-08-17
+version = "master-dev"
+project = "mha"
+datestamp = "1345240051"
+

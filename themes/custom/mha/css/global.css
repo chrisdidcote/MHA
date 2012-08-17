@@ -5,6 +5,10 @@ body {
   color: #333;
   font-size: 0.75em;
   font-family: "Helvetica Neue", helvetica, Arial, sans-serif;
+  background: 
+  	url(../images/bkd_flourish.png) no-repeat center 210px,
+  	url(../images/bkd_swirl_top.png) repeat-x left 39px,
+  	#EDE9E1;
 }
 
 /* Links, Headings, UL */
@@ -30,15 +34,28 @@ h1 {
 }
 h1.title{
 	font-weight: normal;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	font-variant:small-caps;
 }
 .site-name a{
 	text-decoration: none;
+	color: #333;
+	font-variant:small-caps;
+}
+.site-slogan a{
+	text-decoration: none;
+	letter-spacing: 10px;
+	color: #333;
 }
 h2 {
-  font-size: 1.3em;
+  font-size: 1.6em;
+  font-family: "Caudex", helvetica, Arial, sans-serif;
+  font-variant:small-caps;
 }
 h3, h4 {
   font-size: 1.2em;
+  font-family: "Caudex", helvetica, Arial, sans-serif;
+  font-variant:small-caps;
 }
 
 p {
@@ -52,9 +69,25 @@ hr {
 
 /** Header **/
 #zone-user-wrapper{
-	background: #f2e8e8;
+	background: #AF1E2D;
 	padding: 10px 0;
 }
+
+#zone-user-wrapper a{
+	color: #fff;
+	font-size: 0.9em;
+	text-decoration: none;
+}
+
+#zone-user-wrapper a:hover{
+	text-decoration: underline;
+}
+
+.logo-img{
+	padding: 20px;
+	margin: 0;
+}
+
 
 /**
  ** Homepage Styling
@@ -104,40 +137,32 @@ hr {
  ** Generic Pane/Block Styling
  **/
 h2.pane-title {
-	border-bottom: 1px solid #AF1E2D;;
+	background: 
+	  	url(../images/header_bkd.png) no-repeat right,
+	  	url(../images/header_bkd_rpt.png) repeat-x left,
+	  	#AF1E2D;
+	color: #fff;
+	padding: 10px 0 0 5px;
+	margin: none;
 }
 
-#block-system-main-menu ul li{
+#block-system-main-menu .content ul li{
 	list-style: none;
 	float: left;
-	padding: 30px 0;
-	margin: 0 10px 0 0;
 }
 
-#block-system-main-menu ul li.last{
-	margin: 0;
-}
-#block-system-main-menu ul li a{
+#block-system-main-menu .content a{
+	color: #fff;
+	font-size: 1.1em;
 	text-decoration: none;
-	background: #ffebbf;
-	padding: 10px 30px 30px 10px;
-	border-top: 3px solid #AF1E2D;
+	padding: 0px 20px;
 }
 
 #block-system-main-menu{
-	float: right;
-	margin-top: -50px;
+	background: #000 url('../images/main_nav_bkd.png') repeat-x;
+	height: 25px;
 }
 
-#block-system-main-menu ul li a:hover{
-	background: #fcb514;
-}
-
-#block-system-main-menu ul li a.active{
-	background: #AF1E2D;
-	color: #fff;
-	border-top: 3px solid #fcb514;
-}
 
 #zone-footer-wrapper{
 	background: #AF1E2D;
