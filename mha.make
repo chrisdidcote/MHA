@@ -61,6 +61,9 @@ projects[features][version] = "1.0-rc2"
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.0"
 
+projects[fontyourface][subdir] = "contrib"
+projects[fontyourface][version] = "2.4"
+
 projects[galleryformatter][subdir] = "contrib"
 projects[galleryformatter][version] = "1.0"
 
