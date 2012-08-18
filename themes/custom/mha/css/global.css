@@ -113,8 +113,8 @@ hr {
 .views-slideshow-cycle-main-frame-row-item .views-field-title span{
 	background: #fff;
 	padding: 10px;
-	opacity:0.4;
-	filter:alpha(opacity=40); /* For IE8 and earlier */
+	opacity:0.8;
+	filter:alpha(opacity=80); /* For IE8 and earlier */
 }
 
 .views-slideshow-cycle-main-frame-row-item .views-field-title span a{
@@ -314,4 +314,13 @@ h2.pane-title,
 
 .pane-hero-widget{
 	margin-bottom: 20px;
+}
+
+.view-id-news.view-display-id-block .views-field-title a{
+	color: #000;
+	text-decoration: none;
+	font-size: 1.5em;
+}
+.view-id-news.view-display-id-block .views-field-title a:hover{
+	text-decoration: underline;
 }
