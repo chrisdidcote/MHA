@@ -205,8 +205,6 @@ projects[amazon_ses][download][revision] = "30ed60df98420e1f068de6c87187e019c53d
 
 ; Themes
 ; ==============================================================================
-projects[omega][subdir] = "contrib"
-projects[omega][type] = "theme"
-projects[omega][version] = "3.1"
+
 
 
