@@ -114,6 +114,8 @@ hr {
 .views-slideshow-cycle-main-frame-row-item .views-field-title span{
 	background: #fff;
 	padding: 10px;
+	opacity:0.4;
+	filter:alpha(opacity=40); /* For IE8 and earlier */
 }
 
 .views-slideshow-cycle-main-frame-row-item .views-field-title span a{
