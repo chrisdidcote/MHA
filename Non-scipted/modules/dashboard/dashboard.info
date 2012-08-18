@@ -19,3 +19,10 @@ version = "master-dev"
 project = "mha"
 datestamp = "1345240051"
 
+
+
+; Information added by drush on 2012-08-18
+version = "master-dev"
+project = "mha"
+datestamp = "1345247105"
+

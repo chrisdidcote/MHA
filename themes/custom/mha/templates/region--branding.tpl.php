@@ -13,14 +13,14 @@
         <?php if ($site_name): ?>
         <?php $class = $site_name_hidden ? ' element-invisible' : ''; ?>
         <?php if ($is_front): ?>        
-        <h1 class="site-name<?php print $class; ?>"><?php print $linked_site_name; ?></h1>
+        <h1 class="site-name<?php print $class; ?>"><a href="/">The Manor Hall</a></h1>
         <?php else: ?>
-        <h2 class="site-name<?php print $class; ?>"><?php print $linked_site_name; ?></h2>
+        <h2 class="site-name<?php print $class; ?>"><a href="/">The Manor Hall</a></h2>
         <?php endif; ?>
         <?php endif; ?>
         <?php if ($site_slogan): ?>
         <?php $class = $site_slogan_hidden ? ' element-invisible' : ''; ?>
-        <h6 class="site-slogan<?php print $class; ?>"><?php print $site_slogan; ?></h6>
+        <h6 class="site-slogan<?php print $class; ?>"><a href="/">ASSOCIATION</a></h6>
         <?php endif; ?>
       </hgroup>
       <?php endif; ?>
