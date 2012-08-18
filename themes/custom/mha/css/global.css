@@ -6,7 +6,8 @@ body {
   font-size: 0.75em;
   font-family: "Helvetica Neue", helvetica, Arial, sans-serif;
   background: 
-  	url(../images/bkd_flourish.png) no-repeat center 210px,
+  	url(../images/bkd_flourish.png) no-repeat center 280px,
+  	url(../images/bkd_swirl_foot.png) no-repeat center 280px,
   	url(../images/bkd_swirl_top.png) repeat-x left 39px,
   	#EDE9E1;
 }
@@ -179,8 +180,17 @@ h2.pane-title,
 }
 
 #zone-footer{
-	background: transparent url('../images/uob_logo.png') no-repeat center left;
+	background: transparent url('../images/uob_logo.png') no-repeat top left;
 	padding-left: 90px;
+}
+
+#zone-footer .block{
+	float: left;
+	margin-right: 50px;
+}
+
+#zone-footer h2{
+	color: #fff;
 }
 
 #block-menu-menu-footer ul li{
