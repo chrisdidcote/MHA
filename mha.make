@@ -201,30 +201,7 @@ projects[amazon_ses][download][revision] = "30ed60df98420e1f068de6c87187e019c53d
 ; Libraries
 ; ==============================================================================
 
-libraries[Clusterer2][download][type] = "file"
-libraries[Clusterer2][download][url] = "http://acme.com/javascript/Clusterer2.js"
-libraries[Clusterer2][destination] = "modules/contrib/gmap/thirdparty"
 
-libraries[facebook-php-sdk][download][type] = "git"
-libraries[facebook-php-sdk][download][tag] = "v2.1.2"
-libraries[facebook-php-sdk][download][url] = "https://github.com/facebook/php-sdk.git"
-
-libraries[jcycle][download][type] = "file"
-libraries[jcycle][download][url] = "http://malsup.com/jquery/cycle/release/jquery.cycle.zip?v2.94"
-libraries[jcycle][directory_name] = "jquery.cycle"
-
-libraries[jquery_colorpicker][download][type] = "file"
-libraries[jquery_colorpicker][download][url] = "http://www.eyecon.ro/colorpicker/colorpicker.zip"
-libraries[jquery_colorpicker][destination] = "modules/contrib/jquery_colorpicker"
-libraries[jquery_colorpicker][directory_name] = "colorpicker"
-
-libraries[json2][download][type] = "file"
-libraries[json2][download][url] = "http://dl.dropbox.com/u/1169608/douglascrockford-JSON-js-8e0b15c.tar.gz"
-
-libraries[tinymce][download][type] = "file"
-libraries[tinymce][download][url] = "http://cloud.github.com/downloads/tinymce/tinymce/tinymce_3.5.zip"
-libraries[tinymce][directory_name] = "tinymce"
-libraries[tinymce][destination] = "/libraries/"
 
 ; Themes
 ; ==============================================================================

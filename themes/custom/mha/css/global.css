@@ -138,7 +138,8 @@ hr {
 /**
  ** Generic Pane/Block Styling
  **/
-h2.pane-title {
+h2.pane-title,
+.region-sidebar-second h2.block-title {
 	background: 
 	  	url(../images/header_bkd.png) no-repeat right,
 	  	url(../images/header_bkd_rpt.png) repeat-x left,
@@ -147,6 +148,7 @@ h2.pane-title {
 	padding: 10px 0 0 5px;
 	margin: 0;
 }
+
 
 #block-system-main-menu .content ul li{
 	list-style: none;
