@@ -6,7 +6,7 @@ body {
   font-size: 0.75em;
   font-family: "Helvetica Neue", helvetica, Arial, sans-serif;
   background: 
-  	url(../images/bkd_flourish.png) no-repeat center 280px,
+  	url(../images/bkd_flourish.png) no-repeat center 130px,
   	url(../images/bkd_swirl_top.png) repeat-x left 39px,
   	#EDE9E1;
 }
@@ -169,7 +169,24 @@ h2.pane-title,
 	height: 25px;
 }
 
+.block-committee-block-1{
+	position: absolute;
+	top: 20px;
+	right: 0;
+}
 
+.block-main-menu ul.menu li ul.menu{
+	display: none;	
+}
+
+/** Committee view **/
+.views-field-field-profile-picture{
+	float: left;
+	margin-right: 10px;
+}
+.views-field-nothing-1{
+	overflow: auto;
+}
 #zone-footer-wrapper{
 	background: 
 		url('../images/footer_flourishes.png') no-repeat center 75px,
@@ -323,4 +340,19 @@ h2.pane-title,
 }
 .view-id-news.view-display-id-block .views-field-title a:hover{
 	text-decoration: underline;
+}
+
+/** Membership form **/
+#mha-permission-membership-apply-form label{
+	float: left;
+	width: 200px;
+}
+
+#mha-permission-membership-apply-form input[type="text"],
+#mha-permission-membership-apply-form select{
+	border: 1px solid #ccc;
+}
+
+#mha-permission-membership-apply-form .description{
+	width: 200px;
 }

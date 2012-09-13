@@ -28,15 +28,25 @@ dependencies[] = taxonomy
 dependencies[] = twitter_post
 dependencies[] = workbench
 dependencies[] = workbench_moderation
+datestamp = 1345247105
 features[features_api][] = api:1
 features[field][] = user-user-field_address_1
 features[field][] = user-user-field_address_2
+features[field][] = user-user-field_biography
+features[field][] = user-user-field_bristol_degrees_held
 features[field][] = user-user-field_committee_position
 features[field][] = user-user-field_country
 features[field][] = user-user-field_county
 features[field][] = user-user-field_first_name
+features[field][] = user-user-field_gender
 features[field][] = user-user-field_last_name
+features[field][] = user-user-field_membership_class
+features[field][] = user-user-field_positions_in_hall
 features[field][] = user-user-field_post_code
+features[field][] = user-user-field_post_nominals
+features[field][] = user-user-field_profile_picture
+features[field][] = user-user-field_salutation
+features[field][] = user-user-field_student_number
 features[field][] = user-user-field_town
 features[field][] = user-user-field_years_in_hall
 features[taxonomy][] = portfolio
@@ -173,17 +183,3 @@ features[user_permission][] = view the administration theme
 features[user_role][] = Administrator
 features[user_role][] = Member
 features[user_role][] = Officer
-
-
-; Information added by drush on 2012-08-17
-version = "master-dev"
-project = "mha"
-datestamp = "1345240051"
-
-
-
-; Information added by drush on 2012-08-18
-version = "master-dev"
-project = "mha"
-datestamp = "1345247105"
-

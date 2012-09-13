@@ -118,6 +118,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'access workbench',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench',
   );
@@ -921,6 +922,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'moderate content from draft to needs_review',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -930,6 +932,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'moderate content from needs_review to draft',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -939,6 +942,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'moderate content from needs_review to published',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -1104,6 +1108,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'use workbench_moderation my drafts tab',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -1113,6 +1118,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'use workbench_moderation needs review tab',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -1149,6 +1155,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'view all unpublished content',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -1168,6 +1175,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'view moderation history',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
@@ -1177,6 +1185,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'view moderation messages',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'workbench_moderation',
   );
