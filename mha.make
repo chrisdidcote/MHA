@@ -74,6 +74,9 @@ projects[hint][subdir] = "contrib"
 projects[hint][version] = "1.2"
 projects[hint][patch][] = "http://drupal.org/files/issues/hint-multiple-hints.patch"
 
+projects[job_scheduler][subdir] = "contrib"
+projects[job_scheduler][version] = "2.0-alpha3"
+
 projects[jquery_colorpicker][subdir] = "contrib"
 projects[jquery_colorpicker][version] = "1.0-beta2"
 
