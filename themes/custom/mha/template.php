@@ -10,3 +10,21 @@
  * for your subtheme grows. Please read the README.txt in the /preprocess and /process subfolders
  * for more information on this topic.
  */
+
+function mha_preprocess_views_view_summary(&$vars) {
+  if($vars['view']->name == 'elton_house_award' && $vars['view']->current_display == 'block_1') {
+    $items = array();
+    foreach($vars['rows'] as $result){
+      if(is_numeric($result->link)) {
+        $term_object = taxonomy_term_load($result->link);
+        $result->link = $term_object->name;
+        $items[] = $result;
+      }
+      else {
+        //used for the <no-value> item
+        $items[] = $result;
+      }
+    }
+    $vars['rows'] = $items;
+  }
+}
