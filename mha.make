@@ -142,6 +142,9 @@ projects[rpx][version] = "2.2"
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.0-beta2"
 
+projects[socialmedia][subdir] = "contrib"
+projects[socialmedia][version] = "1.0-beta13"
+
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0-rc1"
 
@@ -191,6 +194,9 @@ projects[views_slideshow][download][revision] = "9a91a5f6459c324568b0146531b8303
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.1"
+
+projects[widgets][subdir] = "contrib"
+projects[widgets][version] = "1.0-rc1"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.1"
