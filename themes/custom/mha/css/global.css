@@ -248,6 +248,7 @@ h2.pane-title,
 
 .pane-block-1 h2.pane-title{
 	color: #fcb514;
+	background: none;
 }
 
 .pane-block-1 .pane-content p{
@@ -336,10 +337,14 @@ h2.pane-title,
 	margin-bottom: 20px;
 }
 
-.view-id-news.view-display-id-block .views-field-title a{
+.view-id-news.view-display-id-block .views-field-title a,
+.view-id-events.view-display-id-block a{
 	color: #000;
 	text-decoration: none;
 	font-size: 1.5em;
+}
+.view-id-events.view-display-id-block .views-field-field-date{
+	font-weight: bold;
 }
 .view-id-news.view-display-id-block .views-field-title a:hover{
 	text-decoration: underline;
