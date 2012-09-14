@@ -172,7 +172,10 @@ h2.pane-title,
 .block-committee-block-1{
 	position: absolute;
 	top: 20px;
-	right: 0;
+	right: 20px;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	color: #333;
+	text-align: right;
 }
 
 .block-main-menu ul.menu li ul.menu{
@@ -346,6 +349,18 @@ h2.pane-title,
 #mha-permission-membership-apply-form label{
 	float: left;
 	width: 200px;
+}
+
+#mha-permission-membership-apply-form .form-type-checkbox label{
+	width: 735px;
+	float: right;
+}
+
+#mha-permission-membership-apply-form #edit-submit{
+	border: 1px solid #CCC;
+	background: #AF1E2D;
+	color: white;
+	margin-top: 20px;
 }
 
 #mha-permission-membership-apply-form input[type="text"],

@@ -109,6 +109,7 @@ function mha_permission_user_default_permissions() {
     'name' => 'access user profiles',
     'roles' => array(
       0 => 'Administrator',
+      1 => 'Officer',
     ),
     'module' => 'user',
   );

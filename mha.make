@@ -35,7 +35,7 @@ projects[context][subdir] = "contrib"
 projects[context][version] = "3.0-beta3"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.0"
+projects[ctools][version] = "1.2"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.5"
@@ -146,7 +146,7 @@ projects[styles][subdir] = "contrib"
 projects[styles][version] = "2.0-alpha8"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.0-beta2"
+projects[token][version] = "1.3"
 
 projects[twitter][subdir] = "contrib"
 projects[twitter][version] = "3.0"
@@ -160,7 +160,7 @@ projects[varnish][patch][] = "http://drupal.org/files/issues/varnish-drupal-7-up
 projects[varnish][patch][] = "http://dl.dropbox.com/u/5359452/varnish-socket-timeout.patch"
 
 projects[video_filter][subdir] = "contrib"
-projects[video_filter][version] = "3.0-beta1"
+projects[video_filter][version] = "3.0"
 
 projects[views][subdir] = "contrib"
 projects[views][type] = "module"
