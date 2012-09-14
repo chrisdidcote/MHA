@@ -480,7 +480,7 @@ function mha_permission_membership_apply(){
 			$output .= drupal_render(field_view_field('user', $account, 'field_share_details', array('label' => 'inline')));
 			$output .= drupal_render(field_view_field('user', $account, 'field_contact_permission', array('label' => 'inline')));
 			
-			$type = 'Membership Subscription for ' . $user->uid . ' EXPIRES: ' . date('Y-m-j', strtotime('+ 3 years'));
+			$type = 'MHA Membership Subscription EXPIRES: ' . date('Y-m-j', strtotime('+ 3 years'));
 			
 			$output .= '<h2>Membership Fees</h2><p>Current Membership Fees of the Manor Hall Association are &pound;' . variable_get('mha_permission_cost', '20') . '. To proceed to PayPal for payment of these dues click the button below.</p>';
 		
