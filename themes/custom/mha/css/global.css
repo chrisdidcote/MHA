@@ -371,3 +371,25 @@ h2.pane-title,
 #mha-permission-membership-apply-form .description{
 	width: 200px;
 }
+
+.view-id-elton_house_award .views-field-field-eh-image{
+	float: left;
+	margin-right: 10px;
+}
+.view-id-elton_house_award .views-field-field-eh-image .views-field-title a{
+	font-size: 1.5em;
+	text-decoration: none;
+}
+.view-id-elton_house_award .views-field-field-eh-image .views-field-title a:hover{
+	text-decoration: underline;
+}
+.view-id-elton_house_award .views-field-field-eh-image .views-field-field-course{
+	font-weight: bold;
+}
+.node-type-elton-house-award-recipient .field-name-field-eh-image{
+	float: left;
+	margin-right: 10px;
+}
+.node-type-elton-house-award-recipient .field-name-field-course{
+	font-weight: bold;
+}
