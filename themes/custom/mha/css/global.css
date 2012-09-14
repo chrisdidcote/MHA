@@ -418,3 +418,7 @@ h2.pane-title,
 .breadcrumb a:hover{
 	text-decoration: underline;
 }
+.view-id-committee.view-display-id-page .views-row,
+.view-id-elton_house_award.view-display-id-page .views-row{
+	margin-bottom: 20px;
+}

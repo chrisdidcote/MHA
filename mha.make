@@ -136,6 +136,9 @@ projects[references][download][type] = "git"
 projects[references][download][url] = "git://git.drupal.org/project/references.git"
 projects[references][download][revision] = "4e50d062f19328755ab32610c41acca3f4e7ac12"
 
+projects[rpx][subdir] = "contrib"
+projects[rpx][version] = "2.2"
+
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.0-beta2"
 
