@@ -393,3 +393,28 @@ h2.pane-title,
 .node-type-elton-house-award-recipient .field-name-field-course{
 	font-weight: bold;
 }
+.menu-block-1 ul.menu li{
+	list-style: none;
+}
+.menu-block-1 ul.menu li a{
+	font-size: 1.2em;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	font-variant: small-caps;
+	text-decoration: none;
+}
+.menu-block-1 ul.menu li a:hover{
+	text-decoration: underline;
+}
+.breadcrumb{
+	font-size: 1.2em;
+	padding: 10px;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	font-variant: small-caps;
+}
+.breadcrumb a{
+	color: #333;
+	text-decoration: none;
+}
+.breadcrumb a:hover{
+	text-decoration: underline;
+}
