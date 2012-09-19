@@ -32,13 +32,13 @@ projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.0-beta2"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.0-beta3"
+projects[context][version] = "3.0-beta4"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.2"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.5"
+projects[date][version] = "2.6"
 
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
@@ -56,7 +56,7 @@ projects[fboauth][subdir] = "contrib"
 projects[fboauth][version] = "1.5"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "1.0-rc2"
+projects[features][version] = "1.0"
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha5"
@@ -68,7 +68,10 @@ projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.4"
 
 projects[galleryformatter][subdir] = "contrib"
-projects[galleryformatter][version] = "1.0"
+projects[galleryformatter][version] = "1.2"
+
+projects[google_analytics][subdir] = "contrib"
+projects[google_analytics][version] = "1.2"
 
 projects[hint][subdir] = "contrib"
 projects[hint][version] = "1.2"
@@ -94,7 +97,7 @@ projects[maillog][patch][] = "http://drupal.org/files/issues/d7-port-hook_theme-
 projects[maillog][patch][] = "http://drupal.org/files/issues/maillog-format-body-no-prefix.patch"
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "1.1"
+projects[media][version] = "1.2"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "1.0-beta3"
@@ -117,10 +120,10 @@ projects[onecomment][download][url] = "git://git.drupal.org/project/onecomment.g
 projects[onecomment][download][revision] = "0eaf6bb8a19c6376a44b9fea393123cb3d1ef95c"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.2"
+projects[panels][version] = "3.3"
 
 projects[pathauto][subdir] = "contrib"
-projects[pathauto][version] = "1.1"
+projects[pathauto][version] = "1.2"
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.4"
@@ -129,7 +132,7 @@ projects[recaptcha][subdir] = "contrib"
 projects[recaptcha][version] = "1.7"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-beta4"
+projects[redirect][version] = "1.0-rc1"
 
 projects[references][subdir] = "contrib"
 projects[references][download][type] = "git"
@@ -140,13 +143,13 @@ projects[rpx][subdir] = "contrib"
 projects[rpx][version] = "2.2"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.0-beta2"
+projects[rules][version] = "2.2"
 
 projects[socialmedia][subdir] = "contrib"
 projects[socialmedia][version] = "1.0-beta13"
 
 projects[strongarm][subdir] = "contrib"
-projects[strongarm][version] = "2.0-rc1"
+projects[strongarm][version] = "2.0"
 
 projects[styles][subdir] = "contrib"
 projects[styles][version] = "2.0-alpha8"
@@ -155,7 +158,7 @@ projects[token][subdir] = "contrib"
 projects[token][version] = "1.3"
 
 projects[twitter][subdir] = "contrib"
-projects[twitter][version] = "3.0"
+projects[twitter][version] = "3.2"
 
 projects[varnish][subdir] = "contrib"
 projects[varnish][type] = "module"
@@ -184,7 +187,7 @@ projects[views_area_options][download][url] = "git://git.drupal.org/project/view
 projects[views_area_options][download][revision] = "b83068ccbb48a27f6530b024772586a73107b075"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta5"
+projects[views_data_export][version] = "3.0-beta6"
 
 projects[views_slideshow][subdir] = "contrib"
 projects[views_slideshow][type] = "module"
@@ -193,7 +196,7 @@ projects[views_slideshow][download][url] = "git://git.drupal.org/project/views_s
 projects[views_slideshow][download][revision] = "9a91a5f6459c324568b0146531b8303d02c4b651"
 
 projects[workbench][subdir] = "contrib"
-projects[workbench][version] = "1.1"
+projects[workbench][version] = "1.2"
 
 projects[widgets][subdir] = "contrib"
 projects[widgets][version] = "1.0-rc1"
