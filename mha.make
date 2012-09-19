@@ -196,7 +196,7 @@ projects[views_slideshow][download][url] = "git://git.drupal.org/project/views_s
 projects[views_slideshow][download][revision] = "9a91a5f6459c324568b0146531b8303d02c4b651"
 
 projects[workbench][subdir] = "contrib"
-projects[workbench][version] = "1.2"
+projects[workbench][version] = "1.1"
 
 projects[widgets][subdir] = "contrib"
 projects[widgets][version] = "1.0-rc1"
