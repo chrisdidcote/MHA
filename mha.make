@@ -165,7 +165,6 @@ projects[varnish][download][type] = "git"
 projects[varnish][download][url] = "git://git.drupal.org/project/varnish.git"
 projects[varnish][download][revision] = "7ce48ffb1d5adc612406da8c3f1f79d65e504dbf"
 projects[varnish][patch][] = "http://drupal.org/files/issues/varnish-drupal-7-upgrade-927860-3.patch"
-projects[varnish][patch][] = "http://dl.dropbox.com/u/5359452/varnish-socket-timeout.patch"
 
 projects[video_filter][subdir] = "contrib"
 projects[video_filter][version] = "3.0"
@@ -177,7 +176,6 @@ projects[views][download][url] = "git://git.drupal.org/project/views.git"
 projects[views][download][revision] = "32b8ef976430d92468782e2820b42cfba42210d0"
 ; This patch undoes a fix found at http://drupal.org/node/1205570 which is identified
 ; at http://drupal.org/node/1207680 as being the reason taxonomy filters are failing.
-projects[views][patch][] = "http://dl.dropbox.com/u/1169608/views_1207680_no_valid_values_error_with_taxonomy_filter.patch"
 
 projects[views_area_options][subdir] = "contrib"
 projects[views_area_options][type] = "module"
