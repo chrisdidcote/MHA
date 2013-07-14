@@ -25,17 +25,16 @@ projects[block_class][download][url] = "git://git.drupal.org/project/block_class
 projects[block_class][download][revision] = "b0959d085e2b978277504bcd33b8363f7e86bff9"
 
 projects[boxes][subdir] = "contrib"
-projects[boxes][version] = "1.0"
-projects[boxes][patch][] = "http://drupal.org/files/issues/boxes.1154126.drushmake.patch"
+projects[boxes][version] = "1.1"
 
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.0-beta2"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.0-beta4"
+projects[context][version] = "3.0-beta6"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.2"
+projects[ctools][version] = "1.3"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
@@ -59,7 +58,7 @@ projects[features][subdir] = "contrib"
 projects[features][version] = "1.0"
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha5"
+projects[feeds][version] = "2.0-alpha8"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.0"
@@ -143,7 +142,7 @@ projects[rpx][subdir] = "contrib"
 projects[rpx][version] = "2.2"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.2"
+projects[rules][version] = "2.3"
 
 projects[socialmedia][subdir] = "contrib"
 projects[socialmedia][version] = "1.0-beta13"
@@ -158,7 +157,7 @@ projects[token][subdir] = "contrib"
 projects[token][version] = "1.3"
 
 projects[twitter][subdir] = "contrib"
-projects[twitter][version] = "3.2"
+projects[twitter][version] = "5.8"
 
 projects[varnish][subdir] = "contrib"
 projects[varnish][type] = "module"
@@ -194,6 +193,9 @@ projects[views_slideshow][type] = "module"
 projects[views_slideshow][download][type] = "git"
 projects[views_slideshow][download][url] = "git://git.drupal.org/project/views_slideshow.git"
 projects[views_slideshow][download][revision] = "9a91a5f6459c324568b0146531b8303d02c4b651"
+
+projects[webform][subdir] = "contrib"
+projects[webform][version] = "3.19"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.1"

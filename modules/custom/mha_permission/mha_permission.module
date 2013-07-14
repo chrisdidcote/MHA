@@ -484,7 +484,7 @@ function mha_permission_membership_apply(){
 			
 			$output .= '<h2>Membership Fees</h2><p>Current Membership Fees of the Manor Hall Association are &pound;' . variable_get('mha_permission_cost', '20') . '. To proceed to PayPal for payment of these dues click the button below.</p>';
 		
-			$output .= '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post"> 
+			$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
 	 
 	 <!-- Identify your business so that you can collect the payments. --> 
 	 <input type="hidden" name="business" value="' . variable_get('mha_permission_email', 'test1_1347593805_biz@computerminds.co.uk') .'"> 
