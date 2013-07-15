@@ -73,7 +73,7 @@ function mha_permission_settings(){
   	'#default_value' => variable_get('mha_permission_return', 'http://mha.dwelli.co.uk'),
   );
 
-  $form['application']['mha_permission_paypal_email'] = array(
+  $form['application']['mha_permission_email'] = array(
   	'#type' => 'textfield',
   	'#title' => t('PayPal Email Address'),
   	'#default_value' => variable_get('mha_permission_email', 'example@example.com'),
