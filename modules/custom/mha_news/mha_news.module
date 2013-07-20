@@ -54,8 +54,7 @@ function mha_news_author_content(){
         $output .= '<div>' . $position->name . '</div>';
       }
       $output .= '<div>' . date('l, jS F Y', $node->created) . '</div>';
+      return $output;
     }
-    return $output;
   }
-  return 'here';
 }
