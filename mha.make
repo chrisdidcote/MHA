@@ -76,6 +76,9 @@ projects[hint][subdir] = "contrib"
 projects[hint][version] = "1.2"
 projects[hint][patch][] = "http://drupal.org/files/issues/hint-multiple-hints.patch"
 
+projects[imagefield_crop][subdir] = "contrib"
+projects[imagefield_crop][version] = "1.1"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
