@@ -39,7 +39,6 @@ function mha_news_author_content(){
     $node = node_load(arg(1));
     if($node->type == 'news_article'){
       $user = user_load($node->uid);
-      print_r($user);
       $first_name = field_get_items('user', $user, 'field_first_name');
       $last_name = field_get_items('user', $user, 'field_last_name');
       $picture = field_get_items('user', $user, 'field_profile_picture');
