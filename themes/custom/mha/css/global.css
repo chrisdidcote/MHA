@@ -436,3 +436,7 @@ h2.pane-title,
 .fb-like-box{
 	background: #fff;
 }
+
+tr:hover{
+	background: none;
+}
