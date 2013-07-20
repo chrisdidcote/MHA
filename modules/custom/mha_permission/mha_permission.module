@@ -270,7 +270,7 @@ function mha_permission_membership_apply_form(){
 	$form['membership_detail']['student_fields']['course'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Programme of Study'),
-		'#description' => t('Enter the name of your course and the qualification you are working towards, or the !ucas for your course.', array('!ucas' => l('UCAS Course Code', 'http://search.ucas.com/cgi-bin/hsrun/search/search/StateId/EXVjXN30p7G-y5wuanpCD6kbCus0u-3P_W/HAHTpage/search.HsCodeSearch.submitForm?cmbInst=B78&txtJacsCode=&button1.x=40&button1.y=7', array('attributes' => array('target' => '_blank'))))),
+		//'#description' => t('Enter the name of your course and the qualification you are working towards, or the !ucas for your course.', array('!ucas' => l('UCAS Course Code', 'http://search.ucas.com/cgi-bin/hsrun/search/search/StateId/EXVjXN30p7G-y5wuanpCD6kbCus0u-3P_W/HAHTpage/search.HsCodeSearch.submitForm?cmbInst=B78&txtJacsCode=&button1.x=40&button1.y=7', array('attributes' => array('target' => '_blank'))))),
 	);
 	
 	$form['membership_detail']['student_fields']['expected_completion'] = array(
