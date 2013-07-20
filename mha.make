@@ -170,12 +170,7 @@ projects[video_filter][subdir] = "contrib"
 projects[video_filter][version] = "3.0"
 
 projects[views][subdir] = "contrib"
-projects[views][type] = "module"
-projects[views][download][type] = "git"
-projects[views][download][url] = "git://git.drupal.org/project/views.git"
-projects[views][download][revision] = "32b8ef976430d92468782e2820b42cfba42210d0"
-; This patch undoes a fix found at http://drupal.org/node/1205570 which is identified
-; at http://drupal.org/node/1207680 as being the reason taxonomy filters are failing.
+projects[views][version] = "3.7"
 
 projects[views_area_options][subdir] = "contrib"
 projects[views_area_options][type] = "module"
