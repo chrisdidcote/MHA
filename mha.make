@@ -30,6 +30,9 @@ projects[boxes][version] = "1.1"
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.0-beta2"
 
+projects[content_access][subdir] = "contrib"
+projects[content_access][version] = "1.2-beta2"
+
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.0-beta6"
 

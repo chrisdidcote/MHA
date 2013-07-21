@@ -52,7 +52,7 @@ function mha_news_author_content(){
       if(isset($position)){
         $output .= '<div>' . $position->name . '</div>';
       }
-      $output .= '<div>' . date('l, jS F Y', $node->created) . '</div>';
+      $output .= '<div>' . date('jS F Y', $node->created) . '</div>';
       return $output;
     }
   }
