@@ -179,7 +179,7 @@ function mha_permission_membership_apply_form(){
 	
 	$form['personal_detail']['non_bris_email'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Non-Bristol Email'),
+		'#title' => t('Email'),
 		'#required' => TRUE,
 		'#description' => t('Enter any valid email address that doesn\'t end in bris.ac.uk or bristol.ac.uk')
 	);
@@ -315,9 +315,6 @@ function mha_permission_membership_apply_form_validate($form, &$form_state){
 	//print_r($values);
 	if($values['confirmation'] != 1){
 		form_set_error('declaration][confirmation', t('You must confirm you agree to rules set down in the Association\'s Constitution.'));
-	}
-	if(!check_email_address($values['non_bris_email'])){
-		form_set_error('personal_detail][non_bris_email', t('You must enter a valid Non-Bristol email address, this must not end in \'bris.ac.uk\' or \'bristol.ac.uk\'.'));
 	}
 }
 
