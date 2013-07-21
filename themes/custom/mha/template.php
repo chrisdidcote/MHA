@@ -26,5 +26,6 @@ function mha_preprocess_views_view_summary(&$vars) {
       }
     }
     $vars['rows'] = $items;
+    sort($vars['rows']);
   }
 }
