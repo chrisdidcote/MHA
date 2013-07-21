@@ -932,3 +932,4 @@ function check_email_address($email) {
 	 }
    return true;
 }
+

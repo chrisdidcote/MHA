@@ -133,6 +133,9 @@ projects[pathauto][version] = "1.2"
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.4"
 
+projects[realname][subdir] = "contrib"
+projects[realname][version] = "1.1"
+
 projects[recaptcha][subdir] = "contrib"
 projects[recaptcha][version] = "1.7"
 
