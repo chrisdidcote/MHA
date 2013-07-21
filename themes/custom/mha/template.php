@@ -25,7 +25,7 @@ function mha_preprocess_views_view_summary(&$vars) {
         $items[] = $result;
       }
     }
+    asort($items);
     $vars['rows'] = $items;
-    sort($vars['rows']);
   }
 }
