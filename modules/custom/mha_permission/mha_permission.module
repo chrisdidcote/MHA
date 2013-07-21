@@ -181,7 +181,6 @@ function mha_permission_membership_apply_form(){
 		'#type' => 'textfield',
 		'#title' => t('Email'),
 		'#required' => TRUE,
-		'#description' => t('Enter any valid email address that doesn\'t end in bris.ac.uk or bristol.ac.uk')
 	);
 	
 	$form['membership_detail'] = array(
