@@ -464,6 +464,11 @@ tr:hover{
 .view-id-news.view-display-id-page .attachment-before .views-row img{
 	position: absolute;	
 }
+.view-id-news.view-display-id-page .attachment-before .views-row .views-field-field-images a{
+	width: 520px;
+	height: 300px;
+	position: absolute;
+}
 .view-id-news.view-display-id-page .attachment-before .views-row .views-field-title a{
 	background: #fff;
 	padding: 10px;
