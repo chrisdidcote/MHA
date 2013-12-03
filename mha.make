@@ -92,7 +92,7 @@ projects[jquery_colorpicker][subdir] = "contrib"
 projects[jquery_colorpicker][version] = "1.0-beta2"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "1.0"
+projects[libraries][version] = "2.1"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.0-alpha3"
