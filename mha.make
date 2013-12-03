@@ -153,9 +153,6 @@ projects[rpx][version] = "2.2"
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.3"
 
-projects[socialmedia][subdir] = "contrib"
-projects[socialmedia][version] = "1.0-beta13"
-
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
@@ -214,11 +211,6 @@ projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "git://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "fdd1be3d9d34898d073aaae5035655f13a3d958b"
 projects[wysiwyg][patch][] = "http://drupal.org/files/issues/624018-138-wysiwyg-entity-exportables.patch"
-
-projects[amazon_ses][subdir] = "contrib"
-projects[amazon_ses][download][type] = "git"
-projects[amazon_ses][download][url] = "git://git.drupal.org/project/amazon_ses.git"
-projects[amazon_ses][download][revision] = "30ed60df98420e1f068de6c87187e019c53dd0e7"
 
 ; Libraries
 ; ==============================================================================
