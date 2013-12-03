@@ -525,3 +525,7 @@ tr:hover{
 	padding: 10px;
 	background: #AF1E2D;
 }
+.view-id-image_gallery.view-display-id-block_1 .views-row{
+	padding: 5px 0;
+	border-bottom: 1px solid #ccc;
+}
