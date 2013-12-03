@@ -133,6 +133,9 @@ projects[panels][version] = "3.3"
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
+projects[plup][subdir] = "contrib"
+projects[plup][version] = "1.0-alpha1"
+
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.6"
 
