@@ -495,3 +495,7 @@ tr:hover{
 	opacity: 0.85;
 	filter: alpha(opacity=85);
 }
+.field-name-field-gallery-images .field-items .field-item{
+	float: left;
+	margin: 5px;
+}
