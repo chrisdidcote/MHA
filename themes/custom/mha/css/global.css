@@ -265,7 +265,8 @@ h2.pane-title,
 	margin: 0;
 }
 
-.view-id-news.view-display-id-page img{
+.view-id-news.view-display-id-page img,
+.view-id-events.view-display-id-page img{
 	float: left;
 	margin-right: 10px;
 }
@@ -276,15 +277,20 @@ h2.pane-title,
 	right: 10px;
 }
 
-.view-id-news.view-display-id-page .view-header{
+.view-id-news.view-display-id-page .view-header,
+.view-id-events.view-display-id-page .view-header{
 	margin-bottom: 20px;
 	font-size: 1.5em;
 	color: #999;
 }
 
-.view-id-news.view-display-id-page .views-row{
+.view-id-news.view-display-id-page .views-row,
+.view-id-events.view-display-id-page .views-row{
 	border-top: 1px solid #AF1E2D;
 	padding: 10px;
+}
+.view-id-events.view-display-id-page .views-field-field-date{
+	font-weight: bold;
 }
 
 /**
