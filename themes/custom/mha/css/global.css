@@ -499,3 +499,28 @@ tr:hover{
 	float: left;
 	margin: 5px;
 }
+
+.view-id-image_gallery table.views-view-grid{
+	border: none;
+}
+.view-id-image_gallery table.views-view-grid tr:hover td{
+	background: none;
+}
+.view-id-image_gallery table.views-view-grid td{
+	padding: 0;
+	position: relative;
+	height: 300px;
+}
+
+.view-id-image_gallery table .views-field-title{
+	position: absolute;
+	bottom: 20px;
+}
+
+.view-id-image_gallery table .views-field-title a{
+	color: #fff;
+	font-size: 2em;
+	text-decoration: none;
+	padding: 10px;
+	background: #AF1E2D;
+}
