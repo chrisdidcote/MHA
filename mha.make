@@ -34,7 +34,7 @@ projects[content_access][subdir] = "contrib"
 projects[content_access][version] = "1.2-beta2"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.0-beta6"
+projects[context][version] = "3.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.3"
@@ -52,7 +52,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.0-beta1"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.0-rc3"
+projects[entity][version] = "1.2"
 
 projects[fboauth][subdir] = "contrib"
 projects[fboauth][version] = "1.5"
@@ -131,7 +131,7 @@ projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.4"
+projects[quicktabs][version] = "3.6"
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.1"

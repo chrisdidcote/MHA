@@ -49,5 +49,4 @@
       ?>
     </div>
   </div>
-  <?php print render($user_profile); ?>
 </div>
