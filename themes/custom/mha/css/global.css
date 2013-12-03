@@ -510,6 +510,7 @@ tr:hover{
 	padding: 0;
 	position: relative;
 	height: 300px;
+	padding-top: 10px;
 }
 
 .view-id-image_gallery table .views-field-title{
