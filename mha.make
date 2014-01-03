@@ -19,14 +19,19 @@ projects[advanced_help][version] = "1.1"
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta3"
 
+projects[apc][subdir] = "contrib"
+projects[apc][version] = "1.0-beta3"
+
 projects[block_class][subdir] = "contrib"
-projects[block_class][version] = "2.1"
+projects[block_class][download][type] = "git"
+projects[block_class][download][url] = "git://git.drupal.org/project/block_class.git"
+projects[block_class][download][revision] = "b0959d085e2b978277504bcd33b8363f7e86bff9"
 
 projects[boxes][subdir] = "contrib"
 projects[boxes][version] = "1.1"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.0"
+projects[captcha][version] = "1.0-beta2"
 
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.5"
@@ -41,7 +46,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.3"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.7"
+projects[date][version] = "2.6"
 
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
@@ -56,7 +61,7 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.2"
 
 projects[fboauth][subdir] = "contrib"
-projects[fboauth][version] = "1.6"
+projects[fboauth][version] = "1.5"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "1.0"
@@ -71,10 +76,10 @@ projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.8"
 
 projects[galleryformatter][subdir] = "contrib"
-projects[galleryformatter][version] = "1.3"
+projects[galleryformatter][version] = "1.2"
 
 projects[google_analytics][subdir] = "contrib"
-projects[google_analytics][version] = "1.4"
+projects[google_analytics][version] = "1.2"
 
 projects[hint][subdir] = "contrib"
 projects[hint][version] = "1.2"
@@ -103,7 +108,7 @@ projects[maillog][patch][] = "http://drupal.org/files/issues/d7-port-hook_theme-
 projects[maillog][patch][] = "http://drupal.org/files/issues/maillog-format-body-no-prefix.patch"
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "1.3"
+projects[media][version] = "1.2"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "1.0-beta3"
@@ -115,7 +120,7 @@ projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
 
 projects[oauth][subdir] = "contrib"
-projects[oauth][version] = "3.1"
+projects[oauth][version] = "3.0"
 
 projects[omega_tools][subdir] = "contrib"
 projects[omega_tools][version] = "3.0-rc4"
@@ -141,7 +146,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.1"
 
 projects[recaptcha][subdir] = "contrib"
-projects[recaptcha][version] = "1.10"
+projects[recaptcha][version] = "1.7"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc1"
@@ -155,7 +160,7 @@ projects[rpx][subdir] = "contrib"
 projects[rpx][version] = "2.2"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.6"
+projects[rules][version] = "2.3"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -164,7 +169,7 @@ projects[styles][subdir] = "contrib"
 projects[styles][version] = "2.0-alpha8"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.3"
 
 projects[twitter][subdir] = "contrib"
 projects[twitter][version] = "5.8"
@@ -177,7 +182,7 @@ projects[varnish][download][revision] = "7ce48ffb1d5adc612406da8c3f1f79d65e504db
 projects[varnish][patch][] = "http://drupal.org/files/issues/varnish-drupal-7-upgrade-927860-3.patch"
 
 projects[video_filter][subdir] = "contrib"
-projects[video_filter][version] = "3.1"
+projects[video_filter][version] = "3.0"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
@@ -189,7 +194,7 @@ projects[views_area_options][download][url] = "git://git.drupal.org/project/view
 projects[views_area_options][download][revision] = "b83068ccbb48a27f6530b024772586a73107b075"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta7"
+projects[views_data_export][version] = "3.0-beta6"
 
 projects[views_slideshow][subdir] = "contrib"
 projects[views_slideshow][version] = "3.1"
@@ -198,17 +203,20 @@ projects[webform][subdir] = "contrib"
 projects[webform][version] = "3.19"
 
 projects[workbench][subdir] = "contrib"
-projects[workbench][version] = "1.2"
+projects[workbench][version] = "1.1"
 
 projects[widgets][subdir] = "contrib"
 projects[widgets][version] = "1.0-rc1"
 
 projects[workbench_moderation][subdir] = "contrib"
-projects[workbench_moderation][version] = "1.3"
+projects[workbench_moderation][version] = "1.1"
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.2"
-
+projects[wysiwyg][type] = "module"
+projects[wysiwyg][download][type] = "git"
+projects[wysiwyg][download][url] = "git://git.drupal.org/project/wysiwyg.git"
+projects[wysiwyg][download][revision] = "fdd1be3d9d34898d073aaae5035655f13a3d958b"
+projects[wysiwyg][patch][] = "http://drupal.org/files/issues/624018-138-wysiwyg-entity-exportables.patch"
 
 ; Libraries
 ; ==============================================================================
