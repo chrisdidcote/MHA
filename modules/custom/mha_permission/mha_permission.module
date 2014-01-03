@@ -40,8 +40,7 @@ function mha_permission_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
-
-
+	
   return $items;
 }
 
@@ -928,4 +927,26 @@ function check_email_address($email) {
 	 }
    return true;
 }
+
+function mha_permission_form_alter(&$form, &$form_state, $form_id) {
+  print_r($form_id);
+	}
+}
+//
+//function mha_permission_subscription_form_submit($form, &$form_state){
+//	$values = $form_state['values'];
+//	if($values['enable_signup'] == 1){
+//		$current = variable_get('mha_permission_events', array());
+//		$current['nid'] = $values['description'];
+//		variable_set('mha_permission_events', $current);
+//	}
+//	else{
+//		$current = variable_get('mha_permission_events', array());
+//		unset($current['nid']);
+//		variable_set('mha_permission_events', $current);
+//	}
+//	exit;
+//}
+//
+//
 
