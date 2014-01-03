@@ -198,16 +198,16 @@ projects[webform][subdir] = "contrib"
 projects[webform][version] = "3.19"
 
 projects[workbench][subdir] = "contrib"
-projects[workbench][version] = "1.1"
+projects[workbench][version] = "1.2"
 
 projects[widgets][subdir] = "contrib"
-projects[widgets][version] = "1.2"
+projects[widgets][version] = "1.0-rc1"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.3"
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.3"
+projects[wysiwyg][version] = "2.2"
 
 
 ; Libraries
