@@ -930,7 +930,6 @@ function check_email_address($email) {
 
 function mha_permission_form_alter(&$form, &$form_state, $form_id) {
   print_r($form_id);
-	}
 }
 //
 //function mha_permission_subscription_form_submit($form, &$form_state){
