@@ -529,3 +529,22 @@ tr:hover{
 	padding: 5px 0;
 	border-bottom: 1px solid #ccc;
 }
+.view-sponsor.view-id-sponsor .view-content{
+	float: right;
+}
+
+.view-sponsor.view-id-sponsor .attachment img{
+	margin-bottom: 20px;
+}
+
+.view-sponsor.view-id-sponsor .attachment .views-label-field-sponsor-prize{
+	float: left;
+	margin-right: 1em;
+}
+
+.view-sponsor.view-id-sponsor .attachment .views-field-field-sponsor-prize{
+	font-weight: bold;
+	font-size: 1.3em;
+	color: #AF1E2D;
+	margin: 20px 0;
+}
