@@ -929,8 +929,17 @@ function check_email_address($email) {
 }
 
 function mha_permission_form_alter(&$form, &$form_state, $form_id) {
-  //print_r($form_id);
+  print_r('here');
+	$years = range(2014, 1909);
+	print_r($years);
+	$output = array();
+	foreach($years AS $year){
+		$output[] = $year . '|' . $year ;
+	}
+	print_r(implode("\n", $output));
 }
+
+
 //
 //function mha_permission_subscription_form_submit($form, &$form_state){
 //	$values = $form_state['values'];
@@ -946,6 +955,3 @@ function mha_permission_form_alter(&$form, &$form_state, $form_id) {
 //	}
 //	exit;
 //}
-//
-//
-

@@ -78,6 +78,9 @@ projects[fontyourface][version] = "2.8"
 projects[galleryformatter][subdir] = "contrib"
 projects[galleryformatter][version] = "1.2"
 
+projects[gmap][subdir] = "contrib"
+projects[gmap][version] = "2.8"
+
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.2"
 
@@ -99,6 +102,9 @@ projects[libraries][version] = "2.1"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.0-alpha3"
+
+projects[location][subdir] = "contrib"
+projects[location][version] = "3.1"
 
 projects[maillog][subdir] = "development"
 projects[maillog][download][type] = "git"
