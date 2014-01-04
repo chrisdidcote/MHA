@@ -533,6 +533,9 @@ tr:hover{
 	float: right;
 }
 
+.view-sponsor.view-id-sponsor .attachment {
+	width: 350px;
+}
 .view-sponsor.view-id-sponsor .attachment img{
 	margin-bottom: 20px;
 }
