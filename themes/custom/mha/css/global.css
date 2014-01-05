@@ -551,3 +551,44 @@ tr:hover{
 	color: #AF1E2D;
 	margin: 20px 0;
 }
+
+#block-menu-menu-sponsorship{
+	font-size: 1.2em;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	font-variant: small-caps;
+	text-decoration: none;
+}
+
+#block-menu-menu-sponsorship ul.menu li{
+	list-style: none;
+}
+
+#block-menu-menu-sponsorship a,
+#block-menu-menu-sponsorship a:visited{
+	color: #AF1E2D;
+	text-decoration: none;
+}
+#block-menu-menu-sponsorship a:hover{
+	text-decoration: underline;
+}
+
+.view-id-our_sponsors table{
+	border: none;
+}
+.view-id-our_sponsors table tr:hover,
+.view-id-our_sponsors table td:hover{
+	background:none;
+}
+.view-id-our_sponsors img{
+	float:left;
+	margin-right:20px;
+}
+.view-id-our_sponsors .views-field-field-sponsor-prize a{
+	font-size: 1.2em;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	font-variant: small-caps;
+	text-decoration: none;
+}
+.view-id-our_sponsors .views-field-field-sponsor-prize a:hover{
+	text-decoration: underline;
+}
