@@ -579,9 +579,11 @@ tr:hover{
 .view-id-our_sponsors table td:hover{
 	background:none;
 }
-.view-id-our_sponsors img{
-	float:left;
-	margin-right:20px;
+.view-id-our_sponsors table td{
+	width: 33%;
+}
+.view-id-our_sponsors{
+	text-align: center;
 }
 .view-id-our_sponsors .views-field-field-sponsor-prize a{
 	font-size: 1.2em;
