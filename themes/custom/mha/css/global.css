@@ -463,7 +463,6 @@ tr:hover{
 }
 .view-id-news.view-display-id-page .attachment-before .views-row{
 	padding: 0;
-	z-index: -100;
 	height: 305px;
 	position: relative;
 }
@@ -485,7 +484,18 @@ tr:hover{
 	opacity: 0.85;
 	filter: alpha(opacity=85);
 }
-
+.view-id-events.view-display-id-page_1 img,
+.view-id-events.view-display-id-page img{
+	float:left;
+	margin-right: 10px;
+	margin-bottom: 30px;
+}
+.view-id-events.view-display-id-page_1 .views-row{
+	margin-top:10px;
+	margin-bottom: 10px;
+	border-top: 1px solid #AF1E2D;
+	padding-top: 10px;
+}
 .view-id-news.view-display-id-page .attachment-before .views-row .views-field-body{
 	position: absolute;
 	top: 60px;
@@ -594,3 +604,6 @@ tr:hover{
 .view-id-our_sponsors .views-field-field-sponsor-prize a:hover{
 	text-decoration: underline;
 }
+
+
+

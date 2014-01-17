@@ -58,7 +58,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.0-beta1"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.2"
+projects[entity][version] = "1.3"
 
 projects[fboauth][subdir] = "contrib"
 projects[fboauth][version] = "1.5"
@@ -114,7 +114,7 @@ projects[maillog][patch][] = "http://drupal.org/files/issues/d7-port-hook_theme-
 projects[maillog][patch][] = "http://drupal.org/files/issues/maillog-format-body-no-prefix.patch"
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "1.2"
+projects[media][version] = "1.4"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "1.0-beta3"
