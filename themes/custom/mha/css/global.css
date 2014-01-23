@@ -604,5 +604,9 @@ tr:hover{
 	text-decoration: underline;
 }
 
-
+tr:hover td,
+tr.even:hover td.active,
+tr.odd:hover td.active {
+	background: none;
+}
 
