@@ -609,4 +609,15 @@ tr.even:hover td.active,
 tr.odd:hover td.active {
 	background: none;
 }
+.view-id-draw_prizes.view-display-id-block tr{
+	border-bottom: 1px solid #000;
+	min-height: 140px;
+	text-align: center;
+}
 
+.view-id-draw_prizes.view-display-id-block tr a{
+	font-size: 1.2em;
+	font-family: "Caudex", helvetica, Arial, sans-serif;
+	font-variant: small-caps;
+	text-decoration: none;
+}
