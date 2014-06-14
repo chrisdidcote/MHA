@@ -266,20 +266,22 @@ function mha_permission_membership_apply_form(){
 		//'#description' => t('Enter the name of your course and the qualification you are working towards, or the !ucas for your course.', array('!ucas' => l('UCAS Course Code', 'http://search.ucas.com/cgi-bin/hsrun/search/search/StateId/EXVjXN30p7G-y5wuanpCD6kbCus0u-3P_W/HAHTpage/search.HsCodeSearch.submitForm?cmbInst=B78&txtJacsCode=&button1.x=40&button1.y=7', array('attributes' => array('target' => '_blank'))))),
 	);
 	
-	$form['membership_detail']['student_fields']['expected_completion'] = array(
+	$form['membership_detail']['expected_completion'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Expected Year of Completion'),
+		'#title' => t('Year of Completion or Expected Year of Completion'),
 	);
 	
 	$form['membership_detail']['share'] = array(
 		'#type' => 'checkbox',
 		'#title' => t('The Association may share my details with other members of the Association.'),
 		'#description' => t('Once registered you will be able to control what details other members will be able to see.'),
+		'#weight' => 100,
 	);
 	
 	$form['membership_detail']['contact'] = array(
 		'#type' => 'checkbox',
 		'#title' => t('The Association may contact me via telephone or email from time to time.'),
+		'#weight' => 100,
 	);
 	
 	$form['declaration'] = array(
@@ -388,7 +390,7 @@ function mha_permission_membership_apply(){
 			}
 			
 			
-			$output .= '<h2>Membership Fees</h2><p>Current Membership Fees of the Manor Hall Association are &pound;' . variable_get('mha_permission_cost', '20') . ' for Full and Affiliate membership and £15 for student membership which will last until the end of your course. To proceed to PayPal for payment of these dues click the button below.</p>';
+			$output .= '<h2>Membership Fees</h2><p>Current Membership Fees of the Manor Hall Association are &pound;' . variable_get('mha_permission_cost', '20') . ' for Full and Affiliate membership which will last for 3 years or &pound;15 for student membership which will last until the end of your course. To proceed to PayPal for payment of these dues click the button below.</p>';
 		
 			$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
 	 
