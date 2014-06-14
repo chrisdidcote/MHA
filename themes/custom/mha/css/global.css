@@ -610,7 +610,6 @@ tr.odd:hover td.active {
 	background: none;
 }
 .view-id-draw_prizes.view-display-id-block tr{
-	border-bottom: 1px solid #000;
 	min-height: 140px;
 	text-align: center;
 }

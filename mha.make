@@ -43,7 +43,7 @@ projects[context][subdir] = "contrib"
 projects[context][version] = "3.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
+projects[ctools][version] = "1.4"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.7"
@@ -59,6 +59,9 @@ projects[email][version] = "1.0-beta1"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.3"
+
+projects[entity_email][subdir] = "contrib"
+projects[entity_email][version] = "1.2"
 
 projects[fboauth][subdir] = "contrib"
 projects[fboauth][version] = "1.6"
@@ -191,7 +194,7 @@ projects[video_filter][subdir] = "contrib"
 projects[video_filter][version] = "3.1"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[views_area_options][subdir] = "contrib"
 projects[views_area_options][type] = "module"
@@ -206,7 +209,7 @@ projects[views_slideshow][subdir] = "contrib"
 projects[views_slideshow][version] = "3.1"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "3.19"
+projects[webform][version] = "3.20"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
