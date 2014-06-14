@@ -381,10 +381,10 @@ function mha_permission_membership_apply(){
 		drupal_set_title('Proceed to Payment');
 			
 			if($current[0]['value'] == 'Yes'){
-				$type = 'MHA Membership Subscription EXPIRES: End of Course';
+				$type = 'MHA Membership Subscription EXPIRES: End of Course, ID: ' . $node->nid;
 			}
 			else{
-				$type = 'MHA Membership Subscription EXPIRES: ' . date('Y-m-j', strtotime('+ 3 years'));
+				$type = 'MHA Membership Subscription EXPIRES: ' . date('Y-m-j', strtotime('+ 3 years')) . ' ID: ' . $node->nid;
 			}
 			
 			
