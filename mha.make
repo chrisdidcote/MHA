@@ -46,7 +46,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.7"
+projects[date][version] = "2.9"
 
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
@@ -121,6 +121,9 @@ projects[media][version] = "1.4"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "1.0-beta3"
+
+projects[metatag][subdir] = "contrib"
+projects[metatag][version] = "1.1"
 
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.3"
