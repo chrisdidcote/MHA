@@ -620,3 +620,14 @@ tr.odd:hover td.active {
 	font-variant: small-caps;
 	text-decoration: none;
 }
+.pane-latest-tweets{
+	background: #333 url('../images/Twitter_logo_white.png') no-repeat;
+	color: #fff;
+	padding: 5px 50px;
+}
+
+.pane-latest-tweets a,
+.pane-latest-tweets a:link,
+.pane-latest-tweetsa:visited{
+	color: #fff;
+}
