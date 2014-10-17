@@ -339,7 +339,6 @@ h2.pane-title,
 }
 
 .pane-hero-widget{
-	margin-bottom: 20px;
 }
 
 .view-id-news.view-display-id-block .views-field-title a,
@@ -621,13 +620,20 @@ tr.odd:hover td.active {
 	text-decoration: none;
 }
 .pane-latest-tweets{
-	background: #333 url('../images/Twitter_logo_white.png') no-repeat;
+	background: #333 url('../images/Twitter_logo_white.png') no-repeat 5px 5px;
 	color: #fff;
-	padding: 5px 50px;
+	padding: 10px 50px;
 }
 
 .pane-latest-tweets a,
 .pane-latest-tweets a:link,
 .pane-latest-tweetsa:visited{
 	color: #fff;
+}
+.panel-separator{
+	margin: 0;
+}
+
+.front .panel-3col-33-stacked .panel-col-last{
+	float: right;
 }
