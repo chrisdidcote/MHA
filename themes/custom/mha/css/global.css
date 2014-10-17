@@ -630,7 +630,7 @@ tr.odd:hover td.active {
 .pane-latest-tweetsa:visited{
 	color: #fff;
 }
-.panel-separator{
+.front .panel-3col-33-stacked .panel-separator{
 	margin: 0;
 }
 
