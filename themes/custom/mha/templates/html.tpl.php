@@ -5,7 +5,7 @@
   <title><?php print $head_title; ?></title>  
   <?php print $styles; ?>
   <?php print $scripts; ?>
-  <link rel="stylesheet" media="screen and (min-device-width: 740px)" href="/<?php print path_to_theme(); ?>/css/mha-alpha-default-narrow.css" />
+  
   <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <link rel="alternate" type="application/rss+xml" 
   title="RSS Feed for Latest News" 
