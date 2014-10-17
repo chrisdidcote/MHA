@@ -46,7 +46,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.8"
 
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.0"
@@ -224,11 +224,7 @@ projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.3"
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][type] = "module"
-projects[wysiwyg][download][type] = "git"
-projects[wysiwyg][download][url] = "git://git.drupal.org/project/wysiwyg.git"
-projects[wysiwyg][download][revision] = "fdd1be3d9d34898d073aaae5035655f13a3d958b"
-projects[wysiwyg][patch][] = "http://drupal.org/files/issues/624018-138-wysiwyg-entity-exportables.patch"
+projects[wysiwyg][version] = "2.2"
 
 ; Libraries
 ; ==============================================================================
