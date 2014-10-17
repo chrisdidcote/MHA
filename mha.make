@@ -81,6 +81,9 @@ projects[fontyourface][version] = "2.8"
 projects[galleryformatter][subdir] = "contrib"
 projects[galleryformatter][version] = "1.3"
 
+projects[globalredirect][subdir] = "contrib"
+projects[globalredirect][version] = "1.5"
+
 projects[gmap][subdir] = "contrib"
 projects[gmap][version] = "2.8"
 
