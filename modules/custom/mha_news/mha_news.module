@@ -5,3 +5,55 @@
  */
 
 include_once 'mha_news.features.inc';
+
+/**
+ * Implements hook_block_info()
+ */
+function mha_news_block_info(){
+  $blocks['mha_news_author'] = array(
+    'info' => t('News Author'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function mha_news_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'mha_news_author':
+      $block['subject'] = '';
+      $block['content'] = mha_news_author_content();
+      break;
+  }
+  return $block;
+}
+
+function mha_news_author_content(){
+  if(arg(0) == 'node' && is_numeric(arg(1))){
+    $node = node_load(arg(1));
+    if($node->type == 'news_article'){
+      $user = user_load($node->uid);
+      $first_name = field_get_items('user', $user, 'field_first_name');
+      $last_name = field_get_items('user', $user, 'field_last_name');
+      $picture = field_get_items('user', $user, 'field_profile_picture');
+      $position_tid = field_get_items('user', $user, 'field_committee_position');
+      $position = taxonomy_term_load($position_tid[0]['tid']);
+      $output = theme('image_style', array(
+        'style_name' => 'author_avatar',
+        'path' => $picture[0]['uri'],
+      ));
+      $output .= '<div class="author">By <strong>' . $first_name[0]['value'] . ' ' . $last_name[0]['value'] . '</strong></div>';
+      if(isset($position)){
+        $output .= '<div class="position">' . $position->name . '</div>';
+      }
+      $output .= '<div class="date">' . date('jS F Y', $node->created) . '</div>';
+      return $output;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function views_area_options_views_api() {
+  return array(
+    'api' => 3.0,
+  );
+}
+
+function _views_area_options_get_blocks() {
+  $block_info = array();
+
+  foreach (module_implements('block_info') as $module) {
+    $module_blocks = module_invoke($module, 'block_info');
+    if (!empty($module_blocks)) {
+      foreach ($module_blocks as $delta => $block) {
+        $block = (object) $block;
+        $block->module = $module;
+        $block->delta = $delta;
+        $block->bid = "{$block->module}:{$block->delta}";
+        $block_info[$block->bid] = $block->info;
+      }
+    }
+  }
+
+  return $block_info;
+}

@@ -1,0 +1,110 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+h1{
+  color: #B01C2E;
+  font-family: "Georgia";
+  font-size: 1.7em;
+}
+body{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  .not-front{
+   
+  }
+  
+  #footer-wrapper{
+    background: #161B20;
+    color: #fff;
+  }
+}
+.region-sidebar-first{
+  h2.block-title{
+    margin: -19px -19px 0px -19px;
+    background: #B01C2E;
+    padding: 19px;
+    color: #fff;
+  }
+  ul{
+    li{
+        padding: 10px 0px;
+        border-bottom: 1px #e3e3e3 solid;
+    }
+  }
+}
+p{
+  margin-bottom: 1em;
+}
+#block-mha-news-mha-news-author{
+  img{
+    float: left;
+    margin-right: 10px;
+  }
+  .position{
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+  .date{
+    font-weight: bold;
+    color: #B01C2E;
+  }
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  border-bottom: 1px #eee solid;
+  border-top: 1px #eee solid;
+  padding: 10px 0;
+}
+.footer{
+  background: transparent url("../images/whitelogo.png") bottom right no-repeat;
+}
+.region.region-sidebar-first.well{
+  padding-top: 0;
+}
+.navbar-full{
+  background: #161B20;
+  margin-bottom: 20px;
+  .container{
+    padding: 0;
+    a{
+      color: #fff;
+    }
+    a:hover{
+      color: #000;
+    }
+  }
+}
+.front{
+  .view-latest-tweets{
+    background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
+    padding: 13px 0 13px 50px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 0.8em;
+    a{
+      color: #fff;
+      text-decoration: underline;
+    }
+    span{
+      width: 100%;
+    }
+  }
+  .main-container{
+    h2{
+      font-size: 1.5em;
+      background: #B01C2E;
+      padding: 10px;
+      color: #fff;
+    }
+  }
+  .pane-events{
+    .views-field-title{
+      padding: 10px 0;
+      a{
+        font-size: 1.3em;
+        color: #B01C2E;
+      }
+    }
+  }
+}

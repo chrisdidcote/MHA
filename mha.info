@@ -36,11 +36,7 @@ dependencies[] = date_api
 dependencies[] = date_popup
 dependencies[] = date_views
 dependencies[] = entity
-dependencies[] = fb
-dependencies[] = fb_app
-dependencies[] = fb_connect
-dependencies[] = fb_permission
-dependencies[] = fb_user
+dependencies[] = fboauth
 dependencies[] = features
 dependencies[] = file_entity
 dependencies[] = file_styles
@@ -76,4 +72,25 @@ dependencies[] = wysiwyg
 
 ; Dependencies: Custom modules/features
 ; ==============================================================================
+
+
+
+; Information added by drush on 2012-08-17
+version = "master-dev"
+project = "mha"
+datestamp = "1345240051"
+
+
+
+; Information added by drush on 2012-08-18
+version = "master-dev"
+project = "mha"
+datestamp = "1345247105"
+
+
+
+; Information added by drush on 2015-03-18
+version = "master-dev"
+project = "mha"
+datestamp = "1426708279"
 

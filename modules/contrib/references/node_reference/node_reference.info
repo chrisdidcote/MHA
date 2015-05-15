@@ -1,0 +1,15 @@
+name = Node Reference
+description = Defines a field type for referencing one node from another.
+package = Fields
+core = 7.x
+dependencies[] = field
+dependencies[] = references
+dependencies[] = options
+files[] = node_reference.test
+
+
+; Information added by drush on 2015-03-18
+version = "4e50d062f19328755ab32610c41acca3f4e7ac12"
+project = "references"
+datestamp = "1426708318"
+

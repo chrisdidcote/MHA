@@ -1,0 +1,12 @@
+name = Onecomment
+description = Restrict comments to one per user per node.
+core = 7.x
+
+dependencies[] = "comment"
+
+
+; Information added by drush on 2015-03-18
+version = "0eaf6bb8a19c6376a44b9fea393123cb3d1ef95c"
+project = "onecomment"
+datestamp = "1426708321"
+

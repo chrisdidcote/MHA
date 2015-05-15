@@ -1,0 +1,860 @@
+<?php
+/**
+  * Implements hook_permission()
+  */
+function mha_permission_permission() {
+  return array(
+    'administer membership' => array(
+      'title' => t('Administer Membership'), 
+      'description' => t('Controll how the website handles membership applications'),
+    ),
+    'apply for membership' => array(
+      'title' => t('Apply for Membership'), 
+    ),
+  );
+}
+
+/**
+  * Implements hook_menu()
+  */
+function mha_permission_menu(){
+  $items['membership/apply'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_membership_apply', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+	
+	 $items['membership/ipn'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_ipn', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/membership/settings'] = array(
+    'title' => 'Membership Settings', 
+    'page callback' => 'drupal_get_form', 
+    'page arguments' => array('mha_permission_settings'), 
+    'access arguments' => array('administer membership'), 
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	
+  return $items;
+}
+
+/**
+  * Settings for the the membership
+  */
+function mha_permission_settings(){
+  $form['application']['mha_permission_introduction'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Introduction Text'),
+  	'#default_value' => variable_get('mha_permission_introduction', 'Please ensure your details are correct being proceeding.'),
+  );
+
+  $form['application']['mha_permission_cost'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Fees (£)'),
+  	'#default_value' => variable_get('mha_permission_cost', '20'),
+  );
+
+  $form['application']['mha_permission_duration'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Duration (Years)'),
+  	'#default_value' => variable_get('mha_permission_duration', '3'),
+  );
+
+  $form['application']['mha_permission_return'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Return URL for Payment Provider'),
+  	'#default_value' => variable_get('mha_permission_return', 'http://mha.dwelli.co.uk'),
+  );
+
+  $form['application']['mha_permission_email'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('PayPal Email Address'),
+  	'#default_value' => variable_get('mha_permission_email', 'example@example.com'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Membership application form
+ */
+function mha_permission_membership_apply_form(){
+	$form['personal_detail'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('<h2>Personal Details</h2>'),
+		'#description' => t('This section of the form collects your personal details, these won\'t be shared with other members unless you give us permission to do so.'),
+	);
+	
+	$form['personal_detail']['salutation'] = array(
+		'#type' => 'select',
+		'#title' => t('Salutation'),
+		'#options' => array(
+												'Mr' => 'Mr',
+												'Mrs' => 'Mrs',
+												'Miss' => 'Miss',
+												'Ms' => 'Ms',
+												'Dr' => 'Dr',
+												'Professor' => 'Professor',
+												'Dame' => 'Dame',
+												'Sir' => 'Sir',
+												'Other' => 'Other',
+											 ),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['salutation_other'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Other'),
+	);
+	
+	$form['personal_detail']['forenames'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Forename(s)'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['surname'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Surname'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['post_nominals'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Post Nominals'),
+		'#description' => t('Enter any post nominal letters that you have, for example BSc MSc')
+	);
+	
+	$form['personal_detail']['address1'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Address 1'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['address2'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Address 2'),
+	);
+	
+	$form['personal_detail']['town'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Town/City'),
+	);
+	
+	$form['personal_detail']['county'] = array(
+		'#type' => 'textfield',
+		'#title' => t('County'),
+	);
+	
+	$form['personal_detail']['country'] = array(
+		'#type' => 'select',
+		'#title' => t('Country'),
+		'#options' => _mha_permission_countries(),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['postcode'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Postal Code'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['phone'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Telephone Number'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_detail']['mobile'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Mobile Number'),
+	);
+	
+	$form['personal_detail']['non_bris_email'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Email'),
+		'#required' => TRUE,
+	);
+	
+	$form['membership_detail'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('<h2>Membership Details</h2>'),
+		'#description' => t('This section of the form collects detailings relating to the grade of membership you are applying for.'),
+	);
+	
+	$form['membership_detail']['grade'] = array(
+		'#type' => 'select',
+		'#title' => t('Membership Class'),
+		'#options' => array(
+												'Full' => 'Full',
+												'Affiliate' => 'Affiliate',
+												'Student' => 'Student',
+											 ),
+		'#required' => TRUE,
+		'#description' => t('You can only apply for \'Full\' or \'Affiliate\' membership of the Association online, more details about each grade will be displayed below once you make your selection.'),
+	);
+	
+	$form['membership_detail']['grade_full'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('<h2>Application for Full Membership of the Association</h2>'),
+	);
+	
+	$form['membership_detail']['grade_full']['conditions'] = array(
+		'#type' => 'markup',
+		'#markup' => '<h3>Conditions of Full Membership</h3>
+		<div><strong>Rule 2(a)</strong></div>
+		<p>to keep all persons who are or have been resident in Manor Hall or who have had a formal attachment to Manor Hall for a period of at least one term in touch with one another and with Manor Hall;</p>
+		<div><strong>Rule 3(a)</strong></div>
+		<p>All persons referred to in Rule 2(a) shall be eligible to apply for full membership of the Association. Applications for membership of the Association shall be considered by the Executive Committee. The decision of the Executive Committee in relation to applications shall be final.</p>',
+	);
+	
+	$form['membership_detail']['grade_full']['years_in_hall'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Years in Hall'),
+		'#description' => t('Enter a comma seperated list of the years you were resident in Manor Hall, for example 1960, 1961, 1963.'),
+	);
+	
+	$form['membership_detail']['grade_affiliate'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('<h2>Application for Associate Membership of the Association</h2>'),
+	);
+	
+	$form['membership_detail']['grade_affiliate']['conditions'] = array(
+		'#type' => 'markup',
+		'#markup' => '<h3>Conditions of Associate Membership</h3>
+		<div><strong>Rule 2(a)</strong></div>
+		<p>to keep all persons who are or have been resident in Manor Hall or who have had a formal attachment to Manor Hall for a period of at least one term in touch with one another and with Manor Hall;</p>
+		<div><strong>Rule 3(a)</strong></div>
+		<p>All persons referred to in Rule 2(a) shall be eligible to apply for full membership of the Association. Applications for membership of the Association shall be considered by the Executive Committee. The decision of the Executive Committee in relation to applications shall be final.</p>
+		<div><strong>Rule 3(b)</strong></div>
+		<p>For the purpose of Rule 3(a) persons granted full membership of the Association shall pay such subscription as may be determined for the ensuing a three year period from the date of the accepted application, or application renewal. This subscription fee shall be determined by the Executive Committee and ratified at the Annual General Meeting.</p>
+		<div><strong>Rule 3(d)(ii)</strong></div>
+		<p>Associate Member - being a person not otherwise eligible for membership under Rule 3(a) for whom the Executive Committee deems there to be a special reason for having a formal attachment to the Association and Manor Hall. Upon payment of such subscription as may be determined by the Executive Committee and ratified at the Annual General Meeting in the same manner as provided in Rule 3(b). Such persons shall be entitled to receive all privileges of a full member, the exception being that they may not be appointed to the Executive Committee;</p>',
+	);
+	
+	$form['membership_detail']['grade_affiliate']['affiliate'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Affiliation to Manor Hall'),
+		'#description' => t('Associate members don\'t need to have been resident in Manor Hall but do need an association to the Hall in order to qualify for membership.'),
+	);
+	
+	$form['membership_detail']['student'] = array(
+		'#type' => 'select',
+		'#title' => t('Current Student'),
+		'#options' => array(
+												'Yes' => 'Yes',
+												'No' => 'No',
+											 ),
+		'#required' => TRUE,
+		'#description' => t('Current students of the University of Bristol may be elligable for additional concessions.'),
+	);
+	
+	$form['membership_detail']['student_fields'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('<h2>University of Bristol Student Details</h2>'),
+	);
+	
+	$form['membership_detail']['student_fields']['course'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Programme of Study'),
+		//'#description' => t('Enter the name of your course and the qualification you are working towards, or the !ucas for your course.', array('!ucas' => l('UCAS Course Code', 'http://search.ucas.com/cgi-bin/hsrun/search/search/StateId/EXVjXN30p7G-y5wuanpCD6kbCus0u-3P_W/HAHTpage/search.HsCodeSearch.submitForm?cmbInst=B78&txtJacsCode=&button1.x=40&button1.y=7', array('attributes' => array('target' => '_blank'))))),
+	);
+	
+	$form['membership_detail']['expected_completion'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Year of Completion or Expected Year of Completion'),
+	);
+	
+	$form['membership_detail']['share'] = array(
+		'#type' => 'checkbox',
+		'#title' => t('The Association may share my details with other members of the Association.'),
+		'#description' => t('Once registered you will be able to control what details other members will be able to see.'),
+		'#weight' => 100,
+	);
+	
+	$form['membership_detail']['contact'] = array(
+		'#type' => 'checkbox',
+		'#title' => t('The Association may contact me via telephone or email from time to time.'),
+		'#weight' => 100,
+	);
+	
+	$form['declaration'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('<h2>Declaration</h2>'),
+	);
+	
+	$form['declaration']['confirmation'] = array(
+		'#type' => 'checkbox',
+		'#title' => t('I wish to apply for the grade of membership stated above and understand that in doing so I am agreeing to be bound by the Constitution and Bye-Laws of the Association.'),
+	);
+	
+	$form['declaration']['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Continue to Confirmation'),
+	);
+
+	return $form;
+}
+
+/**
+ * Validation handler for the membership form
+ */
+function mha_permission_membership_apply_form_validate($form, &$form_state){
+	$values = $form_state['values'];
+	//print_r($values);
+	if($values['confirmation'] != 1){
+		form_set_error('declaration][confirmation', t('You must confirm you agree to rules set down in the Association\'s Constitution.'));
+	}
+}
+
+/**
+ * Submit handler for the membership form
+ */
+function mha_permission_membership_apply_form_submit($form, &$form_state){
+	global $user;
+	$values = $form_state['values'];
+	//We're going to do this by storing the data as a node
+	
+	//Prepare the node
+	$node = new stdClass();
+  $node->title = check_plain($values['forenames']) . ' ' . check_plain($values['surname']);
+  $node->type = "member";
+  node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+  $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+  $node->uid = 1;
+  $node->status = 0; //(1 or 0): published or not
+  $node->promote = 0; //(1 or 0): promoted to front page
+  $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+	
+	//Start populating the node with data
+	if($values['salutation'] == 'Other'){
+		//$node = $values['salutation_other']; //This needs to be tidied
+	}
+	else{
+		$node->field_member_salutation[LANGUAGE_NONE][0]['value'] = $values['salutation'];
+	}
+		
+	$node->field_member_first_name[LANGUAGE_NONE][0]['value'] = check_plain($values['forenames']);
+	$node->field_member_last_name[LANGUAGE_NONE][0]['value'] = check_plain($values['surname']);
+	$node->field_member_post_nominals[LANGUAGE_NONE][0]['value'] = check_plain($values['post_nominals']);
+	$node->field_member_email[LANGUAGE_NONE][0]['value'] = check_plain($values['non_bris_email']);
+	$node->field_member_address_1[LANGUAGE_NONE][0]['value'] = check_plain($values['address1']);
+	$node->field_member_address_2[LANGUAGE_NONE][0]['value'] = check_plain($values['address2']);
+	$node->field_member_town_city[LANGUAGE_NONE][0]['value'] = check_plain($values['town']);
+	$node->field_member_county[LANGUAGE_NONE][0]['value'] = check_plain($values['county']);
+	$node->field_member_country[LANGUAGE_NONE][0]['value'] = check_plain($values['country']);
+	$node->field_member_postal_code[LANGUAGE_NONE][0]['value'] = check_plain(strtoupper($values['postcode']));
+	$node->field_member_telephone_number[LANGUAGE_NONE][0]['value'] = check_plain($values['phone']);
+	$node->field_member_mobile_number[LANGUAGE_NONE][0]['value'] = check_plain($values['mobile']);
+	$node->field_member_membership_class[LANGUAGE_NONE][0]['value'] = check_plain($values['grade']);
+	$node->field_member_years_in_hall[LANGUAGE_NONE][0]['value'] = check_plain($values['years_in_hall']);
+	$node->field_member_affiliation_to_hall[LANGUAGE_NONE][0]['value'] = check_plain($values['affiliate']);
+	$node->field_member_current_student[LANGUAGE_NONE][0]['value'] = check_plain($values['student']);
+	$node->field_member_programme_of_study[LANGUAGE_NONE][0]['value'] = check_plain($values['course']);
+	$node->field_member_expected_completed[LANGUAGE_NONE][0]['value'] = check_plain(strtotime($values['expected_completion']));
+	$node = node_submit($node); // Prepare node for saving
+  node_save($node);
+	
+	$_SESSION['membership']['nid'] = $node->nid;
+	drupal_goto('membership/apply', array('query' => array('confirmation' => 'true')));
+}
+
+
+/**
+  * The page callback for the membership application
+  */
+function mha_permission_membership_apply(){
+	if(isset($_GET['confirmation'])){
+		$node = node_load($_SESSION['membership']['nid']);
+		$current = field_get_items('node', $node, 'field_member_current_student');
+		//print_r($node);
+		if($current[0]['value'] == 'Yes'){
+			$cost = 15;
+		}
+		else{
+			$cost = variable_get('mha_permission_cost', '20');
+		}
+		drupal_set_title('Proceed to Payment');
+			
+			if($current[0]['value'] == 'Yes'){
+				$type = 'MHA Membership Subscription EXPIRES: End of Course, ID: ' . $node->nid;
+			}
+			else{
+				$type = 'MHA Membership Subscription EXPIRES: ' . date('Y-m-j', strtotime('+ 3 years')) . ' ID: ' . $node->nid;
+			}
+			
+			
+			$output .= '<h2>Membership Fees</h2><p>Current Membership Fees of the Manor Hall Association are &pound;' . variable_get('mha_permission_cost', '20') . ' for Full and Affiliate membership which will last for 3 years or &pound;15 for student membership which will last until the end of your course. To proceed to PayPal for payment of these dues click the button below.</p>';
+		
+			$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
+	 
+	 <!-- Identify your business so that you can collect the payments. --> 
+	 <input type="hidden" name="business" value="' . variable_get('mha_permission_email', 'test1_1347593805_biz@computerminds.co.uk') .'"> 
+	 
+	 <!-- Specify a Buy Now button. --> 
+	 <input type="hidden" name="cmd" value="_xclick"> 
+	 
+	 <!-- Specify details about the item that buyers will purchase. --> 
+	 <input type="hidden" name="item_name" value="' . $type .'">
+	 <input type="hidden" name="item_number" value="' . $user->uid .'">
+	 <input type="hidden" name="amount" value="' . $cost . '">  
+	 <input type="hidden" name="currency_code" value="GBP"> 
+	 <input type="hidden" name="return" value="' . variable_get('mha_permission_return', 'http://www.manorhallassociation.co.uk') .'">
+	 <input type="hidden" name="notify_url" value="' . variable_get('mha_permission_ipn', 'http://www.manorhallassociation.co.uk/membership/ipn') .'"> 
+	 
+	 <!-- Display the payment button. --> 
+	 <input type="submit" name="submit" border="0" 
+	 value="Proceed to Payment"> 
+	 <img alt="" border="0" width="1" height="1" 
+	 src="https://www.paypal.com/en_US/i/scr/pixel.gif" > 
+	</form>';
+	
+			return $output;
+	}
+	else{
+		drupal_add_js(drupal_get_path('module', 'mha_permission') . '/mha_permission.js');		
+		$output = drupal_render(drupal_get_form('mha_permission_membership_apply_form'));
+		
+		return $output;
+	}
+  
+}
+
+/**
+  * Helper function to check that we have all he details we need to process the membership
+  */
+function _mha_permission_check($user){
+  //Load the user entity
+  $entity = entity_load('user', array($user->uid));
+
+  foreach($entity AS $record){
+	if(empty($record->field_first_name['und'][0]['safe_value']) ||
+       empty($record->field_last_name['und'][0]['safe_value']) ||
+       empty($record->field_address_1['und'][0]['safe_value']) ||
+       empty($record->field_town['und'][0]['safe_value']) ||
+       empty($record->field_county['und'][0]['safe_value']) ||
+       empty($record->field_post_code['und'][0]['safe_value'])){
+       	//The user profile hasn't been completed
+		return FALSE;
+	}
+	else{
+		if(empty($record->field_years_in_hall['und'][0]['safe_value'])){
+		  //The user profile has been completed but no years in hall were entered
+		  drupal_set_message(t('Your profile doesn\'t include any years in hall, you can continue with your application but will only be able to apply for affiliate membership. Click !here to edit your account.', array('!here' => l('here', 'user/' . $user->uid . '/edit'))), 'warning');
+		}
+		return TRUE;
+	}
+  }	
+}
+
+/**
+  * A function to consume the IPN
+  */
+function mha_permission_ipn(){
+  //TODO: Need to run this through the PayPa sandbox
+  //TODO: Make sure the user gets granted the Affiliate Member Role.
+	  //reading raw POST data from input stream. reading pot data from $_POST may cause serialization issues since POST data may contain arrays
+  $raw_post_data = file_get_contents('php://input');
+  $raw_post_array = explode('&', $raw_post_data);
+  $myPost = array();
+  foreach ($raw_post_array as $keyval)
+  {
+      $keyval = explode ('=', $keyval);
+      if (count($keyval) == 2)
+         $myPost[$keyval[0]] = urldecode($keyval[1]);
+  }
+  // read the post from PayPal system and add 'cmd'
+  $req = 'cmd=_notify-validate';
+  if(function_exists('get_magic_quotes_gpc'))
+  {
+       $get_magic_quotes_exits = true;
+  } 
+  foreach ($myPost as $key => $value)
+  {        
+       if($get_magic_quotes_exits == true && get_magic_quotes_gpc() == 1)
+       { 
+            $value = urlencode(stripslashes($value)); 
+       }
+       else
+       {
+            $value = urlencode($value);
+       }
+       $req .= "&$key=$value";
+  }
+ 
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://www.sandbox.paypal.com/cgi-bin/webscr');
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Host: www.sandbox.paypal.com'));
+// In wamp like environment where the root authority certificate doesn't comes in the bundle, you need
+// to download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path 
+// of the certificate as shown below.
+// curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
+$res = curl_exec($ch);
+curl_close($ch);
+ 
+// assign posted variables to local variables
+$item_name = $_POST['item_name'];
+$item_number = $_POST['item_number'];
+$payment_status = $_POST['payment_status'];
+$payment_amount = $_POST['mc_gross'];
+$payment_currency = $_POST['mc_currency'];
+$txn_id = $_POST['txn_id'];
+$receiver_email = $_POST['receiver_email'];
+$payer_email = $_POST['payer_email'];
+ 
+ 
+if (strcmp ($res, "VERIFIED") == 0) {
+	// check the payment_status is Completed
+	// check that txn_id has not been previously processed
+	// check that receiver_email is your Primary PayPal email
+	// check that payment_amount/payment_currency are correct
+	// process payment
+}
+else if (strcmp ($res, "INVALID") == 0) {
+	// log for manual investigation
+}
+
+	watchdog('PayPal', print_r($_POST, true));
+	watchdog('PayPal', print_r('Running', true));
+}
+
+/**
+ * A simple helper function to list the countries
+ */
+function _mha_permission_countries(){
+	return array(
+		'GE' => 'Abkhazia',
+		'AF' => 'Afghanistan',
+		'AX' => 'Aland',
+		'AL' => 'Albania',
+		'DZ' => 'Algeria',
+		'AS' => 'American Samoa',
+		'AD' => 'Andorra',
+		'AO' => 'Angola',
+		'AI' => 'Anguilla',
+		'AQ' => 'Antarctica',
+		'AG' => 'Antigua and Barbuda',
+		'AR' => 'Argentina',
+		'AM' => 'Armenia',
+		'AW' => 'Aruba',
+		'AC' => 'Ascension',
+		'AU' => 'Ashmore and Cartier Islands',
+		'AU' => 'Australia',
+		'AQ' => 'Australian Antarctic Territory',
+		'AT' => 'Austria',
+		'AZ' => 'Azerbaijan',
+		'BS' => 'Bahamas, The',
+		'BH' => 'Bahrain',
+		'UM' => 'Baker Island',
+		'BD' => 'Bangladesh',
+		'BB' => 'Barbados',
+		'BY' => 'Belarus',
+		'BE' => 'Belgium',
+		'BZ' => 'Belize',
+		'BJ' => 'Benin',
+		'BM' => 'Bermuda',
+		'BT' => 'Bhutan',
+		'BO' => 'Bolivia',
+		'BA' => 'Bosnia and Herzegovina',
+		'BW' => 'Botswana',
+		'BV' => 'Bouvet Island',
+		'BR' => 'Brazil',
+		'IO' => 'British Indian Ocean Territory',
+		'VG' => 'British Virgin Islands',
+		'BN' => 'Brunei',
+		'BG' => 'Bulgaria',
+		'BF' => 'Burkina Faso',
+		'BI' => 'Burundi',
+		'KH' => 'Cambodia',
+		'CM' => 'Cameroon',
+		'CA' => 'Canada',
+		'CV' => 'Cape Verde',
+		'KY' => 'Cayman Islands',
+		'CF' => 'Central African Republic',
+		'TD' => 'Chad',
+		'CL' => 'Chile',
+		'CN' => 'China, People\'s Republic of',
+		'TW' => 'China, Republic of (Taiwan)',
+		'CX' => 'Christmas Island',
+		'PF' => 'Clipperton Island',
+		'CC' => 'Cocos (Keeling) Islands',
+		'CO' => 'Colombia',
+		'KM' => 'Comoros',
+		'CD' => 'Congo, Democratic Republic of the (Congo – Kinshasa)',
+		'CG' => 'Congo, Republic of the (Congo – Brazzaville)',
+		'CK' => 'Cook Islands',
+		'AU' => 'Coral Sea Islands',
+		'CR' => 'Costa Rica',
+		'CI' => 'Cote d\'Ivoire (Ivory Coast)',
+		'HR' => 'Croatia',
+		'CU' => 'Cuba',
+		'CY' => 'Cyprus',
+		'CZ' => 'Czech Republic',
+		'DK' => 'Denmark',
+		'DJ' => 'Djibouti',
+		'DM' => 'Dominica',
+		'DO' => 'Dominican Republic',
+		'EC' => 'Ecuador',
+		'EG' => 'Egypt',
+		'SV' => 'El Salvador',
+		'GQ' => 'Equatorial Guinea',
+		'ER' => 'Eritrea',
+		'EE' => 'Estonia',
+		'ET' => 'Ethiopia',
+		'FK' => 'Falkland Islands (Islas Malvinas)',
+		'FO' => 'Faroe Islands',
+		'FJ' => 'Fiji',
+		'FI' => 'Finland',
+		'FR' => 'France',
+		'GF' => 'French Guiana',
+		'PF' => 'French Polynesia',
+		'TF' => 'French Southern and Antarctic Lands',
+		'GA' => 'Gabon',
+		'GM' => 'Gambia, The',
+		'GE' => 'Georgia',
+		'DE' => 'Germany',
+		'GH' => 'Ghana',
+		'GI' => 'Gibraltar',
+		'GR' => 'Greece',
+		'GL' => 'Greenland',
+		'GD' => 'Grenada',
+		'GP' => 'Guadeloupe',
+		'GU' => 'Guam',
+		'GT' => 'Guatemala',
+		'GG' => 'Guernsey',
+		'GN' => 'Guinea',
+		'GW' => 'Guinea-Bissau',
+		'GY' => 'Guyana',
+		'HT' => 'Haiti',
+		'HM' => 'Heard Island and McDonald Islands',
+		'HN' => 'Honduras',
+		'HK' => 'Hong Kong',
+		'UM' => 'Howland Island',
+		'HU' => 'Hungary',
+		'IS' => 'Iceland',
+		'IN' => 'India',
+		'ID' => 'Indonesia',
+		'IR' => 'Iran',
+		'IQ' => 'Iraq',
+		'IE' => 'Ireland',
+		'IM' => 'Isle of Man',
+		'IL' => 'Israel',
+		'IT' => 'Italy',
+		'JM' => 'Jamaica',
+		'JP' => 'Japan',
+		'UM' => 'Jarvis Island',
+		'JE' => 'Jersey',
+		'UM' => 'Johnston Atoll',
+		'JO' => 'Jordan',
+		'KZ' => 'Kazakhstan',
+		'KE' => 'Kenya',
+		'UM' => 'Kingman Reef',
+		'KI' => 'Kiribati',
+		'KP' => 'Korea, Democratic People\'s Republic of (North Korea)',
+		'KR' => 'Korea, Republic of (South Korea)',
+		'CS' => 'Kosovo',
+		'KW' => 'Kuwait',
+		'KG' => 'Kyrgyzstan',
+		'LA' => 'Laos',
+		'LV' => 'Latvia',
+		'LB' => 'Lebanon',
+		'LS' => 'Lesotho',
+		'LR' => 'Liberia',
+		'LY' => 'Libya',
+		'LI' => 'Liechtenstein',
+		'LT' => 'Lithuania',
+		'LU' => 'Luxembourg',
+		'MO' => 'Macau',
+		'MK' => 'Macedonia',
+		'MG' => 'Madagascar',
+		'MW' => 'Malawi',
+		'MY' => 'Malaysia',
+		'MV' => 'Maldives',
+		'ML' => 'Mali',
+		'MT' => 'Malta',
+		'MH' => 'Marshall Islands',
+		'MQ' => 'Martinique',
+		'MR' => 'Mauritania',
+		'MU' => 'Mauritius',
+		'YT' => 'Mayotte',
+		'MX' => 'Mexico',
+		'FM' => 'Micronesia',
+		'UM' => 'Midway Islands',
+		'MD' => 'Moldova',
+		'MC' => 'Monaco',
+		'MN' => 'Mongolia',
+		'ME' => 'Montenegro',
+		'MS' => 'Montserrat',
+		'MA' => 'Morocco',
+		'MZ' => 'Mozambique',
+		'MM' => 'Myanmar (Burma)',
+		'AZ' => 'Nagorno-Karabakh',
+		'NA' => 'Namibia',
+		'NR' => 'Nauru',
+		'UM' => 'Navassa Island',
+		'NP' => 'Nepal',
+		'NL' => 'Netherlands',
+		'AN' => 'Netherlands Antilles',
+		'NC' => 'New Caledonia',
+		'NZ' => 'New Zealand',
+		'NI' => 'Nicaragua',
+		'NE' => 'Niger',
+		'NG' => 'Nigeria',
+		'NU' => 'Niue',
+		'NF' => 'Norfolk Island',
+		'CY' => 'Northern Cyprus',
+		'MP' => 'Northern Mariana Islands',
+		'NO' => 'Norway',
+		'OM' => 'Oman',
+		'PK' => 'Pakistan',
+		'PW' => 'Palau',
+		'PS' => 'Palestinian Territories (Gaza Strip and West Bank)',
+		'UM' => 'Palmyra Atoll',
+		'PA' => 'Panama',
+		'PG' => 'Papua New Guinea',
+		'PY' => 'Paraguay',
+		'PE' => 'Peru',
+		'AQ' => 'Peter I Island',
+		'PH' => 'Philippines',
+		'PN' => 'Pitcairn Islands',
+		'PL' => 'Poland',
+		'PT' => 'Portugal',
+		'MD' => 'Pridnestrovie (Transnistria)',
+		'PR' => 'Puerto Rico',
+		'QA' => 'Qatar',
+		'AQ' => 'Queen Maud Land',
+		'RE' => 'Reunion',
+		'RO' => 'Romania',
+		'AQ' => 'Ross Dependency',
+		'RU' => 'Russia',
+		'RW' => 'Rwanda',
+		'GP' => 'Saint Barthelemy',
+		'SH' => 'Saint Helena',
+		'KN' => 'Saint Kitts and Nevis',
+		'LC' => 'Saint Lucia',
+		'GP' => 'Saint Martin',
+		'PM' => 'Saint Pierre and Miquelon',
+		'VC' => 'Saint Vincent and the Grenadines',
+		'WS' => 'Samoa',
+		'SM' => 'San Marino',
+		'ST' => 'Sao Tome and Principe',
+		'SA' => 'Saudi Arabia',
+		'SN' => 'Senegal',
+		'RS' => 'Serbia',
+		'SC' => 'Seychelles',
+		'SL' => 'Sierra Leone',
+		'SG' => 'Singapore',
+		'SK' => 'Slovakia',
+		'SI' => 'Slovenia',
+		'SB' => 'Solomon Islands',
+		'SO' => 'Somalia',
+		'SO' => 'Somaliland',
+		'ZA' => 'South Africa',
+		'GS' => 'South Georgia and the South Sandwich Islands',
+		'GE' => 'South Ossetia',
+		'ES' => 'Spain',
+		'LK' => 'Sri Lanka',
+		'SD' => 'Sudan',
+		'SR' => 'Suriname',
+		'SJ' => 'Svalbard',
+		'SZ' => 'Swaziland',
+		'SE' => 'Sweden',
+		'CH' => 'Switzerland',
+		'SY' => 'Syria',
+		'TJ' => 'Tajikistan',
+		'TZ' => 'Tanzania',
+		'TH' => 'Thailand',
+		'TL' => 'Timor-Leste (East Timor)',
+		'TG' => 'Togo',
+		'TK' => 'Tokelau',
+		'TO' => 'Tonga',
+		'TT' => 'Trinidad and Tobago',
+		'TA' => 'Tristan da Cunha',
+		'TN' => 'Tunisia',
+		'TR' => 'Turkey',
+		'TM' => 'Turkmenistan',
+		'TC' => 'Turks and Caicos Islands',
+		'TV' => 'Tuvalu',
+		'VI' => 'U.S. Virgin Islands',
+		'UG' => 'Uganda',
+		'UA' => 'Ukraine',
+		'AE' => 'United Arab Emirates',
+		'GB' => 'United Kingdom',
+		'US' => 'United States',
+		'UY' => 'Uruguay',
+		'UZ' => 'Uzbekistan',
+		'VU' => 'Vanuatu',
+		'VA' => 'Vatican City',
+		'VE' => 'Venezuela',
+		'VN' => 'Vietnam',
+		'UM' => 'Wake Island',
+		'WF' => 'Wallis and Futuna',
+		'EH' => 'Western Sahara',
+		'YE' => 'Yemen',
+		'ZM' => 'Zambia',
+		'ZW' => 'Zimbabwe',
+	);
+}
+
+/**
+ * A helper function to validate the email address
+ */
+function check_email_address($email) {
+
+   //check for all the non-printable codes in the standard ASCII set,
+   //including null bytes and newlines, and exit immediately if any are found.
+   if (preg_match("/[\\000-\\037]/",$email)) {
+      return false;
+   }
+   $pattern = "/^[-_a-z0-9\'+*$^&%=~!?{}]++(?:\.[-_a-z0-9\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\.[a-z]{2,6}|\d{1,3}(?:\.\d{1,3}){3})(?::\d++)?$/iD";
+   if(!preg_match($pattern, $email)){
+      return false;
+   }
+   // Validate the domain exists with a DNS check
+   // if the checks cannot be made (soft fail over to true)
+   list($user,$domain) = explode('@',$email);
+   if( function_exists('checkdnsrr') ) {
+      if( !checkdnsrr($domain,"MX") ) { // Linux: PHP 4.3.0 and higher & Windows: PHP 5.3.0 and higher
+         return false;
+      }
+   }
+   else if( function_exists("getmxrr") ) {
+      if ( !getmxrr($domain, $mxhosts) ) {
+         return false;
+      }
+   }
+	 if($domain == 'bris.ac.uk' || $domain == 'bristol.ac.uk'){
+		return false;
+	 }
+   return true;
+}
+
+function mha_permission_form_alter(&$form, &$form_state, $form_id) {
+//  print_r('here');
+//	$years = range(2014, 1909);
+//	print_r($years);
+//	$output = array();
+//	foreach($years AS $year){
+//		$output[] = $year . '|' . $year ;
+//	}
+//	print_r(implode("\n", $output));
+}
+
+
+function mha_permission_node_insert($node){
+	if($node->type == 'member'){
+		//print_r($node);
+		//exit;
+	}
+}	

@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Installation file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function eu_cookie_compliance_install() {
+  $popup_settings = array(
+    'popup_info' => array(
+      'value' => '<p>This site uses cookies to optimise your user experience.  By using this site you are consenting to our use of these cookies.</p>',
+      'format' => "2",
+    ),
+    'popup_height' => '120',
+    'popup_width' => '300',
+    'popup_enabled' => true,
+  );
+  global $language;
+  $lang = ($language->language) ? $language->language : 'en';
+  variable_set('eu_cookie_compliance_' . $lang, $popup_settings);
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function eu_cookie_compliance_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE '%eu_cookie_compliance_%'");
+  cache_clear_all('variables', 'cache');
+}
+

@@ -1,0 +1,13 @@
+name = Views Area Options
+description = 'Add extra options to Views 3.x areas such as Headers, Footers, and Empty Text.'
+package = Views
+dependencies[] = views
+core = 7.x
+files[] = views_area_options.module
+files[] = views_area_options_block_handler_area_view.inc
+
+; Information added by drush on 2015-03-18
+version = "b83068ccbb48a27f6530b024772586a73107b075"
+project = "views_area_options"
+datestamp = "1426708307"
+
