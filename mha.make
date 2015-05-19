@@ -28,6 +28,9 @@ projects[block_class][version] = "1.1"
 projects[boxes][subdir] = "contrib"
 projects[boxes][version] = "1.1"
 
+projects[bxslider][subdir] = "contrib"
+projects[bxslider][version] = "1.1"
+
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.0"
 
