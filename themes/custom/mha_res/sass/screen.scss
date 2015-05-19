@@ -88,18 +88,22 @@ p{
   }
 }
 .front{
+  .navbar-full{
+    margin-bottom: 0;
+  }
   .view-latest-tweets{
     background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
     padding: 13px 0 13px 50px;
     margin-bottom: 20px;
     color: #fff;
-    font-size: 0.8em;
     a{
       color: #fff;
       text-decoration: underline;
+      font-size: 0.9em;
     }
     span{
       width: 100%;
+      font-size: 0.9em;
     }
   }
   .main-container{
@@ -116,6 +120,9 @@ p{
       border-bottom: 1px solid #ddd;
       padding: 20px 0px;
       margin-bottom: 20px;
+    }
+    .views-row:first-child{
+      padding-top: 0;
     }
     .views-field-title{
       padding: 10px 0;
@@ -139,6 +146,9 @@ p{
       font-size: 1.2em;
     }
   }
+  .col{
+    margin-bottom: 30px;
+  }
 }
 .pagination>.active>a,
 .pagination>.active>a:hover{
@@ -147,4 +157,34 @@ p{
 }
 .pagination>li>a{
   color: #B01C2E;
+}
+#block-mha-news-social-share{
+  img{
+    float: left;
+    margin-right: 10px;
+  }
+}
+@media (min-width: 768px) {
+  .navbar-full{
+    li{
+      float: left !important;
+    }
+  }
+}
+.navbar-default{
+  border: none;
+  background: none;
+}
+.view-id-hero_widget{
+  .container-fluid{
+    background: #B01C2E;
+  }
+  .col-md-4{
+    padding-top: 30px;
+    color: #fff;
+    a{
+      color: #fff;
+      font-size: 1.5em;
+    }
+  }
 }

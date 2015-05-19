@@ -50,7 +50,7 @@ function mha_news_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -127,7 +127,7 @@ function mha_news_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '2',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -192,7 +192,7 @@ function mha_news_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '3',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -270,19 +270,14 @@ function mha_news_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'galleryformatter',
+          'label' => 'hidden',
+          'module' => 'image',
           'settings' => array(
-            'link_to_full' => 0,
-            'link_to_full_style' => '0',
-            'linking_method' => 'show_full_link',
-            'modal' => 'none',
-            'slide_style' => 'content_image',
-            'style' => 'Greenarrows',
-            'thumb_style' => 'thumbnail',
+            'image_link' => '',
+            'image_style' => 'news_grid',
           ),
-          'type' => 'galleryformatter_default',
-          'weight' => '0',
+          'type' => 'image',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',

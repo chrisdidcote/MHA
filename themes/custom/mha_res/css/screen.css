@@ -145,59 +145,96 @@ p {
       color: #000; }
 
 /* line 91, ../sass/screen.scss */
+.front .navbar-full {
+  margin-bottom: 0; }
+/* line 94, ../sass/screen.scss */
 .front .view-latest-tweets {
   background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
   padding: 13px 0 13px 50px;
   margin-bottom: 20px;
-  color: #fff;
-  font-size: 0.8em; }
-  /* line 97, ../sass/screen.scss */
+  color: #fff; }
+  /* line 99, ../sass/screen.scss */
   .front .view-latest-tweets a {
     color: #fff;
-    text-decoration: underline; }
-  /* line 101, ../sass/screen.scss */
+    text-decoration: underline;
+    font-size: 0.9em; }
+  /* line 104, ../sass/screen.scss */
   .front .view-latest-tweets span {
-    width: 100%; }
-/* line 106, ../sass/screen.scss */
+    width: 100%;
+    font-size: 0.9em; }
+/* line 110, ../sass/screen.scss */
 .front .main-container h2 {
   font-size: 1.5em;
   background: #B01C2E;
   padding: 10px;
   color: #fff; }
-/* line 115, ../sass/screen.scss */
+/* line 119, ../sass/screen.scss */
 .front .pane-events .views-row,
 .front .pane-news .views-row {
   border-bottom: 1px solid #ddd;
   padding: 20px 0px;
   margin-bottom: 20px; }
-/* line 120, ../sass/screen.scss */
+/* line 124, ../sass/screen.scss */
+.front .pane-events .views-row:first-child,
+.front .pane-news .views-row:first-child {
+  padding-top: 0; }
+/* line 127, ../sass/screen.scss */
 .front .pane-events .views-field-title,
 .front .pane-news .views-field-title {
   padding: 10px 0; }
-  /* line 122, ../sass/screen.scss */
+  /* line 129, ../sass/screen.scss */
   .front .pane-events .views-field-title a,
   .front .pane-news .views-field-title a {
     font-size: 1.3em;
     color: #B01C2E; }
 
-/* line 129, ../sass/screen.scss */
+/* line 136, ../sass/screen.scss */
 .view-display-id-attachment_1 {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #ddd; }
 
-/* line 136, ../sass/screen.scss */
+/* line 143, ../sass/screen.scss */
 .views-bootstrap-grid-plugin-style .views-field-title a {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.2em; }
+/* line 149, ../sass/screen.scss */
+.views-bootstrap-grid-plugin-style .col {
+  margin-bottom: 30px; }
 
-/* line 143, ../sass/screen.scss */
+/* line 153, ../sass/screen.scss */
 .pagination > .active > a,
 .pagination > .active > a:hover {
   background-color: #B01C2E;
   border-color: #B01C2E; }
 
-/* line 148, ../sass/screen.scss */
+/* line 158, ../sass/screen.scss */
 .pagination > li > a {
   color: #B01C2E; }
+
+/* line 162, ../sass/screen.scss */
+#block-mha-news-social-share img {
+  float: left;
+  margin-right: 10px; }
+
+@media (min-width: 768px) {
+  /* line 169, ../sass/screen.scss */
+  .navbar-full li {
+    float: left !important; } }
+/* line 174, ../sass/screen.scss */
+.navbar-default {
+  border: none;
+  background: none; }
+
+/* line 179, ../sass/screen.scss */
+.view-id-hero_widget .container-fluid {
+  background: #B01C2E; }
+/* line 182, ../sass/screen.scss */
+.view-id-hero_widget .col-md-4 {
+  padding-top: 30px;
+  color: #fff; }
+  /* line 185, ../sass/screen.scss */
+  .view-id-hero_widget .col-md-4 a {
+    color: #fff;
+    font-size: 1.5em; }
