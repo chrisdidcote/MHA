@@ -3,11 +3,23 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
-@import "compass/reset";
+@import "compass/reset";    
+html * {
+    font-size: 11pt;
+}
 h1{
+  font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
-  font-family: "Georgia";
   font-size: 1.7em;
+}
+.region-content h2{
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.4em;
+}
+.region-content h2 a{
+  color: #B01C2E;
+  font-size: 1em;
 }
 body{
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -98,7 +110,13 @@ p{
       color: #fff;
     }
   }
-  .pane-events{
+  .pane-events,
+  .pane-news{
+    .views-row{
+      border-bottom: 1px solid #ddd;
+      padding: 20px 0px;
+      margin-bottom: 20px;
+    }
     .views-field-title{
       padding: 10px 0;
       a{
@@ -107,4 +125,26 @@ p{
       }
     }
   }
+}
+.view-display-id-attachment_1{
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+.views-bootstrap-grid-plugin-style{
+  .views-field-title{
+    a{
+      font-family: Georgia, "Times New Roman", Times, serif;
+      color: #B01C2E;
+      font-size: 1.2em;
+    }
+  }
+}
+.pagination>.active>a,
+.pagination>.active>a:hover{
+  background-color: #B01C2E;
+  border-color: #B01C2E;
+}
+.pagination>li>a{
+  color: #B01C2E;
 }

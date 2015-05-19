@@ -213,6 +213,9 @@ projects[views_area_options][download][type] = "git"
 projects[views_area_options][download][url] = "git://git.drupal.org/project/views_area_options.git"
 projects[views_area_options][download][revision] = "b83068ccbb48a27f6530b024772586a73107b075"
 
+projects[views_bootstrap][subdir] = "contrib"
+projects[views_bootstrap][version] = "3.1"
+
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta7"
 

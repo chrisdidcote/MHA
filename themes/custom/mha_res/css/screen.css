@@ -59,100 +59,145 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block; }
 
 /* line 7, ../sass/screen.scss */
+html * {
+  font-size: 11pt; }
+
+/* line 10, ../sass/screen.scss */
 h1 {
+  font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
-  font-family: "Georgia";
   font-size: 1.7em; }
 
-/* line 12, ../sass/screen.scss */
+/* line 15, ../sass/screen.scss */
+.region-content h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.4em; }
+
+/* line 20, ../sass/screen.scss */
+.region-content h2 a {
+  color: #B01C2E;
+  font-size: 1em; }
+
+/* line 24, ../sass/screen.scss */
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
-  /* line 18, ../sass/screen.scss */
+  /* line 30, ../sass/screen.scss */
   body #footer-wrapper {
     background: #161B20;
     color: #fff; }
 
-/* line 24, ../sass/screen.scss */
+/* line 36, ../sass/screen.scss */
 .region-sidebar-first h2.block-title {
   margin: -19px -19px 0px -19px;
   background: #B01C2E;
   padding: 19px;
   color: #fff; }
-/* line 31, ../sass/screen.scss */
+/* line 43, ../sass/screen.scss */
 .region-sidebar-first ul li {
   padding: 10px 0px;
   border-bottom: 1px #e3e3e3 solid; }
 
-/* line 37, ../sass/screen.scss */
+/* line 49, ../sass/screen.scss */
 p {
   margin-bottom: 1em; }
 
-/* line 40, ../sass/screen.scss */
+/* line 52, ../sass/screen.scss */
 #block-mha-news-mha-news-author {
   margin-bottom: 20px;
   font-size: 0.9em;
   border-bottom: 1px #eee solid;
   border-top: 1px #eee solid;
   padding: 10px 0; }
-  /* line 41, ../sass/screen.scss */
+  /* line 53, ../sass/screen.scss */
   #block-mha-news-mha-news-author img {
     float: left;
     margin-right: 10px; }
-  /* line 45, ../sass/screen.scss */
+  /* line 57, ../sass/screen.scss */
   #block-mha-news-mha-news-author .position {
     margin-bottom: 1em;
     font-weight: bold; }
-  /* line 49, ../sass/screen.scss */
+  /* line 61, ../sass/screen.scss */
   #block-mha-news-mha-news-author .date {
     font-weight: bold;
     color: #B01C2E; }
 
-/* line 59, ../sass/screen.scss */
+/* line 71, ../sass/screen.scss */
 .footer {
   background: transparent url("../images/whitelogo.png") bottom right no-repeat; }
 
-/* line 62, ../sass/screen.scss */
+/* line 74, ../sass/screen.scss */
 .region.region-sidebar-first.well {
   padding-top: 0; }
 
-/* line 65, ../sass/screen.scss */
+/* line 77, ../sass/screen.scss */
 .navbar-full {
   background: #161B20;
   margin-bottom: 20px; }
-  /* line 68, ../sass/screen.scss */
+  /* line 80, ../sass/screen.scss */
   .navbar-full .container {
     padding: 0; }
-    /* line 70, ../sass/screen.scss */
+    /* line 82, ../sass/screen.scss */
     .navbar-full .container a {
       color: #fff; }
-    /* line 73, ../sass/screen.scss */
+    /* line 85, ../sass/screen.scss */
     .navbar-full .container a:hover {
       color: #000; }
 
-/* line 79, ../sass/screen.scss */
+/* line 91, ../sass/screen.scss */
 .front .view-latest-tweets {
   background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
   padding: 13px 0 13px 50px;
   margin-bottom: 20px;
   color: #fff;
   font-size: 0.8em; }
-  /* line 85, ../sass/screen.scss */
+  /* line 97, ../sass/screen.scss */
   .front .view-latest-tweets a {
     color: #fff;
     text-decoration: underline; }
-  /* line 89, ../sass/screen.scss */
+  /* line 101, ../sass/screen.scss */
   .front .view-latest-tweets span {
     width: 100%; }
-/* line 94, ../sass/screen.scss */
+/* line 106, ../sass/screen.scss */
 .front .main-container h2 {
   font-size: 1.5em;
   background: #B01C2E;
   padding: 10px;
   color: #fff; }
-/* line 102, ../sass/screen.scss */
-.front .pane-events .views-field-title {
+/* line 115, ../sass/screen.scss */
+.front .pane-events .views-row,
+.front .pane-news .views-row {
+  border-bottom: 1px solid #ddd;
+  padding: 20px 0px;
+  margin-bottom: 20px; }
+/* line 120, ../sass/screen.scss */
+.front .pane-events .views-field-title,
+.front .pane-news .views-field-title {
   padding: 10px 0; }
-  /* line 104, ../sass/screen.scss */
-  .front .pane-events .views-field-title a {
+  /* line 122, ../sass/screen.scss */
+  .front .pane-events .views-field-title a,
+  .front .pane-news .views-field-title a {
     font-size: 1.3em;
     color: #B01C2E; }
+
+/* line 129, ../sass/screen.scss */
+.view-display-id-attachment_1 {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd; }
+
+/* line 136, ../sass/screen.scss */
+.views-bootstrap-grid-plugin-style .views-field-title a {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.2em; }
+
+/* line 143, ../sass/screen.scss */
+.pagination > .active > a,
+.pagination > .active > a:hover {
+  background-color: #B01C2E;
+  border-color: #B01C2E; }
+
+/* line 148, ../sass/screen.scss */
+.pagination > li > a {
+  color: #B01C2E; }
