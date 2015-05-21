@@ -85,6 +85,14 @@
       <?php if (!empty($site_name)): ?>
       <a class="name navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
       <?php endif; ?>
+      
+      <div id="header-committee" class="hidden-sm hidden-xs">
+        <p><strong>Patrons:</strong> Dr Jennifer Bate, OBE. BA, Hon. DMus</p>
+        <p>Professor Dame Carol Black, DBE, MD, FRCP, MACP, FMedSci</p>
+        <p><strong>President:</strong> Dr Martin Crossley Evans, MBE, J,P BA, PhD, FSA, FGS</p>
+        <p><strong>Vice-Presidents:</strong> Mrs Lilian Brown, BA, Hon. MA, CertEd</p>
+        <p>Mr Christopher Didcote, BSc</p>
+      </div>
 
       <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

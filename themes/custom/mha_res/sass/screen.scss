@@ -12,14 +12,41 @@ h1{
   color: #B01C2E;
   font-size: 1.7em;
 }
-.region-content h2{
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: #B01C2E;
-  font-size: 1.4em;
+.region-content{
+  h2{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #B01C2E;
+    font-size: 1.4em;
+  }
+  h3{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #B01C2E;
+    font-size: 1.2em;
+  }
 }
 .region-content h2 a{
   color: #B01C2E;
   font-size: 1em;
+}
+.view-id-committee.view-display-id-page{
+  img{
+    float: left;
+    margin-right: 20px;
+  }
+  .views-row{
+    margin-top: 20px;
+  }
+  h2{
+    margin-top: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+}
+.js{
+  #mha-permission-membership-apply-form{
+    .form-item-salutation-other{
+      display: none;
+    }
+  }
 }
 body{
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -82,8 +109,10 @@ p{
   border-top: 1px #eee solid;
   padding: 10px 0;
 }
-.footer{
-  background: transparent url("../images/whitelogo.png") bottom right no-repeat;
+@media (min-width: 768px){
+  .footer{
+    background: transparent url("../images/whitelogo.png") bottom right no-repeat;
+  }
 }
 .region.region-sidebar-first.well{
   padding-top: 0;
@@ -255,6 +284,20 @@ p{
     }
   }
 }
+.node-type-news-article{
+  .region-sidebar-second{
+    .block{
+      min-height: 20px;
+      padding: 0;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 0px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      background: none;
+    }
+  }
+}
 .view-id-elton_house_award.view-display-id-page{
   img{
     float: left;
@@ -295,5 +338,55 @@ strong{
   .field-type-image{
     float: left;
     margin-right: 20px;
+  }
+}
+#block-system-main{
+  ul{
+    list-style: circle;
+    margin-left: 20px;
+    margin-bottom: 1em;
+    li{
+      list-style: circle;
+    }
+  }
+}
+@media (min-width: 768px) {
+  .region-footer{
+    .block{
+      width: 33.33%;
+      float: left;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-header{
+    float: none;
+  }
+  #header-committee{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    text-align: right;
+    float: right;
+    margin-top: 10px;
+    font-size: 0.9em;
+    p{
+      margin: 0;
+      font-size: 1em;
+    }
+    strong{
+      font-size: 1em;
+    }
+  }
+}
+.region-footer{
+  a{
+    color: #fff;
+  }
+  a:hover{
+    background: none;
+  }
+  .nav>li>a:hover, .nav>li>a:focus{
+    background: none;
+    text-decoration: underline;
   }
 }
