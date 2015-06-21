@@ -181,7 +181,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.1"
 
 projects[recaptcha][subdir] = "contrib"
-projects[recaptcha][version] = "1.12"
+projects[recaptcha][version] = "2.0"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc1"
