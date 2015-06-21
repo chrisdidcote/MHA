@@ -2,34 +2,71 @@
 
   Drupal.behaviors.mha_permission = {
     attach: function (context, settings) {
-      //Initialise using JS so it degrades gracefully
-      $('#edit-grade-full').hide();
-      $('#edit-grade-affiliate').hide();
-      $('#edit-student-fields').hide();
-      $("#mha-permission-membership-apply-form .form-item-grade select").change( function() {
-        $membership = $(this).val();
-        
-        if($membership == 'Full'){ //Full
-          $('#edit-grade-full').slideDown('slow');
-          $('#edit-grade-affiliate').hide();
+      //We hide or show the fields on page load using JS so that it degrades gracefully
+      if($('#mha-permission-join-form #edit-personal-details-salutation').val() == 'Other'){
+        $('#mha-permission-join-form .form-item-personal-details-salutation-other').show();
+      }
+      else{
+        $('#mha-permission-join-form .form-item-personal-details-salutation-other').hide();
+      }
+      
+      //Show the Other saluation field if Other is selected
+      $("#mha-permission-join-form #edit-personal-details-salutation").change( function() {
+        if($(this).val() == 'Other'){
+          $('#mha-permission-join-form .form-item-personal-details-salutation-other').slideDown('slow');
         }
-        
-        if($membership == 'Affiliate'){ //Associate
-          $('#edit-grade-affiliate').slideDown('slow');
-          $('#edit-grade-full').hide();
+        else{
+          $('#mha-permission-join-form .form-item-personal-details-salutation-other').slideUp('slow');
         }
       });
       
-      $("#mha-permission-membership-apply-form .form-item-student select").change( function() {
-        $student = $(this).val();
-        
-        if($student == 0){ 
-          $('#edit-student-fields').slideDown('slow');
-        }
-        
-        if($student == 1){ //No
-          $('#edit-student-fields').slideUp();
-        }
+      //We hide or show the fields on page load using JS so that it degrades gracefully
+      switch ($('#mha-permission-join-form #edit-membership-details-class').val()) {
+        case 'none' :
+          $('#mha-permission-join-form .form-item-membership-details-current-student').hide();
+          $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+          $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
+          break;
+        case 'student' :
+          $('#mha-permission-join-form .form-item-membership-details-current-student').slideDown('slow');
+          $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+          $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
+          break;
+        case 'full' :
+          $('#mha-permission-join-form .form-item-membership-details-current-student').hide();
+          $('#mha-permission-join-form .form-item-membership-details-years-in-hall').slideDown('slow');
+          $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
+          break;
+        case 'affiliate' :
+          $('#mha-permission-join-form .form-item-membership-details-current-student').hide();
+          $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+          $('#mha-permission-join-form .form-item-membership-details-affiliation').slideDown('slow');
+          break;
+      }
+      
+      $("#mha-permission-join-form #edit-membership-details-class").change( function() {
+        switch ($('#mha-permission-join-form #edit-membership-details-class').val()) {
+          case 'none' :
+            $('#mha-permission-join-form .form-item-membership-details-current-student').hide();
+            $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+            $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
+            break;
+          case 'student' :
+            $('#mha-permission-join-form .form-item-membership-details-current-student').slideDown('slow');
+            $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+            $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
+            break;
+          case 'full' :
+            $('#mha-permission-join-form .form-item-membership-details-current-student').hide();
+            $('#mha-permission-join-form .form-item-membership-details-years-in-hall').slideDown('slow');
+            $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
+            break;
+          case 'affiliate' :
+            $('#mha-permission-join-form .form-item-membership-details-current-student').hide();
+            $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+            $('#mha-permission-join-form .form-item-membership-details-affiliation').slideDown('slow');
+            break;
+        } 
       });
     }
   };

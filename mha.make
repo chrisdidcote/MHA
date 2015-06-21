@@ -117,12 +117,21 @@ projects[link][version] = "1.0-alpha3"
 projects[location][subdir] = "contrib"
 projects[location][version] = "3.1"
 
+projects[mailchimp][subdir] = "contrib"
+projects[mailchimp][version] = "3.3"
+
 projects[maillog][subdir] = "development"
 projects[maillog][download][type] = "git"
 projects[maillog][download][url] = "git://git.drupal.org/project/maillog.git"
 projects[maillog][download][revision] = "09367219c3c1f4b7ec174438b457ae1e3813d49e"
 projects[maillog][patch][] = "http://drupal.org/files/issues/d7-port-hook_theme-1107988-10-no-prefix.patch"
 projects[maillog][patch][] = "http://drupal.org/files/issues/maillog-format-body-no-prefix.patch"
+
+projects[mailsystem][subdir] = "contrib"
+projects[mailsystem][version] = "2.34"
+
+projects[mandrill][subdir] = "contrib"
+projects[mandrill][version] = "2.1"
 
 projects[media][subdir] = "contrib"
 projects[media][version] = "1.4"
@@ -159,6 +168,9 @@ projects[panels_bootstrap_layouts][version] = "3.0"
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
+projects[pdf_using_mpdf][subdir] = "contrib"
+projects[pdf_using_mpdf][version] = "2.6"
+
 projects[plup][subdir] = "contrib"
 projects[plup][version] = "1.0-alpha1"
 
@@ -169,7 +181,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.1"
 
 projects[recaptcha][subdir] = "contrib"
-projects[recaptcha][version] = "1.10"
+projects[recaptcha][version] = "1.12"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc1"

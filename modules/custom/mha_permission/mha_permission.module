@@ -25,6 +25,13 @@ function mha_permission_menu(){
     'type' => MENU_CALLBACK,
   );
 	
+	$items['membership/apply/payment'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_membership_apply_payment', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+	
 	 $items['membership/ipn'] = array(
     'title' => 'Apply for Membership', 
     'page callback' => 'mha_permission_ipn', 
@@ -40,10 +47,399 @@ function mha_permission_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
+	$items['membership/%/approve'] = array(
+    'title' => 'Membership Approve Member', 
+    'page callback' => 'mha_permission_membership_aprove',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(1),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/emails'] = array(
+    'title' => 'Membership Emails', 
+    'page callback' => 'mha_permission_membership_emails',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/%/renewal-letter'] = array(
+    'title' => 'Membership Renewal Letter', 
+    'page callback' => 'mha_permission_membership_renewal_letter',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(1),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/register'] = array(
+    'title' => 'Membership Register', 
+    'page callback' => 'mha_permission_membership_register',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/mailing-labels'] = array(
+    'title' => 'Membership Mailing Labels', 
+    'page callback' => 'mha_permission_membership_mailing',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/mailing-labels/generated/%'] = array(
+    'title' => 'Membership Mailing Labels', 
+    'page callback' => 'mha_permission_membership_mailing_generated',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(3),
+    'type' => MENU_NORMAL_ITEM,
+  );
 	
   return $items;
 }
+function mha_permission_membership_mailing(){
+	$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	
+	$output .= render(drupal_get_form('mha_permission_membership_mailing_form'));
+	return $output;
+}
 
+function mha_permission_membership_mailing_form(){
+	$form['preset'] = array(
+		'#type' => 'select',
+		'#title' => t('Select a Preset of Mailing Labels'),
+		'#options' => array(
+			'mail_only' => t('Mail Only Members'),
+			'non_resident' => t('All Non-Resident Only Members'),
+			'non_resident_full' => t('Non-Resident Only Members Excluding Student Members'),
+			'all' => t('All Members'),
+			'custom' => t('Custom Select'),
+		)
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Generate Mailing Labels'),
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_mailing_form_submit($form, &$form_state){
+	$form_state['redirect'] = 'membership/mailing-labels/generated/' . $form_state['values']['preset'];
+}
+
+function mha_permission_membership_mailing_generated($type){
+	switch($type){
+		case 'all' :
+			mha_permission_membership_mailing_full();
+			break;
+	}
+}
+
+function mha_permission_membership_mailing_full(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style="border: 1px solid; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$count = 1;
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user');
+	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
+}
+/**
+ * Helper function to get a sanitised address for a given user
+ */ 
+function _mha_permission_get_address($uid){
+	$account = user_load($uid);
+	$first_name_items = field_get_items('user', $account, 'field_first_name');
+	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
+	
+	$last_name_items = field_get_items('user', $account, 'field_last_name');
+	$last_name = field_view_value('user', $account, 'field_last_name', $last_name_items[0]);
+	
+	$address1_items = field_get_items('user', $account, 'field_address_1');
+	$address1 = field_view_value('user', $account, 'field_address_1', $address1_items[0]);
+	
+	$address2_items = field_get_items('user', $account, 'field_address_2');
+	$address2 = field_view_value('user', $account, 'field_address_2', $address2_items[0]);
+	
+	$town_items = field_get_items('user', $account, 'field_town');
+	$town = field_view_value('user', $account, 'field_town', $town_items[0]);
+	
+	$post_code_items = field_get_items('user', $account, 'field_post_code');
+	$post_code = field_view_value('user', $account, 'field_post_code', $post_code_items[0]);
+	$output = '<div id="addres-block" style="padding-top: 2cm; font-size: 12px;">';
+	$output .= render($first_name) . ' ' . render($last_name) . "<br />";
+	$output .= render($address1) ? render($address1) . "<br />" : '';
+	$output .= render($address2) ? render($address2) . "<br />" : '';
+	$output .= render($town) ? render($town) . "<br />" : '';
+	$output .= render($post_code) ? render($post_code) . "<br />" : '';
+	$output .= '</div>';
+	
+	return $output;
+}
+function mha_permission_membership_register(){
+	$output = '<table width="100%" style="border: 1px solid; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';
+	
+	$output .= '<tr>';
+	$output .= '<th style="border: 1px solid #000000; background: #cccccc; padding*: 0;">Surname</th>';
+	$output .= '<th style="border: 1px solid #000000; background: #cccccc; padding*: 0;">Forename(s)</th>';
+	$output .= '<th width="35%" style="border: 1px solid #000000; background: #cccccc; padding*: 0;">Signed</th>';
+	$output .= '</tr>';
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user');
+	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $user) {
+		$first_name_items = field_get_items('user', $user, 'field_first_name');
+		$first_name = field_view_value('user', $user, 'field_first_name', $first_name_items[0]);
+		
+		$last_name_items = field_get_items('user', $user, 'field_last_name');
+		$last_name = field_view_value('user', $user, 'field_last_name', $last_name_items[0]);
+	
+		$output .= '<tr>';
+		$output .= '<td style="border: 1px solid #000000; height: 50px;">' . render($last_name) . '</td>';
+		$output .= '<td style="border: 1px solid #000000; height: 50px;">' . render($first_name) . '</td>';
+		$output .= '<td style="border: 1px solid #000000; height: 50px;" width="35%"></td>';
+		$output .= '</tr>';
+	}
+	
+	$output .= '</table>';
+	
+	pdf_using_mpdf_api($output, 'membership' . time() . '.pdf');
+}
+
+function mha_permission_membership_renewal_letter($uid = null){
+	$account = user_load($uid);
+	$first_name_items = field_get_items('user', $account, 'field_first_name');
+	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
+	
+	$last_name_items = field_get_items('user', $account, 'field_last_name');
+	$last_name = field_view_value('user', $account, 'field_last_name', $last_name_items[0]);
+	
+	$address1_items = field_get_items('user', $account, 'field_address_1');
+	$address1 = field_view_value('user', $account, 'field_address_1', $address1_items[0]);
+	
+	$address2_items = field_get_items('user', $account, 'field_address_2');
+	$address2 = field_view_value('user', $account, 'field_address_2', $address2_items[0]);
+	
+	$town_items = field_get_items('user', $account, 'field_town');
+	$town = field_view_value('user', $account, 'field_town', $town_items[0]);
+	
+	$post_code_items = field_get_items('user', $account, 'field_post_code');
+	$post_code = field_view_value('user', $account, 'field_post_code', $post_code_items[0]);
+	$output = '<img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterHead.png" width="20cm"/>';
+	$output .= '<div id="addres-block" style="padding-top: 2cm; font-size: 12px;">';
+	$output .= render($first_name) . ' ' . render($last_name) . "<br />";
+	$output .= !empty($address1) ? render($address1) . "<br />" : '';
+	$output .= !empty($address2) ? render($address2) . "<br />" : '';
+	$output .= !empty($town) ? render($town) . "<br />" : '';
+	$output .= !empty($post_code) ? render($post_code) . "<br />" : '';
+	$output .= '</div>';
+	$output .= '<div id="date-block" style="font-size: 12px; text-align: right;">' . date('l, jS F Y') .'</div>' ;
+	$output .= '<div id="message-block" style="padding-top: 1cm; font-size: 12px;">';
+	
+	$output .= nl2br(t(variable_get('mha_permission_renewal', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!realname' => $account->realname,
+																							 '!reference' => 'MHA-' . $account->uid,
+																							 '!date' => date('l, jS F Y', $account->field_expiry_[LANGUAGE_NONE][0]['value']))));
+	$output .= '<div style="text-align: center; padding-top: 1cm;"><img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterFoot.png" width="15cm"/></div>';
+	mha_permission_log_entry(t('Renewal Letter Generated: !name', array('!name' => $account->realname)), $account->uid);
+	pdf_using_mpdf_api($output, $uid . 'renewal' . time() . '.pdf');
+	return 'Renewal Letter Generate and has been downloaded as a PDF. Please print this onto Association Headed Paper an post to the relevant member.';
+}
+
+function mha_permission_membership_emails(){
+	$output = t('In order to automate much of the membership process certain emailswill automaicallty get sent to Members. You can use this section to alter what these emails contain.');
+	$output .= render(drupal_get_form('mha_permission_email_settings'));
+	return $output;
+}
+
+function mha_permission_email_settings(){;
+	$form['application']['mha_permission_approval'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Approval Email'),
+  	'#default_value' => variable_get('mha_permission_approval', 'Dear !realname,
+Thank you for your recent application to join the Manor Hall Association. As required by our constitution I am emailing to confirm that your application has now been approved by the Executive Committee and as such you are now a !class member of the Association.
+
+Your membership will expire on !date and you can update your contact details at anytime by either emailing the Membership Secretary or loggin into our website. Likewise, if you would like to contribute anything towards any of our newsletters or an article for our website then please do get in touch.
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+  );
+	
+	$form['application']['mha_permission_renewal'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Renewal Email'),
+  	'#default_value' => variable_get('mha_permission_renewal', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_cron()
+ */
+function mha_permission_cron(){
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_expiry_', 'value', time(), '>');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $user) {
+			$params['account'] = $user;
+			drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
+			mha_permission_log_entry(t('Renewal Email Sent: !name', array('!name' => $user->realname)), $user->uid);
+			//TODO: Add a renewal reminder flag to stop us spamming the user
+	}
+}
+/**
+ * Page Callback for the Membership Dashboard Page
+ */
+function mha_permission_membership_aprove($uid = null){
+	if($uid == null){
+		drupal_set_message(t('You must select a valid user to approve'), 'error');
+	}
+	else{
+		$account = user_load($uid);
+		drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
+	}
+	mha_permission_log_entry(t('Member Approved: !name', array('!name' => $account->realname)), $account->uid);
+	$params['account'] = $account;
+	drupal_mail('mha_permission', 'approved', $account->mail, user_preferred_language($account), $params);
+	mha_permission_log_entry(t('Approval Email Sent: !name', array('!name' => $account->realname)), $account->uid);
+	mha_permission_mailchimp_sync($account);
+	drupal_goto('membership/home');
+}
+
+function mha_permission_mailchimp_sync($account){
+	
+	$listID = '407b6529b4';
+	if(mailchimp_is_subscribed($listID, $account->mail, TRUE)){
+	 $message = t('!user already added to the Non-Residents mailing list', array('!user' => $account->realname));
+	}
+	else{
+		$merge_vars = array(
+			'TITLE' => 'Test Title',
+			'FNAME' => 'Test FNAME',
+			'LNAME' => 'tes LNAME',
+		);
+		if(mailchimp_subscribe($listID, $account->mail, $merge_vars, FALSE, FALSE, 'html')){
+			$message = t('!user added to the Non-Residents mailing list', array('!user' => $account->realname));
+		}
+	}
+	if(isset($message)){
+		mha_permission_log_entry($message, $account->uid);
+	}
+	else{
+		watchdog("Couldn't add Members to Mailchimp", 'error');
+	}
+}
+
+function mha_permission_log_entry($title, $uid) {
+  global $user;
+
+  $node = new stdClass();
+  $node->title = $title;
+  $node->type = "membership_log_entry";
+  node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+  $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+  $node->uid = $user->uid; 
+  $node->status = 0; //(1 or 0): published or not
+  $node->promote = 0; //(1 or 0): promoted to front page
+  $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+  // User Reference
+  $node->field_member_reference[$node->language][]['uid'] = $uid;
+  // 'node' is default,
+  // Other possible values are "user" and  "taxonomy_term" 
+
+  $node = node_submit($node); // Prepare node for saving
+  node_save($node);
+}
+function mha_permission_node_view($node, $view_mode, $langcode) {
+  //print_r($node);
+}
+
+function mha_permission_mail($key, &$message, $params) {
+	$data['user'] = $params['account'];
+	$options['language'] = $message['language'];
+	user_mail_tokens($variables, $data, $options);
+	switch($key) {
+		case 'approved':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Confirmation of Membership');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_approval', 'Dear !realname,
+Thank you for your recent application to join the Manor Hall Association. As required by our constitution I am emailing to confirm that your application has now been approved by the Executive Committee and as such you are now a !class member of the Association.
+
+Your membership will expire on !date and you can update your contact details at anytime by either emailing the Membership Secretary or loggin into our website. Likewise, if you would like to contribute anything towards any of our newsletters or an article for our website then please do get in touch.
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!realname' => $data['user']->realname,
+																							 '!class' => $data['user']->field_membership_class[LANGUAGE_NONE][0]['value'],
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+		case 'renew':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Renewal of Membership');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_renewal', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!realname' => $data['user']->realname,
+																							 '!reference' => 'MHA-' . $data['user']->uid,
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+	}
+}
 /**
   * Settings for the the membership
   */
@@ -84,232 +480,257 @@ function mha_permission_settings(){
 /**
  * Membership application form
  */
-function mha_permission_membership_apply_form(){
-	$form['personal_detail'] = array(
+function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
+	$form['personal_details'] = array(
 		'#type' => 'fieldset',
-		'#title' => t('<h2>Personal Details</h2>'),
-		'#description' => t('This section of the form collects your personal details, these won\'t be shared with other members unless you give us permission to do so.'),
+		'#title' => t('Personal Details'),
 	);
 	
-	$form['personal_detail']['salutation'] = array(
+	$form['personal_details']['salutation'] = array(
 		'#type' => 'select',
-		'#title' => t('Salutation'),
+		'#title' => t('Saluation'),
 		'#options' => array(
-												'Mr' => 'Mr',
-												'Mrs' => 'Mrs',
-												'Miss' => 'Miss',
-												'Ms' => 'Ms',
-												'Dr' => 'Dr',
-												'Professor' => 'Professor',
-												'Dame' => 'Dame',
-												'Sir' => 'Sir',
-												'Other' => 'Other',
-											 ),
-		'#required' => TRUE,
+			'none' => t('- Please Select -'),
+			'Mr' => t('Mr'),
+			'Mrs' => t('Mrs'),
+			'Ms' => t('Ms'),
+			'Miss' => t('Miss'),
+			'Dr' => t('Dr'),
+			'Professor' => t('Professor'),
+			'Other' => t('Other'),
+		)
 	);
 	
-	$form['personal_detail']['salutation_other'] = array(
+	$form['personal_details']['salutation_other'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Other'),
 	);
 	
-	$form['personal_detail']['forenames'] = array(
+	$form['personal_details']['first_name'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Forename(s)'),
-		'#required' => TRUE,
+		'#title' => t('First Name'),
 	);
 	
-	$form['personal_detail']['surname'] = array(
+	$form['personal_details']['middle_name'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Surname'),
-		'#required' => TRUE,
+		'#title' => t('Middle Name(s)'),
 	);
 	
-	$form['personal_detail']['post_nominals'] = array(
+	$form['personal_details']['last_name'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Post Nominals'),
-		'#description' => t('Enter any post nominal letters that you have, for example BSc MSc')
+		'#title' => t('Last Name'),
 	);
 	
-	$form['personal_detail']['address1'] = array(
+	$form['personal_details']['address1'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Address 1'),
-		'#required' => TRUE,
+		'#title' => t('Address Line 1'),
 	);
 	
-	$form['personal_detail']['address2'] = array(
+	$form['personal_details']['address2'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Address 2'),
+		'#title' => t('Address Line 2'),
 	);
 	
-	$form['personal_detail']['town'] = array(
+	$form['personal_details']['town'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Town/City'),
+		'#title' => t('Town'),
 	);
 	
-	$form['personal_detail']['county'] = array(
+	$form['personal_details']['county'] = array(
 		'#type' => 'textfield',
 		'#title' => t('County'),
 	);
 	
-	$form['personal_detail']['country'] = array(
-		'#type' => 'select',
-		'#title' => t('Country'),
-		'#options' => _mha_permission_countries(),
-		'#required' => TRUE,
-	);
-	
-	$form['personal_detail']['postcode'] = array(
+	$form['personal_details']['postcode'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Postal Code'),
-		'#required' => TRUE,
 	);
 	
-	$form['personal_detail']['phone'] = array(
+	$form['personal_details']['country'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Telephone Number'),
-		'#required' => TRUE,
+		'#title' => t('Country'),
 	);
 	
-	$form['personal_detail']['mobile'] = array(
+	$form['personal_details']['phone'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Mobile Number'),
+		'#title' => t('Contact Telephone Number'),
 	);
 	
-	$form['personal_detail']['non_bris_email'] = array(
+	$form['personal_details']['email'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Email'),
-		'#required' => TRUE,
+		'#title' => t('Email Address'),
 	);
 	
-	$form['membership_detail'] = array(
+	$form['membership_details'] = array(
 		'#type' => 'fieldset',
-		'#title' => t('<h2>Membership Details</h2>'),
-		'#description' => t('This section of the form collects detailings relating to the grade of membership you are applying for.'),
+		'#title' => t('Membership Details'),
 	);
 	
-	$form['membership_detail']['grade'] = array(
+	$form['membership_details']['class'] = array(
 		'#type' => 'select',
 		'#title' => t('Membership Class'),
 		'#options' => array(
-												'Full' => 'Full',
-												'Affiliate' => 'Affiliate',
-												'Student' => 'Student',
-											 ),
-		'#required' => TRUE,
-		'#description' => t('You can only apply for \'Full\' or \'Affiliate\' membership of the Association online, more details about each grade will be displayed below once you make your selection.'),
+			'none' => t('- Please Select -'),
+			'full' => t('Full/Alumni'),
+			'student' => t('Student'),
+			'affiliate' => t('Affiliate'),
+		),
 	);
 	
-	$form['membership_detail']['grade_full'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('<h2>Application for Full Membership of the Association</h2>'),
-	);
-	
-	$form['membership_detail']['grade_full']['conditions'] = array(
-		'#type' => 'markup',
-		'#markup' => '<h3>Conditions of Full Membership</h3>
-		<div><strong>Rule 2(a)</strong></div>
-		<p>to keep all persons who are or have been resident in Manor Hall or who have had a formal attachment to Manor Hall for a period of at least one term in touch with one another and with Manor Hall;</p>
-		<div><strong>Rule 3(a)</strong></div>
-		<p>All persons referred to in Rule 2(a) shall be eligible to apply for full membership of the Association. Applications for membership of the Association shall be considered by the Executive Committee. The decision of the Executive Committee in relation to applications shall be final.</p>',
-	);
-	
-	$form['membership_detail']['grade_full']['years_in_hall'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Years in Hall'),
-		'#description' => t('Enter a comma seperated list of the years you were resident in Manor Hall, for example 1960, 1961, 1963.'),
-	);
-	
-	$form['membership_detail']['grade_affiliate'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('<h2>Application for Associate Membership of the Association</h2>'),
-	);
-	
-	$form['membership_detail']['grade_affiliate']['conditions'] = array(
-		'#type' => 'markup',
-		'#markup' => '<h3>Conditions of Associate Membership</h3>
-		<div><strong>Rule 2(a)</strong></div>
-		<p>to keep all persons who are or have been resident in Manor Hall or who have had a formal attachment to Manor Hall for a period of at least one term in touch with one another and with Manor Hall;</p>
-		<div><strong>Rule 3(a)</strong></div>
-		<p>All persons referred to in Rule 2(a) shall be eligible to apply for full membership of the Association. Applications for membership of the Association shall be considered by the Executive Committee. The decision of the Executive Committee in relation to applications shall be final.</p>
-		<div><strong>Rule 3(b)</strong></div>
-		<p>For the purpose of Rule 3(a) persons granted full membership of the Association shall pay such subscription as may be determined for the ensuing a three year period from the date of the accepted application, or application renewal. This subscription fee shall be determined by the Executive Committee and ratified at the Annual General Meeting.</p>
-		<div><strong>Rule 3(d)(ii)</strong></div>
-		<p>Associate Member - being a person not otherwise eligible for membership under Rule 3(a) for whom the Executive Committee deems there to be a special reason for having a formal attachment to the Association and Manor Hall. Upon payment of such subscription as may be determined by the Executive Committee and ratified at the Annual General Meeting in the same manner as provided in Rule 3(b). Such persons shall be entitled to receive all privileges of a full member, the exception being that they may not be appointed to the Executive Committee;</p>',
-	);
-	
-	$form['membership_detail']['grade_affiliate']['affiliate'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Affiliation to Manor Hall'),
-		'#description' => t('Associate members don\'t need to have been resident in Manor Hall but do need an association to the Hall in order to qualify for membership.'),
-	);
-	
-	$form['membership_detail']['student'] = array(
+	$form['membership_details']['current_student'] = array(
 		'#type' => 'select',
-		'#title' => t('Current Student'),
+		'#title' => t('Are you a current student of the University of Bristol?'),
 		'#options' => array(
-												'Yes' => 'Yes',
-												'No' => 'No',
-											 ),
-		'#required' => TRUE,
-		'#description' => t('Current students of the University of Bristol may be elligable for additional concessions.'),
+			'none' => t('- Please Select -'),
+			'yes' => t('Yes'),
+			'no' => t('No'),
+		),
 	);
 	
-	$form['membership_detail']['student_fields'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('<h2>University of Bristol Student Details</h2>'),
-	);
-	
-	$form['membership_detail']['student_fields']['course'] = array(
+	$form['membership_details']['years_in_hall'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Programme of Study'),
-		//'#description' => t('Enter the name of your course and the qualification you are working towards, or the !ucas for your course.', array('!ucas' => l('UCAS Course Code', 'http://search.ucas.com/cgi-bin/hsrun/search/search/StateId/EXVjXN30p7G-y5wuanpCD6kbCus0u-3P_W/HAHTpage/search.HsCodeSearch.submitForm?cmbInst=B78&txtJacsCode=&button1.x=40&button1.y=7', array('attributes' => array('target' => '_blank'))))),
+		'#title' => t('Years spent living in hall (e.g. 20007, 2008, 2009)'),
+		'#description' => t('Please separate each year with a comma'),
 	);
 	
-	$form['membership_detail']['expected_completion'] = array(
+	$form['membership_details']['affiliation'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Year of Completion or Expected Year of Completion'),
-	);
-	
-	$form['membership_detail']['share'] = array(
-		'#type' => 'checkbox',
-		'#title' => t('The Association may share my details with other members of the Association.'),
-		'#description' => t('Once registered you will be able to control what details other members will be able to see.'),
-		'#weight' => 100,
-	);
-	
-	$form['membership_detail']['contact'] = array(
-		'#type' => 'checkbox',
-		'#title' => t('The Association may contact me via telephone or email from time to time.'),
-		'#weight' => 100,
-	);
-	
-	$form['declaration'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('<h2>Declaration</h2>'),
-	);
-	
-	$form['declaration']['confirmation'] = array(
-		'#type' => 'checkbox',
-		'#title' => t('I wish to apply for the grade of membership stated above and understand that in doing so I am agreeing to be bound by the Constitution and Bye-Laws of the Association.'),
-	);
-	
-	$form['declaration']['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Continue to Confirmation'),
+		'#title' => t('Affiliation to Manor Hall (e.g. Former member of staff)'),
 	);
 
-	return $form;
+  // Because we have many fields with the same values, we have to set
+  // #tree to be able to access them.
+  $form['#tree'] = TRUE;
+  $form['bristol_degrees'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Bristol Degrees Held'),
+    
+    // Set up the wrapper so that AJAX will be able to replace the fieldset.
+    '#prefix' => '<div id="names-fieldset-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  // Build the fieldset with the proper number of names. We'll use
+  // $form_state['num_names'] to determine the number of textfields to build.
+  if (empty($form_state['num_names'])) {
+    $form_state['num_names'] = 1;
+  }
+  for ($i = 0; $i < $form_state['num_names']; $i++) {
+    $form['bristol_degrees']['name'][$i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Degree, Subject and Year Awarded (e.g. BSc Mathematics 2008)'),
+			'#description' => t('e.g. BSc Mathematics 2008'),
+    );
+  }
+  $form['bristol_degrees']['add_name'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add another degree'),
+    '#submit' => array('mha_permission_join_form_add_one'),
+    
+    // See the examples in ajax_example.module for more details on the
+    // properties of #ajax.
+    '#ajax' => array(
+      'callback' => 'mha_permission_join_form_callback',
+      'wrapper' => 'names-fieldset-wrapper',
+    ),
+  );
+  if ($form_state['num_names'] > 1) {
+    $form['bristol_degrees']['remove_name'] = array(
+      '#type' => 'submit',
+      '#value' => t('Remove one'),
+      '#submit' => array('mha_permission_join_form_remove_one'),
+      '#ajax' => array(
+        'callback' => 'mha_permission_join_form_callback',
+        'wrapper' => 'names-fieldset-wrapper',
+      ),
+    );
+  }
+	
+	$form['consent'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('Confirmation'),
+	);
+	
+	$form['consent']['promotion'] = array(
+		'#type' => 'textfield',
+		'#title' => t('If you have a promotional code please enter it here'),
+	);
+	
+	$form['consent']['declaration'] = array(
+		'#type' => 'checkbox',
+		'#title' => t('I agree to be adhere to the rules set down in the Constitution of the Association specific to the class of membership for which I have applied.'),
+	);
+	
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+	
+	//We need to add the JS so it gets included if form errors are set
+	$form['form_js']['#after_build'] = array('_mha_permission_add_js');
+  return $form;
 }
 
+function _mha_permission_add_js($element){
+	drupal_add_js(drupal_get_path('module', 'mha_permission') . '/mha_permission.js');
+	return $element;
+}
+
+function mha_permission_join_form_add_one($form, &$form_state) {
+  $form_state['num_names']++;
+  $form_state['rebuild'] = TRUE;
+}
+function mha_permission_join_form_callback($form, $form_state) {
+  return $form['bristol_degrees'];
+}
+function mha_permission_join_form_remove_one($form, &$form_state) {
+  if ($form_state['num_names'] > 1) {
+    $form_state['num_names']--;
+  }
+  $form_state['rebuild'] = TRUE;
+}
 /**
  * Validation handler for the membership form
  */
-function mha_permission_membership_apply_form_validate($form, &$form_state){
+function mha_permission_join_form_validate($form, &$form_state){
 	$values = $form_state['values'];
-	//print_r($values);
-	if($values['confirmation'] != 1){
-		form_set_error('declaration][confirmation', t('You must confirm you agree to rules set down in the Association\'s Constitution.'));
+	if($values['op'] == 'Submit'){
+		if($values['personal_details']['salutation'] == 'none'){
+			form_set_error('personal_details][salutation', t('You must select a salutation'));
+		}
+		
+		if($values['personal_details']['salutation'] == 'Other' && empty($values['personal_details']['salutation_other'])){
+			form_set_error('personal_details][salutation_other', t('You must specify a salutation'));
+		}
+		
+		//Check to make sure the email address is in a valid syntax
+		if(!valid_email_address($values['personal_details']['email'])){
+			form_set_error('personal_details][email', t('You must enter a valid email address'));
+		}
+		
+		switch($values['membership_details']['class']){
+			case 'none' :
+				form_set_error('membership_details][class', t('You must select the membership class you are applying for'));
+				break;
+			case 'student' :
+				if($values['membership_details']['current_student'] == 'none'){
+					form_set_error('membership_details][current_student', t('You must confirm you are a current student of the University of Bristol to apply for Student Membership'));
+				}
+				if($values['membership_details']['current_student'] == 'no'){
+					form_set_error('membership_details][current_student', t('Only current students of the University of Bristol can apply for Student Membership'));
+				}
+				break;
+			case 'full' :
+				if(empty($values['membership_details']['years_in_hall'])){
+					form_set_error('membership_details][years_in_hall', t('Please enter the years you lived in Manor Hall to apply for Full/Alumni Membership'));
+				}
+				break;
+			case 'affiliate' :
+				if(empty($values['membership_details']['affiliation'])){
+					form_set_error('membership_details][affiliation', t('Please enter your affiliation to Manor Hall to apply for Affiliate Membership'));
+				}
+				break;
+		}
 	}
 }
 
@@ -317,216 +738,28 @@ function mha_permission_membership_apply_form_validate($form, &$form_state){
  * Submit handler for the membership form
  */
 function mha_permission_membership_apply_form_submit($form, &$form_state){
-	global $user;
-	$values = $form_state['values'];
-	//We're going to do this by storing the data as a node
-	
-	//Prepare the node
-	$node = new stdClass();
-  $node->title = check_plain($values['forenames']) . ' ' . check_plain($values['surname']);
-  $node->type = "member";
-  node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
-  $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
-  $node->uid = 1;
-  $node->status = 0; //(1 or 0): published or not
-  $node->promote = 0; //(1 or 0): promoted to front page
-  $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
-	
-	//Start populating the node with data
-	if($values['salutation'] == 'Other'){
-		//$node = $values['salutation_other']; //This needs to be tidied
-	}
-	else{
-		$node->field_member_salutation[LANGUAGE_NONE][0]['value'] = $values['salutation'];
-	}
-		
-	$node->field_member_first_name[LANGUAGE_NONE][0]['value'] = check_plain($values['forenames']);
-	$node->field_member_last_name[LANGUAGE_NONE][0]['value'] = check_plain($values['surname']);
-	$node->field_member_post_nominals[LANGUAGE_NONE][0]['value'] = check_plain($values['post_nominals']);
-	$node->field_member_email[LANGUAGE_NONE][0]['value'] = check_plain($values['non_bris_email']);
-	$node->field_member_address_1[LANGUAGE_NONE][0]['value'] = check_plain($values['address1']);
-	$node->field_member_address_2[LANGUAGE_NONE][0]['value'] = check_plain($values['address2']);
-	$node->field_member_town_city[LANGUAGE_NONE][0]['value'] = check_plain($values['town']);
-	$node->field_member_county[LANGUAGE_NONE][0]['value'] = check_plain($values['county']);
-	$node->field_member_country[LANGUAGE_NONE][0]['value'] = check_plain($values['country']);
-	$node->field_member_postal_code[LANGUAGE_NONE][0]['value'] = check_plain(strtoupper($values['postcode']));
-	$node->field_member_telephone_number[LANGUAGE_NONE][0]['value'] = check_plain($values['phone']);
-	$node->field_member_mobile_number[LANGUAGE_NONE][0]['value'] = check_plain($values['mobile']);
-	$node->field_member_membership_class[LANGUAGE_NONE][0]['value'] = check_plain($values['grade']);
-	$node->field_member_years_in_hall[LANGUAGE_NONE][0]['value'] = check_plain($values['years_in_hall']);
-	$node->field_member_affiliation_to_hall[LANGUAGE_NONE][0]['value'] = check_plain($values['affiliate']);
-	$node->field_member_current_student[LANGUAGE_NONE][0]['value'] = check_plain($values['student']);
-	$node->field_member_programme_of_study[LANGUAGE_NONE][0]['value'] = check_plain($values['course']);
-	$node->field_member_expected_completed[LANGUAGE_NONE][0]['value'] = check_plain(strtotime($values['expected_completion']));
-	$node = node_submit($node); // Prepare node for saving
-  node_save($node);
-	
-	$_SESSION['membership']['nid'] = $node->nid;
-	drupal_goto('membership/apply', array('query' => array('confirmation' => 'true')));
+	//TODO: Build up the user object
+	//Redirect to the PayPal confirmation screen.
 }
 
+function mha_permission_membership_apply_payment($uid){
+	$output = '<p>To complete your application the neccessary subscription fees need to be received. You can pay securely online by clicking the buttonat the bottom of this page alternative for members who would prefer to pay via cheque please click this option and post</p>';
+	return $output;
+}
 
 /**
   * The page callback for the membership application
   */
 function mha_permission_membership_apply(){
-	if(isset($_GET['confirmation'])){
-		$node = node_load($_SESSION['membership']['nid']);
-		$current = field_get_items('node', $node, 'field_member_current_student');
-		//print_r($node);
-		if($current[0]['value'] == 'Yes'){
-			$cost = 15;
-		}
-		else{
-			$cost = variable_get('mha_permission_cost', '20');
-		}
-		drupal_set_title('Proceed to Payment');
-			
-			if($current[0]['value'] == 'Yes'){
-				$type = 'MHA Membership Subscription EXPIRES: End of Course, ID: ' . $node->nid;
-			}
-			else{
-				$type = 'MHA Membership Subscription EXPIRES: ' . date('Y-m-j', strtotime('+ 3 years')) . ' ID: ' . $node->nid;
-			}
-			
-			
-			$output .= '<h2>Membership Fees</h2><p>Current Membership Fees of the Manor Hall Association are &pound;' . variable_get('mha_permission_cost', '20') . ' for Full and Affiliate membership which will last for 3 years or &pound;15 for student membership which will last until the end of your course. To proceed to PayPal for payment of these dues click the button below.</p>';
-		
-			$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
-	 
-	 <!-- Identify your business so that you can collect the payments. --> 
-	 <input type="hidden" name="business" value="' . variable_get('mha_permission_email', 'test1_1347593805_biz@computerminds.co.uk') .'"> 
-	 
-	 <!-- Specify a Buy Now button. --> 
-	 <input type="hidden" name="cmd" value="_xclick"> 
-	 
-	 <!-- Specify details about the item that buyers will purchase. --> 
-	 <input type="hidden" name="item_name" value="' . $type .'">
-	 <input type="hidden" name="item_number" value="' . $user->uid .'">
-	 <input type="hidden" name="amount" value="' . $cost . '">  
-	 <input type="hidden" name="currency_code" value="GBP"> 
-	 <input type="hidden" name="return" value="' . variable_get('mha_permission_return', 'http://www.manorhallassociation.co.uk') .'">
-	 <input type="hidden" name="notify_url" value="' . variable_get('mha_permission_ipn', 'http://www.manorhallassociation.co.uk/membership/ipn') .'"> 
-	 
-	 <!-- Display the payment button. --> 
-	 <input type="submit" name="submit" border="0" 
-	 value="Proceed to Payment"> 
-	 <img alt="" border="0" width="1" height="1" 
-	 src="https://www.paypal.com/en_US/i/scr/pixel.gif" > 
-	</form>';
-	
-			return $output;
-	}
-	else{
-		drupal_add_js(drupal_get_path('module', 'mha_permission') . '/mha_permission.js');		
-		$output = drupal_render(drupal_get_form('mha_permission_membership_apply_form'));
-		
+		$output = drupal_render(drupal_get_form('mha_permission_join_form'));
 		return $output;
-	}
-  
-}
-
-/**
-  * Helper function to check that we have all he details we need to process the membership
-  */
-function _mha_permission_check($user){
-  //Load the user entity
-  $entity = entity_load('user', array($user->uid));
-
-  foreach($entity AS $record){
-	if(empty($record->field_first_name['und'][0]['safe_value']) ||
-       empty($record->field_last_name['und'][0]['safe_value']) ||
-       empty($record->field_address_1['und'][0]['safe_value']) ||
-       empty($record->field_town['und'][0]['safe_value']) ||
-       empty($record->field_county['und'][0]['safe_value']) ||
-       empty($record->field_post_code['und'][0]['safe_value'])){
-       	//The user profile hasn't been completed
-		return FALSE;
-	}
-	else{
-		if(empty($record->field_years_in_hall['und'][0]['safe_value'])){
-		  //The user profile has been completed but no years in hall were entered
-		  drupal_set_message(t('Your profile doesn\'t include any years in hall, you can continue with your application but will only be able to apply for affiliate membership. Click !here to edit your account.', array('!here' => l('here', 'user/' . $user->uid . '/edit'))), 'warning');
-		}
-		return TRUE;
-	}
-  }	
 }
 
 /**
   * A function to consume the IPN
   */
 function mha_permission_ipn(){
-  //TODO: Need to run this through the PayPa sandbox
-  //TODO: Make sure the user gets granted the Affiliate Member Role.
-	  //reading raw POST data from input stream. reading pot data from $_POST may cause serialization issues since POST data may contain arrays
-  $raw_post_data = file_get_contents('php://input');
-  $raw_post_array = explode('&', $raw_post_data);
-  $myPost = array();
-  foreach ($raw_post_array as $keyval)
-  {
-      $keyval = explode ('=', $keyval);
-      if (count($keyval) == 2)
-         $myPost[$keyval[0]] = urldecode($keyval[1]);
-  }
-  // read the post from PayPal system and add 'cmd'
-  $req = 'cmd=_notify-validate';
-  if(function_exists('get_magic_quotes_gpc'))
-  {
-       $get_magic_quotes_exits = true;
-  } 
-  foreach ($myPost as $key => $value)
-  {        
-       if($get_magic_quotes_exits == true && get_magic_quotes_gpc() == 1)
-       { 
-            $value = urlencode(stripslashes($value)); 
-       }
-       else
-       {
-            $value = urlencode($value);
-       }
-       $req .= "&$key=$value";
-  }
- 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://www.sandbox.paypal.com/cgi-bin/webscr');
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Host: www.sandbox.paypal.com'));
-// In wamp like environment where the root authority certificate doesn't comes in the bundle, you need
-// to download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path 
-// of the certificate as shown below.
-// curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-$res = curl_exec($ch);
-curl_close($ch);
- 
-// assign posted variables to local variables
-$item_name = $_POST['item_name'];
-$item_number = $_POST['item_number'];
-$payment_status = $_POST['payment_status'];
-$payment_amount = $_POST['mc_gross'];
-$payment_currency = $_POST['mc_currency'];
-$txn_id = $_POST['txn_id'];
-$receiver_email = $_POST['receiver_email'];
-$payer_email = $_POST['payer_email'];
- 
- 
-if (strcmp ($res, "VERIFIED") == 0) {
-	// check the payment_status is Completed
-	// check that txn_id has not been previously processed
-	// check that receiver_email is your Primary PayPal email
-	// check that payment_amount/payment_currency are correct
-	// process payment
-}
-else if (strcmp ($res, "INVALID") == 0) {
-	// log for manual investigation
-}
-
-	watchdog('PayPal', print_r($_POST, true));
-	watchdog('PayPal', print_r('Running', true));
+	watchdog('IPN', print_r($_POST, true));
 }
 
 /**
