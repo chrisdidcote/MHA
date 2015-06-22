@@ -253,7 +253,7 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.0"
+projects[xmlsitemap][version] = "2.2"
 
 ; Libraries
 ; ==============================================================================
