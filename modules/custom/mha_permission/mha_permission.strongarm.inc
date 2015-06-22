@@ -13,6 +13,84 @@ function mha_permission_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'comment_anonymous_membership_log_entry';
+  $strongarm->value = 0;
+  $export['comment_anonymous_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_default_mode_membership_log_entry';
+  $strongarm->value = 1;
+  $export['comment_default_mode_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_default_per_page_membership_log_entry';
+  $strongarm->value = '50';
+  $export['comment_default_per_page_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_form_location_membership_log_entry';
+  $strongarm->value = 1;
+  $export['comment_form_location_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_membership_log_entry';
+  $strongarm->value = '1';
+  $export['comment_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_preview_membership_log_entry';
+  $strongarm->value = '1';
+  $export['comment_preview_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_subject_field_membership_log_entry';
+  $strongarm->value = 1;
+  $export['comment_subject_field_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_node__membership_log_entry';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(
+        'metatags' => array(
+          'weight' => '40',
+        ),
+        'title' => array(
+          'weight' => '-5',
+        ),
+        'path' => array(
+          'weight' => '30',
+        ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
+        'xmlsitemap' => array(
+          'weight' => '30',
+        ),
+      ),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_node__membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'mailchimp_api_key';
   $strongarm->value = '5b6827b67bcfdcdb934e0894f0fd01e2-us3';
   $export['mailchimp_api_key'] = $strongarm;
@@ -145,6 +223,22 @@ function mha_permission_strongarm() {
   $strongarm->name = 'mandrill_url_strip_qs';
   $strongarm->value = 0;
   $export['mandrill_url_strip_qs'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_options_membership_log_entry';
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
+  $export['menu_options_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_parent_membership_log_entry';
+  $strongarm->value = 'main-menu:0';
+  $export['menu_parent_membership_log_entry'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -285,6 +379,27 @@ Kieran Freear
   $strongarm->name = 'mha_permission_return';
   $strongarm->value = 'www.manorhallassociation.co.uk';
   $export['mha_permission_return'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_options_membership_log_entry';
+  $strongarm->value = array();
+  $export['node_options_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_preview_membership_log_entry';
+  $strongarm->value = '0';
+  $export['node_preview_membership_log_entry'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_submitted_membership_log_entry';
+  $strongarm->value = 1;
+  $export['node_submitted_membership_log_entry'] = $strongarm;
 
   return $export;
 }
