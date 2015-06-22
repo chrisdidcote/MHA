@@ -105,7 +105,7 @@ projects[jquery_colorpicker][subdir] = "contrib"
 projects[jquery_colorpicker][version] = "1.0-beta2"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.5"
+projects[jquery_update][version] = "2.6"
 projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/jquery_update-support-optionally-2156881-46.patch"
 
 projects[libraries][subdir] = "contrib"
