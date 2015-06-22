@@ -10,7 +10,7 @@
 function mha_permission_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'user-user-field_address_1'
+  // Exported field: 'user-user-field_address_1'.
   $fields['user-user-field_address_1'] = array(
     'field_config' => array(
       'active' => '1',
@@ -31,6 +31,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -45,10 +46,10 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'text_plain',
           'weight' => '3',
         ),
       ),
@@ -72,7 +73,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_address_2'
+  // Exported field: 'user-user-field_address_2'.
   $fields['user-user-field_address_2'] = array(
     'field_config' => array(
       'active' => '1',
@@ -93,6 +94,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -107,10 +109,10 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'text_plain',
           'weight' => '4',
         ),
       ),
@@ -134,7 +136,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_admission_date'
+  // Exported field: 'user-user-field_admission_date'.
   $fields['user-user-field_admission_date'] = array(
     'field_config' => array(
       'active' => '1',
@@ -144,6 +146,7 @@ function mha_permission_field_default_fields() {
       'field_name' => 'field_admission_date',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'cache_count' => '4',
@@ -170,16 +173,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'date',
-          'settings' => array(
-            'format_type' => 'long',
-            'fromto' => 'both',
-            'multiple_from' => '',
-            'multiple_number' => '',
-            'multiple_to' => '',
-          ),
-          'type' => 'date_default',
-          'weight' => 20,
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '20',
         ),
       ),
       'entity_type' => 'user',
@@ -210,7 +206,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_affiliation_to_hall'
+  // Exported field: 'user-user-field_affiliation_to_hall'.
   $fields['user-user-field_affiliation_to_hall'] = array(
     'field_config' => array(
       'active' => '1',
@@ -231,6 +227,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -246,10 +243,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 24,
+          'type' => 'hidden',
+          'weight' => '24',
         ),
       ),
       'entity_type' => 'user',
@@ -272,7 +268,70 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_biography'
+  // Exported field: 'user-user-field_approved'.
+  $fields['user-user-field_approved'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_approved',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'No',
+          1 => 'Yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 29,
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_approved',
+      'label' => 'Approved',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 0,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '41',
+      ),
+    ),
+  );
+
+  // Exported field: 'user-user-field_biography'.
   $fields['user-user-field_biography'] = array(
     'field_config' => array(
       'active' => '1',
@@ -293,6 +352,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -305,11 +365,11 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 13,
+          'weight' => '13',
         ),
       ),
       'entity_type' => 'user',
@@ -332,11 +392,11 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_bristol_degrees_held'
+  // Exported field: 'user-user-field_bristol_degrees_held'.
   $fields['user-user-field_bristol_degrees_held'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_bristol_degrees_held',
@@ -353,6 +413,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -368,10 +429,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 17,
+          'type' => 'hidden',
+          'weight' => '17',
         ),
       ),
       'entity_type' => 'user',
@@ -394,7 +454,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_committee_position'
+  // Exported field: 'user-user-field_committee_position'.
   $fields['user-user-field_committee_position'] = array(
     'field_config' => array(
       'active' => '1',
@@ -415,6 +475,7 @@ function mha_permission_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -457,63 +518,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_contact_permission'
-  $fields['user-user-field_contact_permission'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_contact_permission',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'Yes' => 'Yes',
-          'No' => 'No',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'user',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 22,
-        ),
-      ),
-      'entity_type' => 'user',
-      'field_name' => 'field_contact_permission',
-      'label' => 'Contact Permission',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => 1,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '27',
-      ),
-    ),
-  );
-
-  // Exported field: 'user-user-field_country'
+  // Exported field: 'user-user-field_country'.
   $fields['user-user-field_country'] = array(
     'field_config' => array(
       'active' => '1',
@@ -527,6 +532,7 @@ function mha_permission_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -795,7 +801,7 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
@@ -819,7 +825,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_county'
+  // Exported field: 'user-user-field_county'.
   $fields['user-user-field_county'] = array(
     'field_config' => array(
       'active' => '1',
@@ -840,6 +846,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -854,7 +861,7 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -881,7 +888,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_current_course'
+  // Exported field: 'user-user-field_current_course'.
   $fields['user-user-field_current_course'] = array(
     'field_config' => array(
       'active' => '1',
@@ -902,6 +909,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -917,10 +925,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 26,
+          'type' => 'hidden',
+          'weight' => '26',
         ),
       ),
       'entity_type' => 'user',
@@ -943,7 +950,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_current_student'
+  // Exported field: 'user-user-field_current_student'.
   $fields['user-user-field_current_student'] = array(
     'field_config' => array(
       'active' => '1',
@@ -957,11 +964,14 @@ function mha_permission_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          0 => 'Yes',
-          1 => 'No',
+          1 => 'Yes',
+          0 => 'No',
+          'yes' => 'Yes',
+          'no' => 'No',
         ),
         'allowed_values_function' => '',
       ),
@@ -976,10 +986,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 25,
+          'type' => 'hidden',
+          'weight' => '25',
         ),
       ),
       'entity_type' => 'user',
@@ -999,7 +1008,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_date_of_birth'
+  // Exported field: 'user-user-field_date_of_birth'.
   $fields['user-user-field_date_of_birth'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1009,6 +1018,7 @@ function mha_permission_field_default_fields() {
       'field_name' => 'field_date_of_birth',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'cache_count' => '4',
@@ -1026,7 +1036,7 @@ function mha_permission_field_default_fields() {
         'tz_handling' => 'none',
       ),
       'translatable' => '0',
-      'type' => 'date',
+      'type' => 'datestamp',
     ),
     'field_instance' => array(
       'bundle' => 'user',
@@ -1044,7 +1054,7 @@ function mha_permission_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => '1',
+          'weight' => 35,
         ),
       ),
       'entity_type' => 'user',
@@ -1069,13 +1079,13 @@ function mha_permission_field_default_fields() {
           'text_parts' => array(),
           'year_range' => '-3:+3',
         ),
-        'type' => 'date_popup',
-        'weight' => '8',
+        'type' => 'date_select',
+        'weight' => '47',
       ),
     ),
   );
 
-  // Exported field: 'user-user-field_donatons'
+  // Exported field: 'user-user-field_donatons'.
   $fields['user-user-field_donatons'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1089,6 +1099,7 @@ function mha_permission_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(),
@@ -1105,10 +1116,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 19,
+          'type' => 'hidden',
+          'weight' => '19',
         ),
       ),
       'entity_type' => 'user',
@@ -1128,7 +1138,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_expected_date_of_completio'
+  // Exported field: 'user-user-field_expected_date_of_completio'.
   $fields['user-user-field_expected_date_of_completio'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1138,6 +1148,7 @@ function mha_permission_field_default_fields() {
       'field_name' => 'field_expected_date_of_completio',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'cache_count' => '4',
@@ -1146,6 +1157,76 @@ function mha_permission_field_default_fields() {
           'day' => 'day',
           'hour' => 'hour',
           'minute' => 'minute',
+          'month' => 'month',
+          'second' => 0,
+          'year' => 'year',
+        ),
+        'timezone_db' => 'UTC',
+        'todate' => '',
+        'tz_handling' => 'site',
+      ),
+      'translatable' => '0',
+      'type' => 'datestamp',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '27',
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_expected_date_of_completio',
+      'label' => 'Expected Date of Completion',
+      'required' => 0,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'increment' => 1,
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_text',
+        'weight' => '32',
+      ),
+    ),
+  );
+
+  // Exported field: 'user-user-field_expiry_'.
+  $fields['user-user-field_expiry_'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_expiry_',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'granularity' => array(
+          'day' => 'day',
+          'hour' => 'hour',
+          'minute' => 0,
           'month' => 'month',
           'second' => 0,
           'year' => 'year',
@@ -1173,12 +1254,12 @@ function mha_permission_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => 27,
+          'weight' => 31,
         ),
       ),
       'entity_type' => 'user',
-      'field_name' => 'field_expected_date_of_completio',
-      'label' => 'Expected Date of Completion',
+      'field_name' => 'field_expiry_',
+      'label' => 'Expiry ',
       'required' => 0,
       'settings' => array(
         'default_value' => 'now',
@@ -1191,20 +1272,20 @@ function mha_permission_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
-          'increment' => 15,
+          'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
           'label_position' => 'above',
           'text_parts' => array(),
           'year_range' => '-3:+3',
         ),
-        'type' => 'date_text',
-        'weight' => '32',
+        'type' => 'date_select',
+        'weight' => '43',
       ),
     ),
   );
 
-  // Exported field: 'user-user-field_first_name'
+  // Exported field: 'user-user-field_first_name'.
   $fields['user-user-field_first_name'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1225,6 +1306,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1240,9 +1322,8 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '0',
         ),
       ),
@@ -1266,7 +1347,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_gender'
+  // Exported field: 'user-user-field_gender'.
   $fields['user-user-field_gender'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1280,6 +1361,7 @@ function mha_permission_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -1298,11 +1380,10 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'list',
+          'label' => 'hidden',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 4,
+          'type' => 'hidden',
+          'weight' => '4',
         ),
       ),
       'entity_type' => 'user',
@@ -1322,7 +1403,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_last_name'
+  // Exported field: 'user-user-field_last_name'.
   $fields['user-user-field_last_name'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1343,6 +1424,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1358,9 +1440,8 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '1',
         ),
       ),
@@ -1384,7 +1465,93 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_membership_class'
+  // Exported field: 'user-user-field_mailchimp'.
+  $fields['user-user-field_mailchimp'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_mailchimp',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'mailchimp_lists',
+      'settings' => array(
+        'double_opt_in' => 0,
+        'mc_list_id' => '407b6529b4',
+        'send_welcome' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'mailchimp_lists_subscription',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => array(
+        0 => array(
+          'subscribe' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'mailchimp_lists',
+          'settings' => array(
+            'interest_groups' => array(),
+            'show_interest_groups' => FALSE,
+          ),
+          'type' => 'mailchimp_lists_subscribe_default',
+          'weight' => 30,
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_mailchimp',
+      'label' => 'Mailchimp',
+      'required' => 0,
+      'settings' => array(
+        'interest_groups_title' => 'Interest Groups',
+        'mergefields' => array(
+          'ADDRES2' => '',
+          'ADDRESS1' => '',
+          'ADMISIOND' => '',
+          'AFFIL' => '',
+          'COURSE' => '',
+          'EMAIL' => 'mail',
+          'FNAME' => 'field_first_name',
+          'GYEAR' => '',
+          'LNAME' => 'field_last_name',
+          'MCLASS' => '',
+          'MNAME' => '',
+          'MOBILE' => '',
+          'PHONE' => '',
+          'POSITIONS' => '',
+          'POSTCODE' => '',
+          'POSTNOM' => '',
+          'TITLE' => '',
+          'TOWNCITY' => '',
+          'YEARSHALL' => '',
+        ),
+        'options' => array(
+          'interest_groups' => array(),
+          'subscribe' => FALSE,
+        ),
+        'show_interest_groups' => 0,
+        'unsubscribe_on_delete' => 1,
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'mailchimp_lists',
+        'settings' => array(),
+        'type' => 'mailchimp_lists_select',
+        'weight' => '42',
+      ),
+    ),
+  );
+
+  // Exported field: 'user-user-field_membership_class'.
   $fields['user-user-field_membership_class'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1398,12 +1565,20 @@ function mha_permission_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
           'Full' => 'Full',
           'Affiliate' => 'Affiliate',
           'Honorary' => 'Honorary',
+          'Student' => 'Student',
+          'Resident' => 'Resident',
+          'full' => 'Full',
+          'affiliate' => 'Affiliate',
+          'honorary' => 'Honorary',
+          'student' => 'Student',
+          'resident' => 'Resident',
         ),
         'allowed_values_function' => '',
       ),
@@ -1418,10 +1593,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 12,
+          'type' => 'hidden',
+          'weight' => '12',
         ),
       ),
       'entity_type' => 'user',
@@ -1441,7 +1615,70 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_mobile_number'
+  // Exported field: 'user-user-field_middle_name'.
+  $fields['user-user-field_middle_name'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_middle_name',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 34,
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_middle_name',
+      'label' => 'Middle Name',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '46',
+      ),
+    ),
+  );
+
+  // Exported field: 'user-user-field_mobile_number'.
   $fields['user-user-field_mobile_number'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1462,6 +1699,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1477,10 +1715,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 23,
+          'type' => 'hidden',
+          'weight' => '23',
         ),
       ),
       'entity_type' => 'user',
@@ -1503,7 +1740,70 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_phone_number'
+  // Exported field: 'user-user-field_paypal_transactions'.
+  $fields['user-user-field_paypal_transactions'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_paypal_transactions',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 32,
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_paypal_transactions',
+      'label' => 'PayPal Transactions ',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '44',
+      ),
+    ),
+  );
+
+  // Exported field: 'user-user-field_phone_number'.
   $fields['user-user-field_phone_number'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1524,6 +1824,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '15',
@@ -1539,10 +1840,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 18,
+          'type' => 'hidden',
+          'weight' => '18',
         ),
       ),
       'entity_type' => 'user',
@@ -1565,7 +1865,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_positions_in_hall'
+  // Exported field: 'user-user-field_positions_in_hall'.
   $fields['user-user-field_positions_in_hall'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1586,6 +1886,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1601,10 +1902,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 11,
+          'type' => 'hidden',
+          'weight' => '11',
         ),
       ),
       'entity_type' => 'user',
@@ -1627,7 +1927,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_post_code'
+  // Exported field: 'user-user-field_post_code'.
   $fields['user-user-field_post_code'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1648,6 +1948,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1662,7 +1963,7 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -1689,7 +1990,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_post_nominals'
+  // Exported field: 'user-user-field_post_nominals'.
   $fields['user-user-field_post_nominals'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1710,6 +2011,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1725,10 +2027,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 16,
+          'type' => 'hidden',
+          'weight' => '16',
         ),
       ),
       'entity_type' => 'user',
@@ -1751,7 +2052,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_profile_picture'
+  // Exported field: 'user-user-field_profile_picture'.
   $fields['user-user-field_profile_picture'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1772,6 +2073,7 @@ function mha_permission_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => '22',
@@ -1786,14 +2088,14 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => '',
+            'image_style' => 'medium',
           ),
           'type' => 'image',
-          'weight' => 14,
+          'weight' => '14',
         ),
       ),
       'entity_type' => 'user',
@@ -1834,7 +2136,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_salutation'
+  // Exported field: 'user-user-field_salutation'.
   $fields['user-user-field_salutation'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1855,6 +2157,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1870,10 +2173,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 15,
+          'type' => 'hidden',
+          'weight' => '15',
         ),
       ),
       'entity_type' => 'user',
@@ -1896,63 +2198,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_share_details'
-  $fields['user-user-field_share_details'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_share_details',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'Yes' => 'Yes',
-          'No' => 'No',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'user',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 21,
-        ),
-      ),
-      'entity_type' => 'user',
-      'field_name' => 'field_share_details',
-      'label' => 'Share details',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => 1,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '26',
-      ),
-    ),
-  );
-
-  // Exported field: 'user-user-field_student_number'
+  // Exported field: 'user-user-field_student_number'.
   $fields['user-user-field_student_number'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1973,6 +2219,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1988,10 +2235,9 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 10,
+          'type' => 'hidden',
+          'weight' => '10',
         ),
       ),
       'entity_type' => 'user',
@@ -2014,7 +2260,7 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_town'
+  // Exported field: 'user-user-field_town'.
   $fields['user-user-field_town'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2035,6 +2281,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2049,7 +2296,7 @@ function mha_permission_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -2076,7 +2323,69 @@ function mha_permission_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_years_in_hall'
+  // Exported field: 'user-user-field_user_status'.
+  $fields['user-user-field_user_status'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_user_status',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'pending' => 'Pending',
+          'active' => 'Active',
+          'expired' => 'Expired',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'default_value' => array(
+        0 => array(
+          'value' => 'pending',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 33,
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_user_status',
+      'label' => 'User Status',
+      'required' => 1,
+      'settings' => array(
+        'user_register_form' => 1,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '45',
+      ),
+    ),
+  );
+
+  // Exported field: 'user-user-field_years_in_hall'.
   $fields['user-user-field_years_in_hall'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2097,6 +2406,7 @@ function mha_permission_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2112,9 +2422,8 @@ function mha_permission_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '2',
         ),
       ),
@@ -2138,16 +2447,86 @@ function mha_permission_field_default_fields() {
     ),
   );
 
+  // Exported field: 'user-user-field_years_test'.
+  $fields['user-user-field_years_test'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_years_test',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'date',
+      'settings' => array(
+        'cache_count' => '4',
+        'cache_enabled' => 0,
+        'granularity' => array(
+          'day' => 0,
+          'hour' => 0,
+          'minute' => 0,
+          'month' => 0,
+          'second' => 0,
+          'year' => 'year',
+        ),
+        'timezone_db' => '',
+        'todate' => '',
+        'tz_handling' => 'none',
+      ),
+      'translatable' => '0',
+      'type' => 'datetime',
+    ),
+    'field_instance' => array(
+      'bundle' => 'user',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '28',
+        ),
+      ),
+      'entity_type' => 'user',
+      'field_name' => 'field_years_test',
+      'label' => 'Years (Test',
+      'required' => 0,
+      'settings' => array(
+        'default_value' => 'now',
+        'default_value2' => 'same',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'increment' => '15',
+          'input_format' => 'm/d/Y - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'text_parts' => array(),
+          'year_range' => '1933:+0',
+        ),
+        'type' => 'date_select',
+        'weight' => '33',
+      ),
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Address 1');
   t('Address 2');
   t('Admission Date');
   t('Affiliation to Hall');
+  t('Approved');
   t('Biography');
   t('Bristol Degrees Held');
   t('Committee Position');
-  t('Contact Permission');
   t('Country');
   t('County');
   t('Current Course');
@@ -2156,20 +2535,25 @@ function mha_permission_field_default_fields() {
   t('Donations');
   t('Enter a comma separated list of the years you were resident in Manor Hall, if weren\'t a Manor Hall resident and are applying for affiliate membership then you can leave this field blank.');
   t('Expected Date of Completion');
+  t('Expiry ');
   t('First Name');
   t('Gender');
   t('Last Name');
+  t('Mailchimp');
   t('Membership Class');
+  t('Middle Name');
   t('Mobile Number');
+  t('PayPal Transactions ');
   t('Phone Number');
   t('Positions in Hall');
   t('Post Code');
   t('Post Nominals');
   t('Profile Picture');
   t('Salutation');
-  t('Share details');
   t('Student Number');
   t('Town');
+  t('User Status');
+  t('Years (Test');
   t('Years in Hall');
 
   return $fields;

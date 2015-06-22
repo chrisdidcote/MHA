@@ -870,25 +870,6 @@ function mha_permission_user_default_permissions() {
     'module' => 'media',
   );
 
-  // Exported permission: import own tweets.
-  $permissions['import own tweets'] = array(
-    'name' => 'import own tweets',
-    'roles' => array(
-      0 => 'Administrator',
-    ),
-    'module' => 'twitter',
-  );
-
-  // Exported permission: make twitter accounts global.
-  $permissions['make twitter accounts global'] = array(
-    'name' => 'make twitter accounts global',
-    'roles' => array(
-      0 => 'Administrator',
-      1 => 'Officer',
-    ),
-    'module' => 'twitter',
-  );
-
   // Exported permission: manage features.
   $permissions['manage features'] = array(
     'name' => 'manage features',
@@ -1038,16 +1019,6 @@ function mha_permission_user_default_permissions() {
       0 => 'Administrator',
     ),
     'module' => 'shortcut',
-  );
-
-  // Exported permission: use global twitter account.
-  $permissions['use global twitter account'] = array(
-    'name' => 'use global twitter account',
-    'roles' => array(
-      0 => 'Administrator',
-      1 => 'Officer',
-    ),
-    'module' => 'twitter',
   );
 
   // Exported permission: use page manager.
