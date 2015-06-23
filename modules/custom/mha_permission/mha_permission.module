@@ -1300,5 +1300,4 @@ function mha_permission_form_alter(&$form, &$form_state, $form_id){
 	unset($form['bristol_degrees']['captcha']);
 	$form['captcha'] = $captcha;
 	$form['captcha']['#weight'] = 10;
-	print_r($form);
 }
