@@ -721,10 +721,10 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 		'#title' => t('Confirmation'),
 	);
 	
-	$form['consent']['promotion'] = array(
-		'#type' => 'textfield',
-		'#title' => t('If you have a promotional code please enter it here'),
-	);
+	//$form['consent']['promotion'] = array(
+	//	'#type' => 'textfield',
+	//	'#title' => t('If you have a promotional code please enter it here'),
+	//);
 	
 	$form['consent']['declaration'] = array(
 		'#type' => 'checkbox',
@@ -732,14 +732,15 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	);
 	
 	
-	$form['bot'] = array(
-		'#type' => 'markup',
-		'#markup' => '<div class="g-recaptcha" data-sitekey="6LcQrQgTAAAAAF5Iue8hB2HzYcFJiTxVXPb-oUo9"></div>',
-	);
+	//$form['bot'] = array(
+	//	'#type' => 'markup',
+	//	'#markup' => '<div class="g-recaptcha" data-sitekey="6LcQrQgTAAAAAF5Iue8hB2HzYcFJiTxVXPb-oUo9"></div>',
+	//);
 	
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
+		'#weight' => 11,
   );
 	
 	//We need to add the JS so it gets included if form errors are set
@@ -1291,3 +1292,13 @@ function _mha_permission_countries(){
 	);
 }
 
+/**
+ * Implements hook_form_alter()
+ */
+function mha_permission_form_alter(&$form, &$form_state, $form_id){
+	$captcha = $form['bristol_degrees']['captcha'];
+	unset($form['bristol_degrees']['captcha']);
+	$form['captcha'] = $captcha;
+	$form['captcha']['#weight'] = 10;
+	print_r($form);
+}
