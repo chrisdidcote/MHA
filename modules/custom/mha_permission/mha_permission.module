@@ -33,9 +33,16 @@ function mha_permission_menu(){
     'type' => MENU_CALLBACK,
   );
 	
-	 $items['membership/ipn'] = array(
+	$items['membership/ipn'] = array(
     'title' => 'Apply for Membership', 
     'page callback' => 'mha_permission_ipn', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+	
+	$items['user/renewal'] = array(
+    'title' => 'Renew or Top-up Membership', 
+    'page callback' => 'mha_permission_user_renewal', 
     'access arguments' => array('access content'), 
     'type' => MENU_CALLBACK,
   );
@@ -93,8 +100,108 @@ function mha_permission_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
+	$items['membership/renew/%'] = array(
+    'title' => 'Membership Renewal', 
+    'page callback' => 'mha_permission_membership_renew_admin',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
   return $items;
 }
+
+function mha_permission_user_renewal(){
+	global $user;
+	$account = user_load($user->uid);
+	$item = 'Renewal/Top-up of Membership';
+	$amount = 20.00;
+	$return = 'http://www.manorhallassociation.co.uk';
+	
+	//print_r($account);
+	$output = "<p>You can renew or top-up your membership at any time, each additional period of 3 years will automatically be added to your current membership so you're not at any disadvantage by renewing earlier than required.</p>";
+	$output .= '<p>The current reneqal fee is £20 for 3 years. To proceed to PayPal for secure online payment by credit/debit card please click the button below</p>';
+	$output .= '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+
+<!-- Identify your business so that you can collect the payments. -->
+<input type="hidden" name="business" value="chris.didcote-facilitator@me.com">
+
+<!-- Specify a Buy Now button. -->
+<input type="hidden" name="cmd" value="_xclick">
+
+<!-- Specify details about the item that buyers will purchase. -->
+<input type="hidden" name="item_name" value="' . $item . '">
+<input type="hidden" name="amount" value="' . $amount . '">
+<input type="hidden" name="currency_code" value="GBP">
+
+<input type="hidden" name="notify_url" value="http://slide.manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="custom" value="' . $account->uid . '">
+<input type="hidden" name="return" value="' . $return . '">
+
+<!-- Display the payment button. -->
+<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Proceed to Payment</button>
+
+</form>';
+	return $output;
+}
+
+function mha_permission_user_renewal_form($form, &$form_state){
+	
+}
+
+function mha_permission_membership_renew_admin($uid = null){
+	$account = user_load($uid);
+	$output = '<p>You are about to manually renew the following member, please confirm payment has been received that the membership class is still correct.<p>';
+	$output .= '<p><strong>Member: </strong>' . $account->realname . '</p>';
+		
+	$output .= render(drupal_get_form('mha_permission_membership_renew_admin_form', $account));
+	return $output;
+}
+
+function mha_permission_membership_renew_admin_form($form, &$form_state, $account){
+	$form['uid'] = array(
+		'#type' => 'value',
+		'#value' => $account->uid,
+	);
+	
+	$form['membership_class'] = array(
+		'#type' => 'select',
+		'#title' => t('Membership Class'),
+		'#options' => array(
+			'full' => t('Full/Alumni'),
+			'student' => t('Student'),
+			'affiliate' => t('Affiliate'),
+		),
+		'#default_value' => $account->field_membership_class[LANGUAGE_NONE][0]['value'],
+	);
+	
+	$form['duration'] = array(
+		'#type' => 'textfield',
+		'#title' => t("How many years do you want to add to this member's membership"),
+		'#default_value' => '3',
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Manually Renew Membership',
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_renew_admin_form_submit($form, &$form_state){
+	$values = $form_state['values'];
+	$account = user_load($values['uid']);
+	$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+	$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+' . $values['duration'] . ' years', $account->field_expiry_[LANGUAGE_NONE][0]['value']);
+	mha_permission_log_entry(t('!duration years membership manually added: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+	user_save($account);
+	$params['account'] = $account;
+	$params['duration'] = $values['duration'];
+	drupal_mail('mha_permission', 'renew_add', $account->mail, user_preferred_language($account), $params);
+	$form_state['redirect'] = 'membership/home';
+}
+
 function mha_permission_membership_mailing(){
 	$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
 	$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
@@ -329,7 +436,7 @@ Kieran Freear
 <strong>Membership Secretary</strong>'),
   );
 	
-		$form['application']['mha_permission_payment_application'] = array(
+	$form['application']['mha_permission_payment_application'] = array(
   	'#type' => 'textarea',
   	'#title' => t('Payment Confirmation Email'),
   	'#default_value' => variable_get('mha_permission_payment_application', 'Dear !realname,
@@ -341,6 +448,18 @@ Kieran Freear
 <strong>Membership Secretary</strong>'),
   );
 	
+	$form['application']['mha_permission_paymentr_renew_add'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Renewal Confirmation Email'),
+  	'#default_value' => variable_get('mha_permission_paymentr_renew_add', 'Dear !title !surname,
+																					
+!duration years and will expire on !date
+
+Best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+  );
 	
 
   return system_settings_form($form);
@@ -357,10 +476,15 @@ function mha_permission_cron(){
 	$results = $query->execute();
 	$users = user_load_multiple(array_keys($results['user']));
 	foreach($users as $user) {
+		if($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] < strtotime('-2 weeks') ||
+			 !isset($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'])){
+			$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'renew';
+			$user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] = time();
+			user_save($user);
 			$params['account'] = $user;
 			drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
 			mha_permission_log_entry(t('Renewal Email Sent: !name', array('!name' => $user->realname)), $user->uid);
-			//TODO: Add a renewal reminder flag to stop us spamming the user
+		}
 	}
 }
 /**
@@ -451,6 +575,8 @@ With very best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'), array('!realname' => $data['user']->realname,
+																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
 																							 '!class' => $data['user']->field_membership_class[LANGUAGE_NONE][0]['value'],
 																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
 			break;
@@ -465,6 +591,10 @@ With very best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'), array('!realname' => $data['user']->realname,
+																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
 																							 '!reference' => 'MHA-' . $data['user']->uid,
 																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
 			break;
@@ -495,6 +625,23 @@ Best wishes,
 Kieran Freear
 <strong>Membership Secretary</strong>'), array('!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
 																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!reference' => 'MHA-' . $data['user']->uid,
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+		case 'renew_add' :
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Membership Renewed');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_paymentr_renew_add', 'Dear !title !surname,
+																					
+!duration years and will expire on !date
+
+Best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!duration' => $params['duration'],
 																							 '!reference' => 'MHA-' . $data['user']->uid,
 																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
 			break;
@@ -988,7 +1135,7 @@ function mha_permission_ipn(){
 //    'payment_fee' => '',
 //    'receiver_id' => 'BD7KBRGFT3MSY',
 //    'txn_type' => 'web_accept',
-//    'item_name' => 'Full/Alumni Membership',
+//    'item_name' => 'Renewal/Top-up of Membership',
 //    'mc_currency' => 'GBP',
 //    'item_number' => '',
 //    'residence_country' => 'GB',
@@ -1002,16 +1149,29 @@ function mha_permission_ipn(){
 	
 	$account = user_load($_POST['custom']);
 	
-	//TODO: We should probably handle renewals slightly differently
 	if($_POST['payment_status'] == 'Completed'){
-		$account->field_paypal_transactions[LANGUAGE_NONE][]['value'] = $_POST['txn_id'] . '|' .$_POST['item_name'];
-		$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
-		user_save($account);
-		mha_permission_log_entry(t('Subscription Payment Received: !name', array('!name' => $account->realname)), $account->uid);
-		$params['account'] = $account;
-		drupal_mail('mha_permission', 'payment_application', $account->mail, user_preferred_language($account), $params);
+		if($_POST['item_name'] == 'Renewal/Top-up of Membership'){
+			$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+			$account->field_paypal_transactions[LANGUAGE_NONE][]['value'] = $_POST['txn_id'] . '|' .$_POST['item_name'];
+			$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years', $account->field_expiry_[LANGUAGE_NONE][0]['value']);
+			mha_permission_log_entry(t('Member Renewed/Topped-up Membership: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+			user_save($account);
+			$params['account'] = $account;
+			$params['duration'] = '3';
+			drupal_mail('mha_permission', 'renew_add', $account->mail, user_preferred_language($account), $params);
+		}
+		else{
+			if($account->field_user_status[LANGUAGE_NONE][0]['value'] == 'pending'){
+				$account->field_paypal_transactions[LANGUAGE_NONE][]['value'] = $_POST['txn_id'] . '|' .$_POST['item_name'];
+				$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+				$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+				user_save($account);
+				mha_permission_log_entry(t('Subscription Payment Received: !name', array('!name' => $account->realname)), $account->uid);
+				$params['account'] = $account;
+				drupal_mail('mha_permission', 'payment_application', $account->mail, user_preferred_language($account), $params);
+			}
+		}
 	}
-
 }
 
 /**
