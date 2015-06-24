@@ -69,5 +69,26 @@ function mha_res_preprocess_page(&$variables){
       $breadcrumb[] = l('Membership Dashboard', 'membership/home');
       drupal_set_breadcrumb($breadcrumb);
     }
+    if(arg(1) == 'emails'){
+      $breadcrumb[] = l('Home', '<front>');
+      $breadcrumb[] = l('Membership Dashboard', 'membership/home');
+      drupal_set_breadcrumb($breadcrumb);
+    }
+    if(arg(1) == 'mailing-labels'){
+      $breadcrumb[] = l('Home', '<front>');
+      $breadcrumb[] = l('Membership Dashboard', 'membership/home');
+      drupal_set_breadcrumb($breadcrumb);
+    }
+    if(arg(1) == 'search'){
+      $breadcrumb[] = l('Home', '<front>');
+      $breadcrumb[] = l('Membership Dashboard', 'membership/home');
+      drupal_set_breadcrumb($breadcrumb);
+    }
+  }
+  if(arg(0) == 'admin' && arg(1) == 'people' && arg(2) == 'create'){
+    $breadcrumb[] = l('Home', '<front>');
+    $breadcrumb[] = l('Membership Dashboard', 'membership/home');
+    drupal_set_title('Manually Add Member');
+    drupal_set_breadcrumb($breadcrumb);
   }
 }

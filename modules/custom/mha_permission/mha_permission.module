@@ -67,7 +67,7 @@ function mha_permission_menu(){
   );
 	
 	$items['membership/emails'] = array(
-    'title' => 'Membership Emails', 
+    'title' => 'Edit Email/Letter Text Defaults', 
     'page callback' => 'mha_permission_membership_emails',  
     'access arguments' => array('administer membership'),
     'type' => MENU_NORMAL_ITEM,
@@ -89,14 +89,14 @@ function mha_permission_menu(){
   );
 	
 	$items['membership/mailing-labels'] = array(
-    'title' => 'Membership Mailing Labels', 
+    'title' => 'Generate Postage Labels', 
     'page callback' => 'mha_permission_membership_mailing',  
     'access arguments' => array('administer membership'),
     'type' => MENU_NORMAL_ITEM,
   );
 	
 	$items['membership/mailing-labels/generated/%'] = array(
-    'title' => 'Membership Mailing Labels', 
+    'title' => 'Generate Postage Labels', 
     'page callback' => 'mha_permission_membership_mailing_generated',  
     'access arguments' => array('administer membership'),
 		'page arguments' => array(3),
@@ -395,7 +395,7 @@ Kieran Freear
 }
 
 function mha_permission_membership_emails(){
-	$output = t('In order to automate much of the membership process certain emailswill automaicallty get sent to Members. You can use this section to alter what these emails contain.');
+	$output = t('In order to automate much of the membership process certain emails will automatically get sent to Members. You can use this section to alter what these emails contain. In the event of postal only members all these emails can be output to headed paper with the members details automatically filled in so they can be sent via normal post.');
 	$output .= render(drupal_get_form('mha_permission_email_settings'));
 	return $output;
 }
@@ -413,6 +413,8 @@ With very best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when a member is approved.</p>
+		<p>Available placeholders !title, !suranme, !duration, !date</p>',
   );
 	
 	$form['application']['mha_permission_renewal'] = array(
@@ -425,6 +427,8 @@ With very best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email/letter that gets sent when a renewal is due.</p>
+		<p>Available placeholders !title, !suranme, !date</p>',
   );
 	
 	$form['application']['mha_permission_application'] = array(
@@ -437,6 +441,8 @@ With very best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when someone applies for membership.</p>
+		<p>Available placeholders !title, !suranme</p>',
   );
 	
 	$form['application']['mha_permission_payment_application'] = array(
@@ -449,6 +455,8 @@ With very best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when a sucessful payment is received.</p>
+		<p>Available placeholders !title, !suranme</p>',
   );
 	
 	$form['application']['mha_permission_paymentr_renew_add'] = array(
@@ -462,6 +470,8 @@ Best wishes,
 
 Kieran Freear
 <strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when a sucessful renewal or account top-up is received.</p>
+		<p>Available placeholders !title, !suranme, !duration, !date</p>',
   );
 	
 

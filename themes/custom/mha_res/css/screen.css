@@ -423,3 +423,16 @@ strong {
 /* line 405, ../sass/screen.scss */
 #block-menu-menu-membership-administration .block-title {
   background: #5cb85c; }
+
+/* line 410, ../sass/screen.scss */
+#mha-permission-email-settings .form-type-textarea {
+  margin-top: 40px; }
+  /* line 412, ../sass/screen.scss */
+  #mha-permission-email-settings .form-type-textarea p {
+    font-size: 0.8em;
+    color: #777; }
+/* line 417, ../sass/screen.scss */
+#mha-permission-email-settings label {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #B01C2E; }
