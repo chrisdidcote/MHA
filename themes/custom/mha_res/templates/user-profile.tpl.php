@@ -48,30 +48,36 @@
               <h2>Biography</h2>
               <?php print render ($user_profile['field_biography']); ?>
             <?php endif; ?>
-            <h2>Address</h2>
-            <?php print render ($user_profile['field_address_1']) . '<br />' ? render ($user_profile['field_address_1']) : ''?> 
-            <?php print render ($user_profile['field_address_2']) . '<br />' ? render ($user_profile['field_address_2']) : ''?> 
-            <?php print render ($user_profile['field_town']) . '<br />' ? render ($user_profile['field_town']) : ''?>
-            <?php print render ($user_profile['field_county']) . '<br />' ? render ($user_profile['field_county']) : ''?>
-            <?php print render ($user_profile['field_post_code']) . '<br />' ? render ($user_profile['field_post_code']) : ''?>
-            <?php print render ($user_profile['field_country']) . '<br />' ? render ($user_profile['field_country']) : ''?>
-            <?php if(render ($user_profile['field_phone_number'])): ?>
-              <h2>Contact Phone Number</h2>
-              <?php print render ($user_profile['field_phone_number']); ?>
-            <?php endif; ?>
-            <?php if(render ($user_profile['field_phone_number'])): ?>
-              <h2>Email Address</h2>
-              <?php print $account->mail; ?>
-            <?php endif; ?>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row"> <!-- @TODO: Add extra classes -->
+                    <div class="col-md-6">
+                      <h2>Address</h2>
+                      <?php print render ($user_profile['field_address_1']) . '<br />' ? render ($user_profile['field_address_1']) : ''?> 
+                      <?php print render ($user_profile['field_address_2']) . '<br />' ? render ($user_profile['field_address_2']) : ''?> 
+                      <?php print render ($user_profile['field_town']) . '<br />' ? render ($user_profile['field_town']) : ''?>
+                      <?php print render ($user_profile['field_county']) . '<br />' ? render ($user_profile['field_county']) : ''?>
+                      <?php print render ($user_profile['field_post_code']) . '<br />' ? render ($user_profile['field_post_code']) : ''?>
+                      <?php print render ($user_profile['field_country']) . '<br />' ? render ($user_profile['field_country']) : ''?>
+                    </div>
+                    <div class="col-md-6">
+                      <h2>Telephone Number</h2>
+                      <?php print render ($user_profile['field_phone_number']) . '<br />' ? render ($user_profile['field_phone_number']) : ''?>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-3">
             <h2>Membership Details</h2>
-            <?php print render ($user_profile['field_address_1']) . '<br />' ? render ($user_profile['field_address_1']) : ''?> 
-            <?php print render ($user_profile['field_address_2']) . '<br />' ? render ($user_profile['field_address_2']) : ''?> 
-            <?php print render ($user_profile['field_town']) . '<br />' ? render ($user_profile['field_town']) : ''?>
-            <?php print render ($user_profile['field_county']) . '<br />' ? render ($user_profile['field_county']) : ''?>
-            <?php print render ($user_profile['field_post_code']) . '<br />' ? render ($user_profile['field_post_code']) : ''?>
-            <?php print render ($user_profile['field_country']) . '<br />' ? render ($user_profile['field_country']) : ''?>
+            <?php print render ($user_profile['field_membership_class']) . '<br />' ? render ($user_profile['field_membership_class']) : ''?>
+            <?php print render ($user_profile['field_years_in_hall']) . '<br />' ? render ($user_profile['field_years_in_hall']) : ''?>
+            <?php print render ($user_profile['field_affiliation_to_hall']) . '<br />' ? render ($user_profile['field_affiliation_to_hall']) : ''?>
+            <?php print render ($user_profile['field_expected_date_of_completio']) . '<br />' ? render ($user_profile['field_expected_date_of_completio']) : ''?>
+            <h2>Membership Expiry Date</h2>
+            <?php print render ($user_profile['field_expiry_']) . '<br />' ? render ($user_profile['field_expiry_']) : ''?>
           </div>
         </div>
       </div>
