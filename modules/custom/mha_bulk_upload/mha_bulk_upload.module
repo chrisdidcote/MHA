@@ -49,7 +49,6 @@ function mha_bulk_upload_page_form($form, &$form_state){
 	$form['upload_file'] = array(
 		'#type' => 'file',
 		'#title' => t('CSV File to Import'),
-		'#required' => TRUE,
 	);
 	
 	$form['submit'] = array(

@@ -390,3 +390,19 @@ strong{
     text-decoration: underline;
   }
 }
+.navbar-collapse{
+  a[href*="user"]{
+    background:  #428bca;
+  }
+  a[href*="membership/home"]{
+    background:  #5cb85c;
+  }
+}
+.caret{
+  display: none !important;
+}
+#block-menu-menu-membership-administration{
+  .block-title{
+    background:  #5cb85c;
+  }
+}

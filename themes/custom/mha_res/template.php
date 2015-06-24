@@ -58,3 +58,16 @@ function mha_res_preprocess_views_view_summary(&$vars) {
   $vars['rows'] = $items;
 }
 
+function mha_res_preprocess_page(&$variables){
+  if(arg(0) == 'membership'){
+    $breadcrumb = array();
+    if(arg(1) == 'home'){
+      //$breadcrumb[] = l(drupal_get_title(), base_path() . request_uri());
+    }
+    if(arg(1) == 'bulk-upload'){
+      $breadcrumb[] = l('Home', '<front>');
+      $breadcrumb[] = l('Membership Dashboard', 'membership/home');
+      drupal_set_breadcrumb($breadcrumb);
+    }
+  }
+}

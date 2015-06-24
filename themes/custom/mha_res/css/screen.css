@@ -408,3 +408,18 @@ strong {
 .region-footer .nav > li > a:hover, .region-footer .nav > li > a:focus {
   background: none;
   text-decoration: underline; }
+
+/* line 394, ../sass/screen.scss */
+.navbar-collapse a[href*="user"] {
+  background: #428bca; }
+/* line 397, ../sass/screen.scss */
+.navbar-collapse a[href*="membership/home"] {
+  background: #5cb85c; }
+
+/* line 401, ../sass/screen.scss */
+.caret {
+  display: none !important; }
+
+/* line 405, ../sass/screen.scss */
+#block-menu-menu-membership-administration .block-title {
+  background: #5cb85c; }

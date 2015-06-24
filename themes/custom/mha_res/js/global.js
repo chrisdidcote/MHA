@@ -9,6 +9,7 @@
         else
             $(".form-item-salutation-other").hide();
       });
+      $('.dropdown-toggle').prop('disabled', true);
     }
   };
 

@@ -6,10 +6,13 @@ function mha_permission_permission() {
   return array(
     'administer membership' => array(
       'title' => t('Administer Membership'), 
-      'description' => t('Controll how the website handles membership applications'),
+      'description' => t('Control how the website handles membership applications'),
     ),
     'apply for membership' => array(
       'title' => t('Apply for Membership'), 
+    ),
+		'renew own membership' => array(
+      'title' => t('Renew Own Membershipp'), 
     ),
   );
 }
@@ -43,7 +46,7 @@ function mha_permission_menu(){
 	$items['user/renewal'] = array(
     'title' => 'Renew or Top-up Membership', 
     'page callback' => 'mha_permission_user_renewal', 
-    'access arguments' => array('access content'), 
+    'access arguments' => array('renew own membership'), 
     'type' => MENU_CALLBACK,
   );
 
@@ -476,14 +479,18 @@ function mha_permission_cron(){
 	$results = $query->execute();
 	$users = user_load_multiple(array_keys($results['user']));
 	foreach($users as $user) {
-		if($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] < strtotime('-2 weeks') ||
-			 !isset($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'])){
-			$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'renew';
-			$user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] = time();
-			user_save($user);
-			$params['account'] = $user;
-			drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
-			mha_permission_log_entry(t('Renewal Email Sent: !name', array('!name' => $user->realname)), $user->uid);
+		if($user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'full' ||
+			 $user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'affiliate' ||
+			 $user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'student'){ 
+				if($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] < strtotime('-2 weeks') ||
+					 !isset($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'])){
+					$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'renew';
+					$user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] = time();
+					user_save($user);
+					$params['account'] = $user;
+					drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
+					mha_permission_log_entry(t('Renewal Email Sent: !name', array('!name' => $user->realname)), $user->uid);
+				}
 		}
 	}
 }
@@ -496,6 +503,8 @@ function mha_permission_membership_aprove($uid = null){
 	}
 	else{
 		$account = user_load($uid);
+		$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+		user_save($account);
 		drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
 	}
 	mha_permission_log_entry(t('Member Approved: !name', array('!name' => $account->realname)), $account->uid);
@@ -1163,7 +1172,7 @@ function mha_permission_ipn(){
 		else{
 			if($account->field_user_status[LANGUAGE_NONE][0]['value'] == 'pending'){
 				$account->field_paypal_transactions[LANGUAGE_NONE][]['value'] = $_POST['txn_id'] . '|' .$_POST['item_name'];
-				$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+				$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'paid';
 				$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
 				user_save($account);
 				mha_permission_log_entry(t('Subscription Payment Received: !name', array('!name' => $account->realname)), $account->uid);
