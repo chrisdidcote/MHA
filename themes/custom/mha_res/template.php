@@ -58,6 +58,3 @@ function mha_res_preprocess_views_view_summary(&$vars) {
   $vars['rows'] = $items;
 }
 
-function mha_res_preprocess_page(&$vars) {
-  drupal_add_js('https://www.google.com/recaptcha/api.js', 'external');
-}
