@@ -49,6 +49,7 @@ function mha_bulk_upload_page_form($form, &$form_state){
 	$form['upload_file'] = array(
 		'#type' => 'file',
 		'#title' => t('CSV File to Import'),
+		'#required' => TRUE,
 	);
 	
 	$form['submit'] = array(
@@ -80,16 +81,17 @@ function mha_bulk_upload_page_form_submit($form, &$form_state){
 	
 	unset($row_num[1]);
 	$_SESSION['residents'] = $row_num;
-	
-	
-	
-	batch_set(mha_bulk_upload_residents());
+	//Delete current resident members
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_membership_class', 'value', 'resident', '=');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users AS $user){
+		user_delete($user->uid);
+	}
+	//batch_set(mha_bulk_upload_residents());
 }
-
-function drupology_form_submit($form, $form_state) {
-  batch_set(drupology_associate_audio_tiles_to_songs());
-}
-
 /**
 * Batch operation: Create user entities
 */
