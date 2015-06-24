@@ -87,11 +87,12 @@ function mha_bulk_upload_page_form_submit($form, &$form_state){
 	$results = $query->execute();
 	if(is_array($results['user'])){
 		$users = user_load_multiple(array_keys($results['user']));
+		foreach($users AS $user){
+			user_delete($user->uid);
+		}
 	}
-	foreach($users AS $user){
-		user_delete($user->uid);
-	}
-	//batch_set(mha_bulk_upload_residents());
+	
+	batch_set(mha_bulk_upload_residents());
 }
 /**
 * Batch operation: Create user entities
