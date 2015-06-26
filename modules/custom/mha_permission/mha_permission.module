@@ -330,6 +330,7 @@ function mha_permission_membership_register(){
 	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
 	$results = $query->execute();
 	$users = user_load_multiple(array_keys($results['user']));
+	//TODO: This should be done as a bulk operation
 	foreach($users as $user) {
 		$first_name_items = field_get_items('user', $user, 'field_first_name');
 		$first_name = field_view_value('user', $user, 'field_first_name', $first_name_items[0]);
