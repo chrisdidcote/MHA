@@ -534,9 +534,9 @@ function mha_permission_mailchimp_sync($account){
 	}
 	else{
 		$merge_vars = array(
-			'TITLE' => 'Test Title',
-			'FNAME' => 'Test FNAME',
-			'LNAME' => 'tes LNAME',
+			'TITLE' => $account->field_salutation[LANGUAGE_NONE][0]['value'],
+			'FNAME' => $account->field_first_name[LANGUAGE_NONE][0]['value'],
+			'LNAME' => $account->field_last_name[LANGUAGE_NONE][0]['value'],
 		);
 		if(mailchimp_subscribe($listID, $account->mail, $merge_vars, FALSE, FALSE, 'html')){
 			$message = t('!user added to the Non-Residents mailing list', array('!user' => $account->realname));
