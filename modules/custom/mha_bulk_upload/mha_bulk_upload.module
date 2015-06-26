@@ -113,7 +113,7 @@ function mha_bulk_upload_residents() {
 	
 	
   // build the list of operation functions and function arguments
-	if(is_array){
+	if(is_array($_SESSION['residents'])){
 		foreach($_SESSION['residents'] as $resident) {
 			// $operations[] = array(<function name>, <array of arguments to pass to function>);
 			$operations[] = array('mha_bulk_upload_residents_create', array($resident));
@@ -133,8 +133,8 @@ function mha_bulk_upload_residents() {
 function mha_bulk_upload_residents_delete($resident, &$context) {
 	$account = user_load($resident);
 	$context['message'] = t('Deleting ' . $account->realname);
-	delete_user($resident);
-	drupal_set_message($resident[0] . ' ' . $resident[1] . ' ' . $resident[2] . ' deleted', 'warning');
+	drupal_set_message($account->realname . ' deleted', 'warning');
+	user_delete($resident);
 }
 
 /**
