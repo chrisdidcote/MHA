@@ -132,8 +132,8 @@ function mha_bulk_upload_residents() {
 * This is the function that is called on each operation in the above.
 */
 function mha_bulk_upload_residents_delete($resident, &$context) {
-	$account = user_load($resident)
-	$context['message'] = t('Deleting ' $account->realname);
+	$account = user_load($resident);
+	$context['message'] = t('Deleting ' . $account->realname);
 	delete_user($resident);
 	drupal_set_message($resident[0] . ' ' . $resident[1] . ' ' . $resident[2] . ' deleted', 'warning');
 }
