@@ -89,7 +89,6 @@ function mha_bulk_upload_page_form_submit($form, &$form_state){
 	$results = $query->execute();
 	if(is_array($results['user'])){
 		$_SESSION['delete_members'] = array_keys($results['user']);
-		exit;
 		$users = user_load_multiple(array_keys($results['user']));
 		foreach($users AS $user){
 			//TODO: This should be done as a bulk operation
