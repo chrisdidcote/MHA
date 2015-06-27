@@ -104,12 +104,7 @@ function mha_bulk_upload_page_form_submit($form, &$form_state){
 function mha_bulk_upload_residents() {
   drupal_set_message('Preparing to purge existing resident members.' ,'warning');
 	
-	if(is_array($_SESSION['delete_members'])){
-		foreach($_SESSION['delete_members'] as $resident) {
-			// $operations[] = array(<function name>, <array of arguments to pass to function>);
-			$operations[] = array('mha_bulk_upload_residents_delete', $resident);
-		}
-	}
+	
 	
 	
   // build the list of operation functions and function arguments
@@ -117,6 +112,13 @@ function mha_bulk_upload_residents() {
 		foreach($_SESSION['residents'] as $resident) {
 			// $operations[] = array(<function name>, <array of arguments to pass to function>);
 			$operations[] = array('mha_bulk_upload_residents_create', array($resident));
+		}
+	}
+	
+	if(is_array($_SESSION['delete_members'])){
+		foreach($_SESSION['delete_members'] as $resident) {
+			// $operations[] = array(<function name>, <array of arguments to pass to function>);
+			$operations[] = array('mha_bulk_upload_residents_delete', $resident);
 		}
 	}
   // build the batch instructions
