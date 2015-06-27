@@ -107,18 +107,18 @@ function mha_bulk_upload_residents() {
 	
 	
 	
+	if(is_array($_SESSION['delete_members'])){
+		foreach($_SESSION['delete_members'] as $resident) {
+			// $operations[] = array(<function name>, <array of arguments to pass to function>);
+			$operations[] = array('mha_bulk_upload_residents_delete', array($resident));
+		}
+	}
+	
   // build the list of operation functions and function arguments
 	if(is_array($_SESSION['residents'])){
 		foreach($_SESSION['residents'] as $resident) {
 			// $operations[] = array(<function name>, <array of arguments to pass to function>);
 			$operations[] = array('mha_bulk_upload_residents_create', array($resident));
-		}
-	}
-	
-	if(is_array($_SESSION['delete_members'])){
-		foreach($_SESSION['delete_members'] as $resident) {
-			// $operations[] = array(<function name>, <array of arguments to pass to function>);
-			$operations[] = array('mha_bulk_upload_residents_delete', $resident);
 		}
 	}
   // build the batch instructions
