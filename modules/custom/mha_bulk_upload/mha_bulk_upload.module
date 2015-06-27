@@ -132,9 +132,11 @@ function mha_bulk_upload_residents() {
 */
 function mha_bulk_upload_residents_delete($resident, &$context) {
 	$account = user_load($resident);
-	$context['message'] = t('Deleting ' . $account->realname);
-	drupal_set_message($account->realname . ' deleted', 'warning');
-	user_delete($resident);
+	if($account){
+		$context['message'] = t('Deleting ' . $account->realname);
+		drupal_set_message($account->realname . ' deleted', 'warning');
+		user_delete($resident);
+	}
 }
 
 /**
