@@ -334,7 +334,7 @@ function mha_permission_membership_register(){
 	//$users = user_load_multiple(array_keys($results['user']));
 	batch_set(mha_permission_register_row());
 	batch_process();
-	pdf_using_mpdf_api($_SESSION['member_register'], 'membership' . time() . '.pdf');
+	
 }
 
 /**
@@ -363,8 +363,8 @@ function mha_permission_register_finished($success, $results, $operations) {
     // We just display the number of nodes we processed...
     drupal_set_message(t('`Successfully Generated Register of Members'));
 		$_SESSION['member_register'] .= '</table>';
-	
 		
+		pdf_using_mpdf_api($_SESSION['member_register'], 'membership' . time() . '.pdf');
   } else {
     // An error occurred.
     // $operations contains the operations that remained unprocessed.
