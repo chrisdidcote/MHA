@@ -19,6 +19,7 @@ function mha_bulk_upload_menu(){
 function mha_bulk_upload_page(){
 	$output = '<p>You can use this page to bulk upload a CSV file contating all the resident members to the membership database.</p>';
 	$output .= '<p><strong>Note: The by performing a bulk upload all current resident members in the database will be automatically purged.</strong></p>';
+	$output .= render(drupal_get_form('mha_bulk_upload_purge_form'));
 	$output .= '<p>The format of the CSV should be the same at the example shown below, with the column headers being exactly the same.</p>';
 	$output .= '<table class="table">
 								<thead>
@@ -43,6 +44,63 @@ function mha_bulk_upload_page(){
 	$output .= '<p>The system will automatically add the address details.</p>';
 	$output .= render(drupal_get_form('mha_bulk_upload_page_form'));
 	return $output;
+}
+
+function mha_bulk_upload_purge_form($form, &$form_state){	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Purge Current Resident Members'),
+	);
+	
+	return $form;
+}
+
+function mha_bulk_upload_purge_form_submit($form, &$form_state){
+	//Delete current resident members
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_membership_class', 'value', 'resident', '=');
+	$results = $query->execute();
+	if(is_array($results['user'])){
+		$_SESSION['delete_members'] = array_keys($results['user']);
+	}
+	else{
+		drupal_set_message(t('No Resident Members in the database to remove.'), 'error');
+	}
+	
+	batch_set(mha_bulk_upload_purge_residents());
+}
+
+function mha_bulk_upload_purge_residents(){
+	drupal_set_message('Preparing to purge existing resident members.' ,'warning');
+	
+	if(is_array($_SESSION['delete_members'])){
+		foreach($_SESSION['delete_members'] as $resident) {
+			// $operations[] = array(<function name>, <array of arguments to pass to function>);
+			$operations[] = array('mha_bulk_upload_residents_delete', array($resident));
+		}
+	}
+	
+  // build the batch instructions
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'mha_bulk_upload_purge_residents_finished',
+		'title' => t('Removing Former Resident Members'),
+  );
+  return $batch;
+}
+
+function mha_bulk_upload_purge_residents_finished($success, $results, $operations) {
+  if ($success) {
+    // Here we could do something meaningful with the results.
+    // We just display the number of nodes we processed...
+    drupal_set_message(t('`Successfully Removed Resident Members', array('@count' => count($results))));
+  } else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+  }
 }
 
 function mha_bulk_upload_page_form($form, &$form_state){
@@ -82,38 +140,15 @@ function mha_bulk_upload_page_form_submit($form, &$form_state){
 	
 	unset($row_num[1]);
 	$_SESSION['residents'] = $row_num;
-	//Delete current resident members
-	$query = new EntityFieldQuery();
-	$query->entityCondition('entity_type', 'user')
-		->fieldCondition('field_membership_class', 'value', 'resident', '=');
-	$results = $query->execute();
-	if(is_array($results['user'])){
-		$_SESSION['delete_members'] = array_keys($results['user']);
-		//$users = user_load_multiple(array_keys($results['user']));
-		//foreach($users AS $user){
-		//	//TODO: This should be done as a bulk operation
-		//	user_delete($user->uid);
-		//}
-	}
 	
 	batch_set(mha_bulk_upload_residents());
 }
+
 /**
 * Batch operation: Create user entities
 */
 function mha_bulk_upload_residents() {
-  drupal_set_message('Preparing to purge existing resident members.' ,'warning');
-	
-	
-	
-	
-	if(is_array($_SESSION['delete_members'])){
-		foreach($_SESSION['delete_members'] as $resident) {
-			// $operations[] = array(<function name>, <array of arguments to pass to function>);
-			$operations[] = array('mha_bulk_upload_residents_delete', array($resident));
-		}
-	}
-	
+  drupal_set_message('Preparing to upload new resident members.');
   // build the list of operation functions and function arguments
 	if(is_array($_SESSION['residents'])){
 		foreach($_SESSION['residents'] as $resident) {
@@ -125,6 +160,7 @@ function mha_bulk_upload_residents() {
   $batch = array(
     'operations' => $operations,
     'finished' => 'mha_bulk_upload_residents_finished',
+		'title' => t('Uploading New Resident Members'),
   );
   return $batch;
 }
@@ -146,10 +182,10 @@ function mha_bulk_upload_residents_delete($resident, &$context) {
 */
 function mha_bulk_upload_residents_create($resident, &$context) {
 	$context['message'] = t('Processing ' .$resident[0] . ' ' . $resident[1] . ' ' . $resident[2]);
-	if(user_load_by_mail($resident[3]) || user_load_by_name($resident[3])){
+	//if(user_load_by_mail($resident[3]) || user_load_by_name($resident[3])){
 		mha_bulk_upload_create_user($resident[0], $resident[1], $resident[2], $resident[3], $resident[4]);
 		drupal_set_message($resident[0] . ' ' . $resident[1] . ' ' . $resident[2] . ' added');
-	}
+	//}
 }
 
 function mha_bulk_upload_residents_finished($success, $results, $operations) {
