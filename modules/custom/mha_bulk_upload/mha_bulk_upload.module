@@ -63,12 +63,11 @@ function mha_bulk_upload_purge_form_submit($form, &$form_state){
 	$results = $query->execute();
 	if(is_array($results['user'])){
 		$_SESSION['delete_members'] = array_keys($results['user']);
+		batch_set(mha_bulk_upload_purge_residents());
 	}
 	else{
 		drupal_set_message(t('No Resident Members in the database to remove.'), 'error');
 	}
-	
-	batch_set(mha_bulk_upload_purge_residents());
 }
 
 function mha_bulk_upload_purge_residents(){
@@ -170,7 +169,7 @@ function mha_bulk_upload_residents() {
 */
 function mha_bulk_upload_residents_delete($resident, &$context) {
 	$account = user_load($resident);
-	if($account){
+	if(isset($account->uid)){
 		$context['message'] = t('Deleting ' . $account->realname);
 		drupal_set_message($account->realname . ' deleted', 'warning');
 		user_delete($resident);

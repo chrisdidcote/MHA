@@ -330,10 +330,11 @@ function mha_permission_membership_register(){
 	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
 	$results = $query->execute();
 	$_SESSION['members'] = array_keys($results['user']);
-	print_r($_SESSION['members']);
+	
 	//$users = user_load_multiple(array_keys($results['user']));
 	batch_set(mha_permission_register_row());
-	
+	batch_process();
+	pdf_using_mpdf_api($_SESSION['member_register'], 'membership' . time() . '.pdf');
 }
 
 /**
@@ -341,18 +342,17 @@ function mha_permission_membership_register(){
 */
 function mha_permission_register_row() {
   drupal_set_message('Preparing to generate membership register');
-	print_r('here');
-	if(is_array($_SESSION['members'])){
+	//if(is_array($_SESSION['members'])){
 		foreach($_SESSION['members'] as $resident) {
-			print_r($resident . "\n");
 			// $operations[] = array(<function name>, <array of arguments to pass to function>);
-			$operations[] = array('mha_permission_register_row_generate', $resident);
+			$operations[] = array('mha_permission_register_row_generate', array($resident));
 		}
-	}
+	//}
   // build the batch instructions
   $batch = array(
     'operations' => $operations,
     'finished' => 'mha_permission_register_finished',
+		'title' => 'Generating Full Membership Register (PDF)',
   );
   return $batch;
 }
@@ -364,7 +364,7 @@ function mha_permission_register_finished($success, $results, $operations) {
     drupal_set_message(t('`Successfully Generated Register of Members'));
 		$_SESSION['member_register'] .= '</table>';
 	
-		pdf_using_mpdf_api($_SESSION['member_register'], 'membership' . time() . '.pdf');
+		
   } else {
     // An error occurred.
     // $operations contains the operations that remained unprocessed.
@@ -377,9 +377,8 @@ function mha_permission_register_finished($success, $results, $operations) {
 * This is the function that is called on each operation in the above.
 */
 function mha_permission_register_row_generate($resident, &$context) {
-	print_r('here');
 	$account = user_load($resident);
-	$context['message'] = t('Deleting ' . $account->realname);
+	$context['message'] = t('Adding Member: ' . $account->realname);
 	drupal_set_message($account->realname . ' added to register');
 	$first_name_items = field_get_items('user', $account, 'field_first_name');
 	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
