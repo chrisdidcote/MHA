@@ -557,7 +557,7 @@ function mha_permission_membership_aprove($uid = null){
 	}
 	else{
 		$account = user_load($uid);
-		$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+		$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
 		user_save($account);
 		drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
 	}
