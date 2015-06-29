@@ -1,0 +1,18 @@
+<?php
+/**
+  * Implements hook_menu()
+  */
+function mha_ereg_menu(){
+	$items['membership/event/register'] = array(
+    'title' => 'Bulk Upload Resident Members', 
+    'page callback' => 'mha_ereg_config',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	return $items;
+}
+
+function mha_ereg_config(){
+	return 'Hello World';
+}

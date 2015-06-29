@@ -234,7 +234,7 @@ function mha_bulk_upload_create_user($salution = null, $first_name = null, $last
 		$fields['field_years_in_hall'][LANGUAGE_NONE][0]['value'] = date('Y') . ', ' . date('Y', strtotime('+ 1 Year'));
 		//TODO: Add Year of Completion
 		
-		$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+		$fields['field_user_status'][LANGUAGE_NONE][0]['value'] = 'active';
 		
 		//the first parameter is left blank so a new user is created
 		$account = user_save('', $fields);

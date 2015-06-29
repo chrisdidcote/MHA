@@ -1,0 +1,7 @@
+name = MHA Electronic Register
+description = Allows members and guests to sign in at events
+core = 7.x
+package = Manor Hall Association
+php = 5.2.4
+version = 7.x-1.0-beta1
+
