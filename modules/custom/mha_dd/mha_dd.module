@@ -1,0 +1,57 @@
+<?php
+/**
+  * Implements hook_menu()
+  */
+function mha_dd_menu(){
+	$items['membership/dd'] = array(
+    'title' => 'Test the Direct Debit', 
+    'page callback' => 'mha_dd_page',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/dd/webhook'] = array(
+    'title' => 'Direct Debit Webhook', 
+    'page callback' => 'mha_dd_webhook',  
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	return $items;
+}
+
+
+function mha_dd_page(){
+	include_once 'lib/GoCardless.php';
+	
+	//GoCardless::$environment = 'production';
+	
+	// Set config vars
+	$account_details = array(
+		'app_id'        => 'RC2MZXWC4XZXS02X4HWY3NDSGQTRA4WKA4AMNFGKDDYC59XDZ902BAAWQY16FGEP',
+		'app_secret'    => 'JG1QC4RM62RVG73H6TPY0K66EH86C61RZKFZ5SMXVS93X4REHC169435T0KPE6PC',
+		'merchant_id'   => '0XRGDXS5E5',
+		'access_token'  => '4WQZTV1Y51YTCZSHN4AT8SNVVEDR8NN7N3C6R7Y1JT120FBG610BR1N86QBPPNNR'
+	);
+	
+	// Initialize GoCardless
+	GoCardless::set_account_details($account_details);
+	
+	$subscription_details = array(
+  'amount'           => '5.00',
+  'interval_length'  => 12,
+  'interval_unit'    => 'month',
+	'name' => 'Full/Alumni Membership of the MHA',
+	'description' => 'Some Articles'
+);
+
+// Generate the url
+$subscription_url = GoCardless::new_subscription_url($subscription_details);
+
+// Display the link
+echo '<a href="'.$subscription_url.'">New subscription</a>';
+}
+
+function mha_dd_webhook(){
+	watchdog('WEBHOOK', print_r($_POST, true));
+}
