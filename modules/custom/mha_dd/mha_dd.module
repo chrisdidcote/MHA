@@ -88,40 +88,15 @@ function mha_dd_page_form_submit($form, &$form_state){
 
 }
 function mha_dd_webhook(){
-	watchdog('WEBHOOK2', print_r('HERE', true));
+	watchdog('WEBHOOK1', print_r('HERE', true));
 	watchdog('WEBHOOK2', print_r($_POST, true));
 	$webhook = file_get_contents('php://input');
 $webhook_array = json_decode($webhook, true);
-watchdog('WEBHOOK2', print_r($webhook_array, true));
-watchdog('WEBHOOK2', print_r($webhook, true));
+watchdog('WEBHOOK3', print_r($webhook_array, true));
+watchdog('WEBHOOK4', print_r($webhook, true));
 $webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
-
-if ($webhook_valid == TRUE) {
-
-  $data = $webhook_array['payload'];
-watchdog('WEBHOOK', print_r($data, true));
-  if ($data['resource_type'] == 'subscription' && $data['action'] == 'cancelled') {
-
-    foreach ($data['subscriptions'] as $subscription) {
-
-      // Logic to cancel the subscription in your system goes here
-
-      // You can use $subscription['resource_id'] to look up the subscription
-      // in the GoCardless API if required
-
-    }
-
-  }
-
-  // Send a success header
-  header('HTTP/1.1 200 OK');
-
-} else {
-
-  header('HTTP/1.1 403 Invalid signature');
-
-}
-return true;
+header('HTTP/1.1 200 OK');
+//TODO: link the subscription back to the ember
 }
 
 function mha_dd_form_alter(&$form, &$form_state, $form_id) {
