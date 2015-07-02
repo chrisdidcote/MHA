@@ -420,3 +420,13 @@ strong{
     color: #B01C2E;
   }
 }
+#direct-debit-container,
+#paypal-container{
+  border: 1px solid;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: transparent url("../images/dd_form.gif") bottom right no-repeat;
+}
+#paypal-container{
+  background: transparent url("../images/pp.jpg") bottom right no-repeat;
+}

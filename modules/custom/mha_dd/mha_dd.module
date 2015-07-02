@@ -5,7 +5,7 @@
 function mha_dd_menu(){
 	$items['membership/dd'] = array(
     'title' => 'Test the Direct Debit', 
-    'page callback' => 'mha_dd_page',  
+    'page callback' => 'mha_dd_page',
     'access arguments' => array('administer membership'),
     'type' => MENU_NORMAL_ITEM,
   );
@@ -20,10 +20,46 @@ function mha_dd_menu(){
 	return $items;
 }
 
-
 function mha_dd_page(){
-	include_once 'lib/GoCardless.php';
+	$output = '<div id="direct-debit-container">';
+	$output .= '<h2>Pay by Direct Debit</h2>';
+	$output .= '<p>Members who opt to pay their subscription fees via Direct Debit will benefit from futher discounts on their membership fees wih Full/Alumni & Affiliate Members pay &pound;5.00 a year and Student Members pay &pound;2.50 a year.';
+	$output .= '<p>All direct debit payments are processed securely by GoCardless.com, this will be what shows up on your bank statement you will be redirected to GoCardless to complete the initialiseationn of you Direct Debit.</p>';
+	$output .= render(drupal_get_form('mha_dd_page_form'));
+	$output .= '</div>';
+	return $output;
+}
+function mha_dd_page_form(){
 	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Pay by Direct Debit'),
+	);
+	$form['submit']['#attributes']['class'][] = 'btn-success';
+	return $form;
+}
+function mha_dd_page_form_submit($form, &$form_state){
+	include_once 'lib/GoCardless.php';
+	$account = $_SESSION['account'];
+	
+	
+	switch($account->field_membership_class[LANGUAGE_NONE][0]['value']){
+		case 'full' :
+			$amount = 5.00;
+			$item = 'Full/Alumni Membership';
+			$period = '3 years from date of approval';
+			break;
+		case 'affiliate' :
+			$amount = 5.00;
+			$item = 'Affiliate Membership';
+			$period = '3 years from date of approval (Affiliate members must also be ratified at an AGM)';
+			break;
+		case 'student' :
+			$amount = 2.5;
+			$item = 'Student Membership';
+			$period = 'Until the end of your current course';
+			break;
+	}
 	//GoCardless::$environment = 'production';
 	
 	// Set config vars
@@ -38,20 +74,19 @@ function mha_dd_page(){
 	GoCardless::set_account_details($account_details);
 	
 	$subscription_details = array(
-  'amount'           => '5.00',
-  'interval_length'  => 12,
-  'interval_unit'    => 'month',
-	'name' => 'Full/Alumni Membership of the MHA',
-	'description' => 'Some Articles'
-);
+		'amount'           => $amount,
+		'interval_length'  => 12,
+		'interval_unit'    => 'month',
+		'name' => $item,
+		'description' => 'Direct Debit Payment for member MHA-905',
+	);
 
-// Generate the url
-$subscription_url = GoCardless::new_subscription_url($subscription_details);
+	// Generate the url
+	$subscription_url = GoCardless::new_subscription_url($subscription_details);
+	
+	drupal_goto($subscription_url);
 
-// Display the link
-echo '<a href="'.$subscription_url.'">New subscription</a>';
 }
-
 function mha_dd_webhook(){
 	watchdog('WEBHOOK2', print_r('HERE', true));
 	watchdog('WEBHOOK2', print_r($_POST, true));
@@ -87,4 +122,10 @@ watchdog('WEBHOOK', print_r($data, true));
 
 }
 return true;
+}
+
+function mha_dd_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id = 'mha_dd_page_form') {
+    $form['actions']['submit']['#attributes']['class'][] = 'btn-success';
+  }
 }

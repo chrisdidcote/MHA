@@ -1124,8 +1124,11 @@ function mha_permission_membership_apply_payment(){
 									<li><strong>Membership Class: </strong>' . $item . '</li>
 									<li><strong>Duration: </strong>' . $period . '</li>
 									<li><strong>Fees Due: </strong>' . $amount . '</li>
-							</p>';
+							</ul>';
 	$output .= '<p>All membership applications need to be approved by the Executive Committee before becoming fully active and this is the date your membership will officially start and you\'ll receive an email to confirm this.</p>';
+	$output .= mha_dd_page();
+	$output .= '<div id="paypal-container">';
+	$output .= '<h2>Pay by Debit/Credit Card</h2>';
 	$output .= '<p>The easiest way to pay your fees is securely online by Debit/Credit card via PayPal by clicking the button below; however, you will receive an email with information on how to pay by cheque if you would prefer.</p>';
 	$output .= '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 
@@ -1145,9 +1148,10 @@ function mha_permission_membership_apply_payment(){
 <input type="hidden" name="return" value="' . $return . '">
 
 <!-- Display the payment button. -->
-<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Proceed to Payment</button>
+<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Proceed to Payment by Credit/Debit Card</button>
 
 </form>';
+	$output .= '</div>';
 	return $output;
 }
 

@@ -436,3 +436,15 @@ strong {
   font-size: 1.2em;
   font-weight: bold;
   color: #B01C2E; }
+
+/* line 423, ../sass/screen.scss */
+#direct-debit-container,
+#paypal-container {
+  border: 1px solid;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: transparent url("../images/dd_form.gif") bottom right no-repeat; }
+
+/* line 430, ../sass/screen.scss */
+#paypal-container {
+  background: transparent url("../images/pp.jpg") bottom right no-repeat; }
