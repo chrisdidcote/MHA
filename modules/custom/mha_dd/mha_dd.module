@@ -57,6 +57,8 @@ function mha_dd_webhook(){
 	watchdog('WEBHOOK2', print_r($_POST, true));
 	$webhook = file_get_contents('php://input');
 $webhook_array = json_decode($webhook, true);
+watchdog('WEBHOOK2', print_r($webhook_array, true));
+watchdog('WEBHOOK2', print_r($webhook, true));
 $webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
 
 if ($webhook_valid == TRUE) {
@@ -84,4 +86,5 @@ watchdog('WEBHOOK', print_r($data, true));
   header('HTTP/1.1 403 Invalid signature');
 
 }
+return true;
 }
