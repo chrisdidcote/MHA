@@ -99,6 +99,8 @@ function mha_dd_webhook(){
 	$webhook_array = json_decode($webhook, true);
 	watchdog('WEBHOOK3', print_r($webhook_array, true));
 	watchdog('WEBHOOK4', print_r($webhook, true));
+	$bill = GoCardless::find('PM0000HM6MZ26A');
+	watchdog('WEBHOOK5', print_r($bill, true));
 	$webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
 	header('HTTP/1.1 200 OK');
 	//TODO: link the subscription back to the ember
