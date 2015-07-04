@@ -57,7 +57,53 @@
   <link rel="apple-touch-icon" sizes="120x120" href="<?php print $base_url . '/' . path_to_theme();?>/images/apple/iphone-ret.png">
   <link rel="apple-touch-icon" sizes="152x152" href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/touch-icon-ipad-retina.png">
     
-    <link rel="apple-touch-startup-image" href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/startup.png" />
+    
+    !-- iPhone -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-320x460.png"
+      media="(device-width: 320px) and (device-height: 480px)
+         and (-webkit-device-pixel-ratio: 1)"
+      rel="apple-touch-startup-image">
+<!-- iPhone (Retina) -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-640x920.png"
+      media="(device-width: 320px) and (device-height: 480px)
+         and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image">
+<!-- iPhone 5 -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-640x1096.png"
+      media="(device-width: 320px) and (device-height: 568px)
+         and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image">
+<!-- iPad (portrait) -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-768x1004.png"
+      media="(device-width: 768px) and (device-height: 1024px)
+         and (orientation: portrait)
+         and (-webkit-device-pixel-ratio: 1)"
+      rel="apple-touch-startup-image">
+<!-- iPad (landscape) -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-748x1024.png"
+      media="(device-width: 768px) and (device-height: 1024px)
+         and (orientation: landscape)
+         and (-webkit-device-pixel-ratio: 1)"
+      rel="apple-touch-startup-image">
+<!-- iPad (Retina, portrait) -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-1536x2008.png"
+      media="(device-width: 768px) and (device-height: 1024px)
+         and (orientation: portrait)
+         and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image">
+<!-- iPad (Retina, landscape) -->
+<link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-1496x2048.png"
+      media="(device-width: 768px) and (device-height: 1024px)
+         and (orientation: landscape)
+         and (-webkit-device-pixel-ratio: 2)"
+      rel="apple-touch-startup-image">
+    
+  <!-- iPhone LAUNCHSCREEN-->
+  <link href="includes/images/apple-launch-480h.png" sizes="320x480" media="(device-height: 480px)" rel="apple-touch-startup-image">
+  <!-- iPhone (Retina) LAUNCHSCREEN-->
+  <link href="includes/images/apple-launch-480h2X.png" sizes="640x920" media="(device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+  <!-- iPhone 5+ LAUNCHSCREEN-->
+  <link href="includes/images/apple-launch-568h.png" sizes="640x1136" media="(device-height: 568px)" rel="apple-touch-startup-image">
   
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
