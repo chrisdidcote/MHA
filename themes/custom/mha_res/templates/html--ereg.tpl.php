@@ -50,12 +50,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  
+  <?php global $base_url; ?>
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="apple-touch-icon" href="../image/apple/touch-icon-iphone.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="../image/apple/touch-icon-ipad.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="../image/apple/touch-icon-iphone-retina.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="../image/apple/touch-icon-ipad-retina.png">
+  <link rel="apple-touch-icon" href="<?php print $base_url . '/' . path_to_theme();?>/images/apple/touch-icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="<?php print $base_url . '/' . path_to_theme();?>/images/apple/touch-icon-ipad.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="<?php print $base_url . '/' . path_to_theme();?>/images/apple/iphone-ret.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/touch-icon-ipad-retina.png">
+    
+    <link rel="apple-touch-startup-image" href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/startup.png" />
   
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
