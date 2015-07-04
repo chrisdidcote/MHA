@@ -1,0 +1,32 @@
+name = MHA Responsive
+description = Please provide a description for your theme.
+base theme = omega
+screenshot = screenshot.png
+engine = phptemplate
+core = 7.x
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[all][] = css/mha-responsive.normalize.css
+stylesheets[all][] = css/mha-responsive.hacks.css
+stylesheets[all][] = css/mha-responsive.styles.css
+stylesheets[all][] = css/mha-responsive.no-query.css
+
+; ========================================
+; Scripts
+; ========================================
+scripts[] = js/mha-responsive.behaviors.js
+
+; ========================================
+; Regions
+; ========================================
+regions[branding] = Branding
+regions[header] = Header
+regions[navigation] = Navigation
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[content] = Content
+regions[sidebar_first] = First Sidebar
+regions[sidebar_second] = Second Sidebar
+regions[footer] = Footer

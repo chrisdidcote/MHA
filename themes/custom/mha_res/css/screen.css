@@ -1,0 +1,459 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 5, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+/* line 22, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1; }
+
+/* line 24, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none; }
+
+/* line 26, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* line 28, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+/* line 30, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none; }
+  /* line 103, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+  q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none; }
+
+/* line 32, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none; }
+
+/* line 116, ../../../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block; }
+
+/* line 7, ../sass/screen.scss */
+html * {
+  font-size: 11pt; }
+
+/* line 10, ../sass/screen.scss */
+h1 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.7em; }
+
+/* line 16, ../sass/screen.scss */
+.region-content h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.4em; }
+/* line 21, ../sass/screen.scss */
+.region-content h3 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.2em; }
+
+/* line 27, ../sass/screen.scss */
+.region-content h2 a {
+  color: #B01C2E;
+  font-size: 1em; }
+
+/* line 32, ../sass/screen.scss */
+.view-id-committee.view-display-id-page img {
+  float: left;
+  margin-right: 20px; }
+/* line 36, ../sass/screen.scss */
+.view-id-committee.view-display-id-page .views-row {
+  margin-top: 20px; }
+/* line 39, ../sass/screen.scss */
+.view-id-committee.view-display-id-page h2 {
+  margin-top: 20px;
+  border-bottom: 1px solid #ddd; }
+
+/* line 46, ../sass/screen.scss */
+.js #mha-permission-membership-apply-form .form-item-salutation-other {
+  display: none; }
+
+/* line 51, ../sass/screen.scss */
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
+  /* line 57, ../sass/screen.scss */
+  body #footer-wrapper {
+    background: #161B20;
+    color: #fff; }
+
+/* line 63, ../sass/screen.scss */
+.region-sidebar-second h2.block-title {
+  margin: -19px -19px 0px -19px;
+  background: #B01C2E;
+  padding: 19px;
+  color: #fff; }
+
+/* line 71, ../sass/screen.scss */
+.region-sidebar-first h2.block-title {
+  margin: -19px -19px 0px -19px;
+  background: #B01C2E;
+  padding: 19px;
+  color: #fff; }
+/* line 78, ../sass/screen.scss */
+.region-sidebar-first ul li {
+  padding: 10px 0px;
+  border-bottom: 1px #e3e3e3 solid; }
+/* line 84, ../sass/screen.scss */
+.region-sidebar-first .view-display-id-block_1 .views-row {
+  padding: 10px 0px;
+  border-bottom: 1px #e3e3e3 solid; }
+
+/* line 90, ../sass/screen.scss */
+p {
+  margin-bottom: 1em; }
+
+/* line 93, ../sass/screen.scss */
+#block-mha-news-mha-news-author {
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  border-bottom: 1px #eee solid;
+  border-top: 1px #eee solid;
+  padding: 10px 0; }
+  /* line 94, ../sass/screen.scss */
+  #block-mha-news-mha-news-author img {
+    float: left;
+    margin-right: 10px; }
+  /* line 98, ../sass/screen.scss */
+  #block-mha-news-mha-news-author .position {
+    margin-bottom: 1em;
+    font-weight: bold; }
+  /* line 102, ../sass/screen.scss */
+  #block-mha-news-mha-news-author .date {
+    font-weight: bold;
+    color: #B01C2E; }
+
+@media (min-width: 768px) {
+  /* line 113, ../sass/screen.scss */
+  .footer {
+    background: transparent url("../images/whitelogo.png") bottom right no-repeat; } }
+@media (max-width: 768px) {
+  /* line 120, ../sass/screen.scss */
+  .page-membership-apply .region-sidebar-first {
+    display: none; } }
+/* line 125, ../sass/screen.scss */
+.region.region-sidebar-first.well {
+  padding-top: 0; }
+
+/* line 128, ../sass/screen.scss */
+.navbar-full {
+  background: #161B20;
+  margin-bottom: 20px; }
+  /* line 131, ../sass/screen.scss */
+  .navbar-full .container {
+    padding: 0; }
+    /* line 133, ../sass/screen.scss */
+    .navbar-full .container a {
+      color: #fff; }
+    /* line 136, ../sass/screen.scss */
+    .navbar-full .container a:hover {
+      color: #000; }
+
+/* line 142, ../sass/screen.scss */
+.front .navbar-full {
+  margin-bottom: 0; }
+/* line 145, ../sass/screen.scss */
+.front .view-latest-tweets {
+  background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
+  padding: 13px 0 13px 50px;
+  margin-bottom: 20px;
+  color: #fff; }
+  /* line 150, ../sass/screen.scss */
+  .front .view-latest-tweets a {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 0.9em; }
+  /* line 155, ../sass/screen.scss */
+  .front .view-latest-tweets span {
+    width: 100%;
+    font-size: 0.9em; }
+/* line 161, ../sass/screen.scss */
+.front .main-container h2 {
+  font-size: 1.5em;
+  background: #B01C2E;
+  padding: 10px;
+  color: #fff; }
+/* line 170, ../sass/screen.scss */
+.front .pane-events .views-row,
+.front .pane-news .views-row {
+  border-bottom: 1px solid #ddd;
+  padding: 20px 0px;
+  margin-bottom: 20px; }
+/* line 175, ../sass/screen.scss */
+.front .pane-events .views-row:first-child,
+.front .pane-news .views-row:first-child {
+  padding-top: 0; }
+/* line 178, ../sass/screen.scss */
+.front .pane-events .views-field-title,
+.front .pane-news .views-field-title {
+  padding: 10px 0; }
+  /* line 180, ../sass/screen.scss */
+  .front .pane-events .views-field-title a,
+  .front .pane-news .views-field-title a {
+    font-size: 1.3em;
+    color: #B01C2E; }
+
+/* line 187, ../sass/screen.scss */
+.view-display-id-attachment_1 {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd; }
+
+/* line 194, ../sass/screen.scss */
+.views-bootstrap-grid-plugin-style .views-field-title a {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.2em; }
+/* line 200, ../sass/screen.scss */
+.views-bootstrap-grid-plugin-style .col {
+  margin-bottom: 30px; }
+
+/* line 204, ../sass/screen.scss */
+.pagination > .active > a,
+.pagination > .active > a:hover {
+  background-color: #B01C2E;
+  border-color: #B01C2E; }
+
+/* line 209, ../sass/screen.scss */
+.pagination > li > a {
+  color: #B01C2E; }
+
+/* line 213, ../sass/screen.scss */
+#block-mha-news-social-share img {
+  float: left;
+  margin-right: 10px; }
+
+@media (min-width: 768px) {
+  /* line 220, ../sass/screen.scss */
+  .navbar-full li {
+    float: left !important; } }
+/* line 225, ../sass/screen.scss */
+.navbar-default {
+  border: none;
+  background: none; }
+
+/* line 230, ../sass/screen.scss */
+.view-id-hero_widget .container-fluid {
+  background: #B01C2E; }
+/* line 233, ../sass/screen.scss */
+.view-id-hero_widget .col-md-4 {
+  padding-top: 30px;
+  color: #fff; }
+  /* line 236, ../sass/screen.scss */
+  .view-id-hero_widget .col-md-4 a {
+    color: #fff;
+    font-size: 1.5em; }
+
+/* line 245, ../sass/screen.scss */
+.view-image-gallery .views-bootstrap-grid-plugin-style .views-field-title a {
+  position: absolute;
+  background: #B01C2E;
+  padding: 10px;
+  top: 30px;
+  color: #fff; }
+
+/* line 257, ../sass/screen.scss */
+.view-id-events.view-display-id-page img,
+.view-id-events.view-display-id-page_1 img {
+  float: left;
+  margin-right: 20px; }
+/* line 261, ../sass/screen.scss */
+.view-id-events.view-display-id-page .views-row,
+.view-id-events.view-display-id-page_1 .views-row {
+  margin-top: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd; }
+/* line 268, ../sass/screen.scss */
+.view-id-events.view-display-id-page .views-field-title a,
+.view-id-events.view-display-id-page_1 .views-field-title a {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.2em; }
+
+/* line 276, ../sass/screen.scss */
+.region-sidebar-second .block {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  padding-top: 0; }
+  /* line 286, ../sass/screen.scss */
+  .region-sidebar-second .block p {
+    font-size: 0.9em;
+    margin-top: 1em; }
+  /* line 290, ../sass/screen.scss */
+  .region-sidebar-second .block a {
+    font-size: 0.9em; }
+
+/* line 297, ../sass/screen.scss */
+.node-type-news-article .region-sidebar-second .block {
+  min-height: 20px;
+  padding: 0;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 0px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background: none; }
+
+/* line 310, ../sass/screen.scss */
+.view-id-elton_house_award.view-display-id-page img {
+  float: left;
+  margin-right: 20px; }
+/* line 314, ../sass/screen.scss */
+.view-id-elton_house_award.view-display-id-page .views-row {
+  padding: 20px 0;
+  border-top: 1px solid #ddd; }
+/* line 319, ../sass/screen.scss */
+.view-id-elton_house_award.view-display-id-page .view-content h3 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #B01C2E;
+  font-size: 1.5em;
+  margin-top: 20px; }
+/* line 326, ../sass/screen.scss */
+.view-id-elton_house_award.view-display-id-page .view-content .views-field-title h3 {
+  font-size: 1.2em; }
+/* line 330, ../sass/screen.scss */
+.view-id-elton_house_award.view-display-id-page .view-content .views-row-first {
+  margin-top: 20px; }
+/* line 333, ../sass/screen.scss */
+.view-id-elton_house_award.view-display-id-page .view-content .views-field-body {
+  padding-top: 1em; }
+
+/* line 338, ../sass/screen.scss */
+strong {
+  font-weight: bold; }
+
+/* line 342, ../sass/screen.scss */
+.node-elton-house-award-recipient .field-name-field-course {
+  font-weight: bold;
+  margin-bottom: 1em; }
+/* line 346, ../sass/screen.scss */
+.node-elton-house-award-recipient .field-type-image {
+  float: left;
+  margin-right: 20px; }
+
+/* line 352, ../sass/screen.scss */
+#block-system-main ul {
+  list-style: circle;
+  margin-left: 20px;
+  margin-bottom: 1em; }
+  /* line 356, ../sass/screen.scss */
+  #block-system-main ul li {
+    list-style: circle; }
+
+@media (min-width: 768px) {
+  /* line 363, ../sass/screen.scss */
+  .region-footer .block {
+    width: 33.33%;
+    float: left; } }
+@media (min-width: 992px) {
+  /* line 371, ../sass/screen.scss */
+  .navbar-header {
+    float: none; }
+
+  /* line 374, ../sass/screen.scss */
+  #header-committee {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    text-align: right;
+    float: right;
+    margin-top: 10px;
+    font-size: 0.9em; }
+    /* line 380, ../sass/screen.scss */
+    #header-committee p {
+      margin: 0;
+      font-size: 1em; }
+    /* line 384, ../sass/screen.scss */
+    #header-committee strong {
+      font-size: 1em; } }
+/* line 390, ../sass/screen.scss */
+.region-footer a {
+  color: #fff; }
+/* line 393, ../sass/screen.scss */
+.region-footer a:hover {
+  background: none; }
+/* line 396, ../sass/screen.scss */
+.region-footer .nav > li > a:hover, .region-footer .nav > li > a:focus {
+  background: none;
+  text-decoration: underline; }
+
+/* line 402, ../sass/screen.scss */
+.navbar-collapse a[href*="user"] {
+  background: #428bca; }
+/* line 405, ../sass/screen.scss */
+.navbar-collapse a[href*="membership/home"] {
+  background: #5cb85c; }
+
+/* line 409, ../sass/screen.scss */
+.caret {
+  display: none !important; }
+
+/* line 413, ../sass/screen.scss */
+#block-menu-menu-membership-administration .block-title {
+  background: #5cb85c; }
+
+/* line 418, ../sass/screen.scss */
+#mha-permission-email-settings .form-type-textarea {
+  margin-top: 40px; }
+  /* line 420, ../sass/screen.scss */
+  #mha-permission-email-settings .form-type-textarea p {
+    font-size: 0.8em;
+    color: #777; }
+/* line 425, ../sass/screen.scss */
+#mha-permission-email-settings label {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #B01C2E; }
+
+/* line 431, ../sass/screen.scss */
+#direct-debit-container,
+#paypal-container {
+  border: 1px solid;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: transparent url("../images/dd_form.gif") bottom right no-repeat; }
+
+/* line 438, ../sass/screen.scss */
+#paypal-container {
+  background: transparent url("../images/pp.jpg") bottom right no-repeat; }
+
+/* line 441, ../sass/screen.scss */
+.page-ereg {
+  background: #3e3e3f;
+  color: #D4C69B; }
