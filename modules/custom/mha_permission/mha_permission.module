@@ -243,7 +243,52 @@ function mha_permission_membership_mailing_generated($type){
 		case 'all' :
 			mha_permission_membership_mailing_full();
 			break;
+		case 'mail_only' :
+			mha_permission_membership_mailing_postage();
+			break;
 	}
+}
+
+function mha_permission_membership_mailing_postage(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style="border: 1px solid; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_postal_only', 'value', '=', 'yes');
+
+	$result = $query->execute();
+	$users_ids = array_keys($result['user']);
+	
+	
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
 }
 
 function mha_permission_membership_mailing_full(){
