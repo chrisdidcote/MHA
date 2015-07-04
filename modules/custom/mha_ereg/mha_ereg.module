@@ -6,7 +6,7 @@ function mha_ereg_menu(){
 	$items['ereg'] = array(
     'title' => 'Bulk Upload Resident Members', 
     'page callback' => 'mha_ereg_config',  
-    'access arguments' => array('administer membership'),
+    'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
 	
