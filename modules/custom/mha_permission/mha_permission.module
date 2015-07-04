@@ -223,7 +223,8 @@ function mha_permission_membership_mailing_form(){
 			'non_resident_full' => t('Non-Resident Only Members Excluding Student Members'),
 			'all' => t('All Members'),
 			'custom' => t('Custom Select'),
-		)
+		),
+		'#default_value' => 'mail_only',
 	);
 	
 	$form['submit'] = array(
@@ -246,7 +247,123 @@ function mha_permission_membership_mailing_generated($type){
 		case 'mail_only' :
 			mha_permission_membership_mailing_postage();
 			break;
+		case 'non_resident' :
+			mha_permission_membership_mailing_non_resident();
+			break;
 	}
+}
+
+function mha_permission_membership_mailing_non_resident(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style="border: 1px solid; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_user_status', 'value', '!=', 'resident');
+
+	$result = $query->execute();
+	$users_ids = array_keys($result['user']);
+	
+	
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
+}
+
+function mha_permission_membership_mailing_full(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style="border: 1px solid; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$count = 1;
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user');
+	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style="border: 1px solid #000000; height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
+}
+/**
+ * Helper function to get a sanitised address for a given user
+ */ 
+function _mha_permission_get_address($uid){
+	$account = user_load($uid);
+	$first_name_items = field_get_items('user', $account, 'field_first_name');
+	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
+	
+	$last_name_items = field_get_items('user', $account, 'field_last_name');
+	$last_name = field_view_value('user', $account, 'field_last_name', $last_name_items[0]);
+	
+	$address1_items = field_get_items('user', $account, 'field_address_1');
+	$address1 = field_view_value('user', $account, 'field_address_1', $address1_items[0]);
+	
+	$address2_items = field_get_items('user', $account, 'field_address_2');
+	$address2 = field_view_value('user', $account, 'field_address_2', $address2_items[0]);
+	
+	$town_items = field_get_items('user', $account, 'field_town');
+	$town = field_view_value('user', $account, 'field_town', $town_items[0]);
+	
+	$post_code_items = field_get_items('user', $account, 'field_post_code');
+	$post_code = field_view_value('user', $account, 'field_post_code', $post_code_items[0]);
+	$output = '<div id="addres-block" style="padding-top: 2cm; font-size: 12px;">';
+	$output .= render($first_name) . ' ' . render($last_name) . "<br />";
+	$output .= render($address1) ? render($address1) . "<br />" : '';
+	$output .= render($address2) ? render($address2) . "<br />" : '';
+	$output .= render($town) ? render($town) . "<br />" : '';
+	$output .= render($post_code) ? render($post_code) . "<br />" : '';
+	$output .= '</div>';
+	
+	return $output;
 }
 
 function mha_permission_membership_mailing_postage(){
