@@ -1,0 +1,7 @@
+name = MHA Direct Debit
+description = Allows the payment by DD
+core = 7.x
+package = Manor Hall Association
+php = 5.2.4
+version = 7.x-1.0-beta1
+

@@ -1,0 +1,245 @@
+<?php
+/**
+  * Implements hook_menu()
+  */
+function mha_bulk_upload_menu(){
+	$items['membership/bulk-upload'] = array(
+    'title' => 'Bulk Upload Resident Members', 
+    'page callback' => 'mha_bulk_upload_page',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	return $items;
+}
+
+/**
+ * Page callback for the residents bulk upload
+ */
+function mha_bulk_upload_page(){
+	$output = '<p>You can use this page to bulk upload a CSV file contating all the resident members to the membership database.</p>';
+	$output .= '<p><strong>Note: The by performing a bulk upload all current resident members in the database will be automatically purged.</strong></p>';
+	$output .= render(drupal_get_form('mha_bulk_upload_purge_form'));
+	$output .= '<p>The format of the CSV should be the same at the example shown below, with the column headers being exactly the same.</p>';
+	$output .= '<table class="table">
+								<thead>
+									<tr>
+										<th>Salution</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Course</th>
+									</tr>
+								<thead>
+								<tbody>
+									<tr>
+										<td>Mr</td>
+										<td>Joe</td>
+										<td>Bloggs</td>
+										<td>jb15123@my.bristol.ac.uk</td>
+										<td>Mathematics</td>
+									</tr>
+								</tbody>
+							</table>';
+	$output .= '<p>The system will automatically add the address details.</p>';
+	$output .= render(drupal_get_form('mha_bulk_upload_page_form'));
+	return $output;
+}
+
+function mha_bulk_upload_purge_form($form, &$form_state){	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Purge Current Resident Members'),
+	);
+	
+	$form['submit']['#attributes']['class'][] = 'btn-warning';
+	
+	return $form;
+}
+
+function mha_bulk_upload_purge_form_submit($form, &$form_state){
+	//Delete current resident members
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_membership_class', 'value', 'resident', '=');
+	$results = $query->execute();
+	if(is_array($results['user'])){
+		$_SESSION['delete_members'] = array_keys($results['user']);
+		batch_set(mha_bulk_upload_purge_residents());
+	}
+	else{
+		drupal_set_message(t('No Resident Members in the database to remove.'), 'error');
+	}
+}
+
+function mha_bulk_upload_purge_residents(){
+	drupal_set_message('Preparing to purge existing resident members.' ,'warning');
+	
+	if(is_array($_SESSION['delete_members'])){
+		foreach($_SESSION['delete_members'] as $resident) {
+			// $operations[] = array(<function name>, <array of arguments to pass to function>);
+			$operations[] = array('mha_bulk_upload_residents_delete', array($resident));
+		}
+	}
+	
+  // build the batch instructions
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'mha_bulk_upload_purge_residents_finished',
+		'title' => t('Removing Former Resident Members'),
+  );
+  return $batch;
+}
+
+function mha_bulk_upload_purge_residents_finished($success, $results, $operations) {
+  if ($success) {
+    // Here we could do something meaningful with the results.
+    // We just display the number of nodes we processed...
+    drupal_set_message(t('`Successfully Removed Resident Members', array('@count' => count($results))));
+  } else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+  }
+}
+
+function mha_bulk_upload_page_form($form, &$form_state){
+	$form['upload_file'] = array(
+		'#type' => 'file',
+		'#title' => t('CSV File to Import'),
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Upload Resident Members'),
+	);
+	
+	$form['submit']['#attributes']['class'][] = 'btn-success';
+	
+	return $form;
+}
+
+function mha_bulk_upload_page_form_submit($form, &$form_state){
+	$file = file_save_upload('upload_file', array(
+    'file_validate_extensions' => array('csv'), // Validate extensions.
+    FILE_EXISTS_REPLACE
+  ));
+	
+	$row = 0;
+	if(isset($file->destination)){
+		if (($handle = fopen($file->destination, "r")) !== FALSE) {
+			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+				$num = count($data);
+				$row_num[$row];
+				$row++;			
+				for ($c=0; $c < $num; $c++) {
+						$row_num[$row][] = $data[$c];
+				}
+			}
+			fclose($handle);
+		}
+	}
+	
+	unset($row_num[1]);
+	$_SESSION['residents'] = $row_num;
+	
+	batch_set(mha_bulk_upload_residents());
+}
+
+/**
+* Batch operation: Create user entities
+*/
+function mha_bulk_upload_residents() {
+  drupal_set_message('Preparing to upload new resident members.');
+  // build the list of operation functions and function arguments
+	if(is_array($_SESSION['residents'])){
+		foreach($_SESSION['residents'] as $resident) {
+			// $operations[] = array(<function name>, <array of arguments to pass to function>);
+			$operations[] = array('mha_bulk_upload_residents_create', array($resident));
+		}
+	}
+  // build the batch instructions
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'mha_bulk_upload_residents_finished',
+		'title' => t('Uploading New Resident Members'),
+  );
+  return $batch;
+}
+
+/**
+* This is the function that is called on each operation in the above.
+*/
+function mha_bulk_upload_residents_delete($resident, &$context) {
+	$account = user_load($resident);
+	if(isset($account->uid)){
+		$context['message'] = t('Deleting ' . $account->realname);
+		drupal_set_message($account->realname . ' deleted', 'warning');
+		user_delete($resident);
+	}
+}
+
+/**
+* This is the function that is called on each operation in the above.
+*/
+function mha_bulk_upload_residents_create($resident, &$context) {
+	$context['message'] = t('Processing ' .$resident[0] . ' ' . $resident[1] . ' ' . $resident[2]);
+	//if(user_load_by_mail($resident[3]) || user_load_by_name($resident[3])){
+		mha_bulk_upload_create_user($resident[0], $resident[1], $resident[2], $resident[3], $resident[4]);
+		drupal_set_message($resident[0] . ' ' . $resident[1] . ' ' . $resident[2] . ' added');
+	//}
+}
+
+function mha_bulk_upload_residents_finished($success, $results, $operations) {
+  if ($success) {
+    // Here we could do something meaningful with the results.
+    // We just display the number of nodes we processed...
+    drupal_set_message(t('`Successfully Imported Resident Members', array('@count' => count($results))));
+  } else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+  }
+}
+
+function mha_bulk_upload_create_user($salution = null, $first_name = null, $last_name = null, $email = null, $course = null){
+
+		//This will generate a random password, you could set your own here
+		$password = user_password(8);
+	 
+		//set up the user fields
+		$fields = array(
+			'name' => $email,
+			'mail' => $email,
+			'pass' => $password,
+			'status' => 1,
+			'init' => 'email address',
+			'roles' => array(
+				2 => 'authenticated user',
+				3 => 'Member',
+			),
+		);
+		
+		$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $salution;
+		$fields['field_first_name'][LANGUAGE_NONE][0]['value'] = $first_name;
+		$fields['field_last_name'][LANGUAGE_NONE][0]['value'] = $last_name;
+		
+		$fields['field_address_1'][LANGUAGE_NONE][0]['value'] = 'Manor Hall';
+		$fields['field_address_2'][LANGUAGE_NONE][0]['value'] = 'Lower Clifton Hill';
+		$fields['field_town'][LANGUAGE_NONE][0]['value'] = 'Bristol';
+		$fields['field_county'][LANGUAGE_NONE][0]['value'] =  'Avon';
+		$fields['field_post_code'][LANGUAGE_NONE][0]['value'] = 'BS8 1BU';
+		$fields['field_country'][LANGUAGE_NONE][0]['value'] = 'UK';
+		
+		$fields['field_membership_class'][LANGUAGE_NONE][0]['value'] = 'resident';
+		$fields['field_current_student'][LANGUAGE_NONE][0]['value'] = 'yes';
+		$fields['field_years_in_hall'][LANGUAGE_NONE][0]['value'] = date('Y') . ', ' . date('Y', strtotime('+ 1 Year'));
+		//TODO: Add Year of Completion
+		
+		$fields['field_user_status'][LANGUAGE_NONE][0]['value'] = 'active';
+		
+		//the first parameter is left blank so a new user is created
+		$account = user_save('', $fields);
+}
