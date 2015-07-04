@@ -79,10 +79,14 @@ function mha_dd_page_form_submit($form, &$form_state){
 		'interval_unit'    => 'month',
 		'name' => $item,
 		'description' => 'Direct Debit Payment for member MHA-905',
+		'state' => '905',
+		'resource_uri' => 'http://slide.manorhallassociation.co.uk/membership/dd/webhook'
+		
 	);
 
 	// Generate the url
 	$subscription_url = GoCardless::new_subscription_url($subscription_details);
+	$subscription_url .= '&uid=905';
 	
 	drupal_goto($subscription_url);
 
@@ -90,13 +94,14 @@ function mha_dd_page_form_submit($form, &$form_state){
 function mha_dd_webhook(){
 	watchdog('WEBHOOK1', print_r('HERE', true));
 	watchdog('WEBHOOK2', print_r($_POST, true));
+	watchdog('WEBHOOKG', print_r($_GET, true));
 	$webhook = file_get_contents('php://input');
-$webhook_array = json_decode($webhook, true);
-watchdog('WEBHOOK3', print_r($webhook_array, true));
-watchdog('WEBHOOK4', print_r($webhook, true));
-$webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
-header('HTTP/1.1 200 OK');
-//TODO: link the subscription back to the ember
+	$webhook_array = json_decode($webhook, true);
+	watchdog('WEBHOOK3', print_r($webhook_array, true));
+	watchdog('WEBHOOK4', print_r($webhook, true));
+	$webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
+	header('HTTP/1.1 200 OK');
+	//TODO: link the subscription back to the ember
 }
 
 function mha_dd_form_alter(&$form, &$form_state, $form_id) {

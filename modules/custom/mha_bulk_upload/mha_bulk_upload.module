@@ -52,6 +52,8 @@ function mha_bulk_upload_purge_form($form, &$form_state){
 		'#value' => t('Purge Current Resident Members'),
 	);
 	
+	$form['submit']['#attributes']['class'][] = 'btn-warning';
+	
 	return $form;
 }
 
@@ -112,6 +114,8 @@ function mha_bulk_upload_page_form($form, &$form_state){
 		'#type' => 'submit',
 		'#value' => t('Upload Resident Members'),
 	);
+	
+	$form['submit']['#attributes']['class'][] = 'btn-success';
 	
 	return $form;
 }

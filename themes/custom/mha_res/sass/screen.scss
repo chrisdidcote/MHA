@@ -114,6 +114,14 @@ p{
     background: transparent url("../images/whitelogo.png") bottom right no-repeat;
   }
 }
+
+@media (max-width: 768px){
+  .page-membership-apply{
+    .region-sidebar-first{
+      display: none;
+    }
+  }
+}
 .region.region-sidebar-first.well{
   padding-top: 0;
 }

@@ -158,120 +158,124 @@ p {
   /* line 113, ../sass/screen.scss */
   .footer {
     background: transparent url("../images/whitelogo.png") bottom right no-repeat; } }
-/* line 117, ../sass/screen.scss */
+@media (max-width: 768px) {
+  /* line 120, ../sass/screen.scss */
+  .page-membership-apply .region-sidebar-first {
+    display: none; } }
+/* line 125, ../sass/screen.scss */
 .region.region-sidebar-first.well {
   padding-top: 0; }
 
-/* line 120, ../sass/screen.scss */
+/* line 128, ../sass/screen.scss */
 .navbar-full {
   background: #161B20;
   margin-bottom: 20px; }
-  /* line 123, ../sass/screen.scss */
+  /* line 131, ../sass/screen.scss */
   .navbar-full .container {
     padding: 0; }
-    /* line 125, ../sass/screen.scss */
+    /* line 133, ../sass/screen.scss */
     .navbar-full .container a {
       color: #fff; }
-    /* line 128, ../sass/screen.scss */
+    /* line 136, ../sass/screen.scss */
     .navbar-full .container a:hover {
       color: #000; }
 
-/* line 134, ../sass/screen.scss */
+/* line 142, ../sass/screen.scss */
 .front .navbar-full {
   margin-bottom: 0; }
-/* line 137, ../sass/screen.scss */
+/* line 145, ../sass/screen.scss */
 .front .view-latest-tweets {
   background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
   padding: 13px 0 13px 50px;
   margin-bottom: 20px;
   color: #fff; }
-  /* line 142, ../sass/screen.scss */
+  /* line 150, ../sass/screen.scss */
   .front .view-latest-tweets a {
     color: #fff;
     text-decoration: underline;
     font-size: 0.9em; }
-  /* line 147, ../sass/screen.scss */
+  /* line 155, ../sass/screen.scss */
   .front .view-latest-tweets span {
     width: 100%;
     font-size: 0.9em; }
-/* line 153, ../sass/screen.scss */
+/* line 161, ../sass/screen.scss */
 .front .main-container h2 {
   font-size: 1.5em;
   background: #B01C2E;
   padding: 10px;
   color: #fff; }
-/* line 162, ../sass/screen.scss */
+/* line 170, ../sass/screen.scss */
 .front .pane-events .views-row,
 .front .pane-news .views-row {
   border-bottom: 1px solid #ddd;
   padding: 20px 0px;
   margin-bottom: 20px; }
-/* line 167, ../sass/screen.scss */
+/* line 175, ../sass/screen.scss */
 .front .pane-events .views-row:first-child,
 .front .pane-news .views-row:first-child {
   padding-top: 0; }
-/* line 170, ../sass/screen.scss */
+/* line 178, ../sass/screen.scss */
 .front .pane-events .views-field-title,
 .front .pane-news .views-field-title {
   padding: 10px 0; }
-  /* line 172, ../sass/screen.scss */
+  /* line 180, ../sass/screen.scss */
   .front .pane-events .views-field-title a,
   .front .pane-news .views-field-title a {
     font-size: 1.3em;
     color: #B01C2E; }
 
-/* line 179, ../sass/screen.scss */
+/* line 187, ../sass/screen.scss */
 .view-display-id-attachment_1 {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #ddd; }
 
-/* line 186, ../sass/screen.scss */
+/* line 194, ../sass/screen.scss */
 .views-bootstrap-grid-plugin-style .views-field-title a {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.2em; }
-/* line 192, ../sass/screen.scss */
+/* line 200, ../sass/screen.scss */
 .views-bootstrap-grid-plugin-style .col {
   margin-bottom: 30px; }
 
-/* line 196, ../sass/screen.scss */
+/* line 204, ../sass/screen.scss */
 .pagination > .active > a,
 .pagination > .active > a:hover {
   background-color: #B01C2E;
   border-color: #B01C2E; }
 
-/* line 201, ../sass/screen.scss */
+/* line 209, ../sass/screen.scss */
 .pagination > li > a {
   color: #B01C2E; }
 
-/* line 205, ../sass/screen.scss */
+/* line 213, ../sass/screen.scss */
 #block-mha-news-social-share img {
   float: left;
   margin-right: 10px; }
 
 @media (min-width: 768px) {
-  /* line 212, ../sass/screen.scss */
+  /* line 220, ../sass/screen.scss */
   .navbar-full li {
     float: left !important; } }
-/* line 217, ../sass/screen.scss */
+/* line 225, ../sass/screen.scss */
 .navbar-default {
   border: none;
   background: none; }
 
-/* line 222, ../sass/screen.scss */
+/* line 230, ../sass/screen.scss */
 .view-id-hero_widget .container-fluid {
   background: #B01C2E; }
-/* line 225, ../sass/screen.scss */
+/* line 233, ../sass/screen.scss */
 .view-id-hero_widget .col-md-4 {
   padding-top: 30px;
   color: #fff; }
-  /* line 228, ../sass/screen.scss */
+  /* line 236, ../sass/screen.scss */
   .view-id-hero_widget .col-md-4 a {
     color: #fff;
     font-size: 1.5em; }
 
-/* line 237, ../sass/screen.scss */
+/* line 245, ../sass/screen.scss */
 .view-image-gallery .views-bootstrap-grid-plugin-style .views-field-title a {
   position: absolute;
   background: #B01C2E;
@@ -279,26 +283,26 @@ p {
   top: 30px;
   color: #fff; }
 
-/* line 249, ../sass/screen.scss */
+/* line 257, ../sass/screen.scss */
 .view-id-events.view-display-id-page img,
 .view-id-events.view-display-id-page_1 img {
   float: left;
   margin-right: 20px; }
-/* line 253, ../sass/screen.scss */
+/* line 261, ../sass/screen.scss */
 .view-id-events.view-display-id-page .views-row,
 .view-id-events.view-display-id-page_1 .views-row {
   margin-top: 20px;
   padding: 20px 0;
   border-bottom: 1px solid #ddd;
   border-top: 1px solid #ddd; }
-/* line 260, ../sass/screen.scss */
+/* line 268, ../sass/screen.scss */
 .view-id-events.view-display-id-page .views-field-title a,
 .view-id-events.view-display-id-page_1 .views-field-title a {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.2em; }
 
-/* line 268, ../sass/screen.scss */
+/* line 276, ../sass/screen.scss */
 .region-sidebar-second .block {
   min-height: 20px;
   padding: 19px;
@@ -309,15 +313,15 @@ p {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   padding-top: 0; }
-  /* line 278, ../sass/screen.scss */
+  /* line 286, ../sass/screen.scss */
   .region-sidebar-second .block p {
     font-size: 0.9em;
     margin-top: 1em; }
-  /* line 282, ../sass/screen.scss */
+  /* line 290, ../sass/screen.scss */
   .region-sidebar-second .block a {
     font-size: 0.9em; }
 
-/* line 289, ../sass/screen.scss */
+/* line 297, ../sass/screen.scss */
 .node-type-news-article .region-sidebar-second .block {
   min-height: 20px;
   padding: 0;
@@ -328,116 +332,116 @@ p {
   box-shadow: none;
   background: none; }
 
-/* line 302, ../sass/screen.scss */
+/* line 310, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page img {
   float: left;
   margin-right: 20px; }
-/* line 306, ../sass/screen.scss */
+/* line 314, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .views-row {
   padding: 20px 0;
   border-top: 1px solid #ddd; }
-/* line 311, ../sass/screen.scss */
+/* line 319, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content h3 {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.5em;
   margin-top: 20px; }
-/* line 318, ../sass/screen.scss */
+/* line 326, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content .views-field-title h3 {
   font-size: 1.2em; }
-/* line 322, ../sass/screen.scss */
+/* line 330, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content .views-row-first {
   margin-top: 20px; }
-/* line 325, ../sass/screen.scss */
+/* line 333, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content .views-field-body {
   padding-top: 1em; }
 
-/* line 330, ../sass/screen.scss */
+/* line 338, ../sass/screen.scss */
 strong {
   font-weight: bold; }
 
-/* line 334, ../sass/screen.scss */
+/* line 342, ../sass/screen.scss */
 .node-elton-house-award-recipient .field-name-field-course {
   font-weight: bold;
   margin-bottom: 1em; }
-/* line 338, ../sass/screen.scss */
+/* line 346, ../sass/screen.scss */
 .node-elton-house-award-recipient .field-type-image {
   float: left;
   margin-right: 20px; }
 
-/* line 344, ../sass/screen.scss */
+/* line 352, ../sass/screen.scss */
 #block-system-main ul {
   list-style: circle;
   margin-left: 20px;
   margin-bottom: 1em; }
-  /* line 348, ../sass/screen.scss */
+  /* line 356, ../sass/screen.scss */
   #block-system-main ul li {
     list-style: circle; }
 
 @media (min-width: 768px) {
-  /* line 355, ../sass/screen.scss */
+  /* line 363, ../sass/screen.scss */
   .region-footer .block {
     width: 33.33%;
     float: left; } }
 @media (min-width: 992px) {
-  /* line 363, ../sass/screen.scss */
+  /* line 371, ../sass/screen.scss */
   .navbar-header {
     float: none; }
 
-  /* line 366, ../sass/screen.scss */
+  /* line 374, ../sass/screen.scss */
   #header-committee {
     font-family: Georgia, "Times New Roman", Times, serif;
     text-align: right;
     float: right;
     margin-top: 10px;
     font-size: 0.9em; }
-    /* line 372, ../sass/screen.scss */
+    /* line 380, ../sass/screen.scss */
     #header-committee p {
       margin: 0;
       font-size: 1em; }
-    /* line 376, ../sass/screen.scss */
+    /* line 384, ../sass/screen.scss */
     #header-committee strong {
       font-size: 1em; } }
-/* line 382, ../sass/screen.scss */
+/* line 390, ../sass/screen.scss */
 .region-footer a {
   color: #fff; }
-/* line 385, ../sass/screen.scss */
+/* line 393, ../sass/screen.scss */
 .region-footer a:hover {
   background: none; }
-/* line 388, ../sass/screen.scss */
+/* line 396, ../sass/screen.scss */
 .region-footer .nav > li > a:hover, .region-footer .nav > li > a:focus {
   background: none;
   text-decoration: underline; }
 
-/* line 394, ../sass/screen.scss */
+/* line 402, ../sass/screen.scss */
 .navbar-collapse a[href*="user"] {
   background: #428bca; }
-/* line 397, ../sass/screen.scss */
+/* line 405, ../sass/screen.scss */
 .navbar-collapse a[href*="membership/home"] {
   background: #5cb85c; }
 
-/* line 401, ../sass/screen.scss */
+/* line 409, ../sass/screen.scss */
 .caret {
   display: none !important; }
 
-/* line 405, ../sass/screen.scss */
+/* line 413, ../sass/screen.scss */
 #block-menu-menu-membership-administration .block-title {
   background: #5cb85c; }
 
-/* line 410, ../sass/screen.scss */
+/* line 418, ../sass/screen.scss */
 #mha-permission-email-settings .form-type-textarea {
   margin-top: 40px; }
-  /* line 412, ../sass/screen.scss */
+  /* line 420, ../sass/screen.scss */
   #mha-permission-email-settings .form-type-textarea p {
     font-size: 0.8em;
     color: #777; }
-/* line 417, ../sass/screen.scss */
+/* line 425, ../sass/screen.scss */
 #mha-permission-email-settings label {
   font-size: 1.2em;
   font-weight: bold;
   color: #B01C2E; }
 
-/* line 423, ../sass/screen.scss */
+/* line 431, ../sass/screen.scss */
 #direct-debit-container,
 #paypal-container {
   border: 1px solid;
@@ -445,6 +449,6 @@ strong {
   margin-bottom: 15px;
   background: transparent url("../images/dd_form.gif") bottom right no-repeat; }
 
-/* line 430, ../sass/screen.scss */
+/* line 438, ../sass/screen.scss */
 #paypal-container {
   background: transparent url("../images/pp.jpg") bottom right no-repeat; }
