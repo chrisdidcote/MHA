@@ -266,7 +266,7 @@ function mha_permission_membership_mailing_postage(){
 	
 	$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'user')
-		->fieldCondition('field_postal_only', 'value', '=', 'yes');
+		->fieldCondition('field_postal_only', 'value', 'yes');
 
 	$result = $query->execute();
 	$users_ids = array_keys($result['user']);
