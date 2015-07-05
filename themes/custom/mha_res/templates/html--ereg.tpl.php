@@ -58,7 +58,7 @@
   <link rel="apple-touch-icon" sizes="152x152" href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/touch-icon-ipad-retina.png">
     
     
-    !-- iPhone -->
+<!-- iPhone -->
 <link href="<?php print $base_url . '/' .  path_to_theme();?>/images/apple/apple-touch-startup-image-320x460.png"
       media="(device-width: 320px) and (device-height: 480px)
          and (-webkit-device-pixel-ratio: 1)"

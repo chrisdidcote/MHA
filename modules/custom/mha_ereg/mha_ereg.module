@@ -14,5 +14,21 @@ function mha_ereg_menu(){
 }
 
 function mha_ereg_config(){
-	return 'Hello World';
+	$output = theme('image', array(
+		'path' => drupal_get_path('module', 'mha_ereg') .'/images/mha-new-trans.png',
+	));
+	$output .= render(drupal_get_form('user_login'));
+	return $output;
+}
+
+function mha_ereg_form_alter(&$form, &$form_state, $form_id){
+	if($form_id == 'user_login'){
+		$form['form_js']['#after_build'] = array('_mha_ereg_add_js');
+	}
+}
+
+
+function _mha_ereg_add_js($element){
+	drupal_add_js(drupal_get_path('module', 'mha_ereg') . '/js/mha_ereg.js');
+	return $element;
 }

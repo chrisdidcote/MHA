@@ -457,3 +457,6 @@ strong {
 .page-ereg {
   background: #3e3e3f;
   color: #D4C69B; }
+  /* line 444, ../sass/screen.scss */
+  .page-ereg img {
+    margin: 45px auto; }
