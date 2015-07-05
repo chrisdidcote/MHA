@@ -48,7 +48,7 @@
 <html lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces;?>>
 <head profile="<?php print $grddl_profile; ?>">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <?php global $base_url; ?>
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -106,7 +106,7 @@
   <link href="includes/images/apple-launch-568h.png" sizes="640x1136" media="(device-height: 568px)" rel="apple-touch-startup-image">
   
   <?php print $head; ?>
-  <title><?php print $head_title; ?></title>
+  <title>eRegistration</title>
   <?php print $styles; ?>
   <!-- HTML5 element support for IE6-8 -->
   <!--[if lt IE 9]>

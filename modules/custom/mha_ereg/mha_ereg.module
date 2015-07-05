@@ -4,7 +4,7 @@
   */
 function mha_ereg_menu(){
 	$items['ereg'] = array(
-    'title' => 'Bulk Upload Resident Members', 
+    'title' => 'eRegistration', 
     'page callback' => 'mha_ereg_config',  
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
@@ -14,16 +14,24 @@ function mha_ereg_menu(){
 }
 
 function mha_ereg_config(){
-	$output = theme('image', array(
-		'path' => drupal_get_path('module', 'mha_ereg') .'/images/mha-new-trans.png',
-	));
-	$output .= render(drupal_get_form('user_login'));
+	global $user;
+	if($user->uid){
+		$output = 'apparently signed in';
+	}
+	else{
+		$output = theme('image', array(
+			'path' => drupal_get_path('module', 'mha_ereg') .'/images/mha-new-trans.png',
+		));
+		$output .= '<p>Eletronic Event Registration</p>';
+		$output .= render(drupal_get_form('user_login'));
+	}
 	return $output;
 }
 
 function mha_ereg_form_alter(&$form, &$form_state, $form_id){
-	if($form_id == 'user_login'){
+	if($form_id == 'user_login' && arg(0) == 'ereg'){
 		$form['form_js']['#after_build'] = array('_mha_ereg_add_js');
+		$form_state['redirect'] = 'ereg';
 	}
 }
 
