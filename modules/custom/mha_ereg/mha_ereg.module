@@ -10,6 +10,13 @@ function mha_ereg_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
+	$items['ereg/event'] = array(
+    'title' => 'eRegistration', 
+    'page callback' => 'mha_ereg_event',  
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
 	return $items;
 }
 
@@ -29,14 +36,21 @@ function mha_ereg_config(){
 }
 
 function mha_ereg_form_alter(&$form, &$form_state, $form_id){
-	if($form_id == 'user_login' && arg(0) == 'ereg'){
+	if($form_id == 'user_login'){
 		$form['form_js']['#after_build'] = array('_mha_ereg_add_js');
-		$form_state['redirect'] = 'ereg';
 	}
+}
+
+function mha_ereg_user_login(&$edit, $account) {
+  $edit['redirect'] = 'ereg/event';
 }
 
 
 function _mha_ereg_add_js($element){
 	drupal_add_js(drupal_get_path('module', 'mha_ereg') . '/js/mha_ereg.js');
 	return $element;
+}
+
+function mha_ereg_event(){
+	return 'select an event';
 }

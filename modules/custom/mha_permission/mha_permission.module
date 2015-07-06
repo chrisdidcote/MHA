@@ -626,7 +626,7 @@ function mha_permission_cron(){
 	
 	$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'user')
-		->fieldCondition('field_expiry_', 'value', time(), '>');
+		->fieldCondition('field_expiry_', 'value', strtotime('-1 month'), '<');
 	$results = $query->execute();
 	$users = user_load_multiple(array_keys($results['user']));
 	foreach($users as $user) {
