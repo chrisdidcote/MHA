@@ -111,7 +111,50 @@ function mha_permission_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
+	$items['membership/delete/%'] = array(
+    'title' => 'Delete Membership Application', 
+    'page callback' => 'mha_permission_membership_delete',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
   return $items;
+}
+
+function mha_permission_membership_delete($uid = null){
+	if($uid){
+		$account = user_load($uid);
+		$output = '<p>Are you sure you want to delete ' . $account->realname . '\'s membership application?';
+		$output .= render(drupal_get_form('mha_permission_membership_delete_form', $uid));
+		return $output;
+	}
+	else return 'You must select an application to delete. Please go back to the Membership Dashboard.';
+}
+
+function mha_permission_membership_delete_form($form, &$form_state, $uid){
+	$form['uid'] = array(
+		'#type' => 'value',
+		'#value' => $uid,
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Delete this Application'),
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'markup',
+		'#markup' => l('Cancel', 'membership/home'),
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_delete_form_submit($form, &$form_state){
+	$values = $form_state['values'];
+	user_delete($values['uid']);
+	return $form;
 }
 
 function mha_permission_user_renewal(){
@@ -634,7 +677,7 @@ function mha_permission_cron(){
 			 $user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'affiliate' ||
 			 $user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'student'){ 
 				if($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] < strtotime('-2 weeks') ||
-					 !isset($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'])){
+					 empty($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'])){
 					$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'renew';
 					$user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] = time();
 					user_save($user);
