@@ -500,7 +500,7 @@ function mha_permission_membership_mailing_postage(){
 	$result = $query->execute();
 	$users_ids = array_keys($result['user']);
 	
-	if(is_array($results['user'])){
+	if(is_array($results['user']) && !empty($results['user'])){
 		$users = user_load_multiple(array_keys($results['user']));
 	}	
 	foreach($users as $account) {
