@@ -460,3 +460,7 @@ strong {
   /* line 444, ../sass/screen.scss */
   .page-ereg img {
     margin: 45px auto; }
+
+/* line 450, ../sass/screen.scss */
+.page-membership-home .panel-pane {
+  margin-bottom: 30px; }

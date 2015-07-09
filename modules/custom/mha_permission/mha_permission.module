@@ -127,7 +127,22 @@ function mha_permission_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
+	$items['membership/renew-sent/%'] = array(
+    'title' => 'Renewal Letter Sent', 
+    'page callback' => 'mha_permission_membership_renewal_sent',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
   return $items;
+}
+
+function mha_permission_membership_renewal_sent($uid = null){
+	$account = user_load($uid);
+	//$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+	//mha_permission_log_entry(t('!duration years membership manually added: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+	user_save($account);
 }
 
 function mha_permission_membership_delete($uid = null){
@@ -162,7 +177,7 @@ function mha_permission_membership_delete_form($form, &$form_state, $uid){
 function mha_permission_membership_delete_form_submit($form, &$form_state){
 	$values = $form_state['values'];
 	user_delete($values['uid']);
-	return $form;
+	$form_state['redirect'] = 'membership/home';
 }
 
 function mha_permission_membership_paid($uid = null){
@@ -198,12 +213,12 @@ function mha_permission_membership_paid_form_submit($form, &$form_state){
 	$values = $form_state['values'];
 	$account = user_load($values['uid']);
 	$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
-	$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+' . $values['duration'] . ' years', $account->field_expiry_[LANGUAGE_NONE][0]['value']);
+	$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
 	mha_permission_log_entry(t('!duration years membership manually added: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
 	user_save($account);
 	$params['account'] = $account;
 	$params['duration'] = $values['duration'];
-	drupal_mail('mha_permission', 'renew_add', $account->mail, user_preferred_language($account), $params);
+	drupal_mail('mha_permission', 'payment_application', $account->mail, user_preferred_language($account), $params);
 	$form_state['redirect'] = 'membership/home';
 }
 
