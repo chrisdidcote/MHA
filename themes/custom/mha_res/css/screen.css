@@ -414,7 +414,7 @@ strong {
   text-decoration: underline; }
 
 /* line 402, ../sass/screen.scss */
-.navbar-collapse a[href*="user"] {
+.navbar-collapse a[href*="membership/apply"] {
   background: #428bca; }
 /* line 405, ../sass/screen.scss */
 .navbar-collapse a[href*="membership/home"] {
