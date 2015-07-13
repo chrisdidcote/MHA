@@ -999,6 +999,11 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 		'#title' => t('Last Name'),
 	);
 	
+	$form['personal_details']['last_name_graduation'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Last Name on Graduation (if different)'),
+	);
+	
 	$form['personal_details']['post_nominals'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Post Nominals (e.g. MBE, BSc, PhD)'),
@@ -1073,6 +1078,16 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 			'yes' => t('Yes'),
 			'no' => t('No'),
 		),
+	);
+	
+	$form['membership_details']['current_course'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Current Course e.g. Mathematics'),
+	);
+	
+	$form['membership_details']['expected_completion'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Expected Year of Completion e.g. 2016'),
 	);
 	
 	$form['membership_details']['years_in_hall'] = array(
@@ -1214,6 +1229,12 @@ function mha_permission_join_form_validate($form, &$form_state){
 				if($values['membership_details']['current_student'] == 'no'){
 					form_set_error('membership_details][current_student', t('Only current students of the University of Bristol can apply for Student Membership'));
 				}
+				if(empty($values['membership_details']['current_course'])){
+					form_set_error('membership_details][current_course', t('You must specify your current course in order to apply for Student Membership'));
+				}
+				if(empty($values['membership_details']['expected_completion'])){
+					form_set_error('membership_details][expected_completion', t('You must specify your expected year of completion in order to apply for Student Membership'));
+				}
 				break;
 			case 'full' :
 				if(empty($values['membership_details']['years_in_hall'])){
@@ -1237,11 +1258,6 @@ function mha_permission_join_form_submit($form, &$form_state){
 	//Redirect to the PayPal confirmation screen.
 	$values = $form_state['values'];
 	if($values['op'] == 'Submit'){
-		
-		print_r($values);
-		
-		$account = user_load(918);
-		print_r($account);
 		
 		//This will generate a random password, you could set your own here
 		$password = user_password(8);
@@ -1269,6 +1285,7 @@ function mha_permission_join_form_submit($form, &$form_state){
 		$fields['field_first_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['first_name'];
 		$fields['field_middle_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['middle_name'];
 		$fields['field_last_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name'];
+		$fields['field_last_name_on_graduation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name_graduation'];
 		$fields['field_post_nominals'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['post_nominals'];
 		$fields['field_date_of_birth'][LANGUAGE_NONE][0]['value'] = strtotime($values['personal_details']['dob']['month'] . '/' . $values['personal_details']['dob']['day'] . '/' . $values['personal_details']['dob']['year']);
 		
@@ -1281,6 +1298,8 @@ function mha_permission_join_form_submit($form, &$form_state){
 		
 		$fields['field_membership_class'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['class'];
 		$fields['field_current_student'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_student'];
+		$fields['field_current_course'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_course'];
+		$fields['field_expected_date_of_completio'][LANGUAGE_NONE][0]['value'] = strtotime($values['membership_details']['expected_completion']);
 		$fields['field_years_in_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['years_in_hall'];
 		$fields['field_affiliation_to_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['affiliation'];
 		//TODO: Add Year of Completion
