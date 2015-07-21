@@ -451,3 +451,48 @@ strong{
     margin-bottom: 30px;
   }
 }
+.event-header{
+  margin: 20px 0;
+  .date{
+    .calendar{
+      background: #ddd;
+      width: 100px;
+      float: left;
+      .day{
+        background: #B01C2E;
+        text-align: center;
+        font-weight: bold;
+        color: #fff;
+        line-height: 2em;
+      }
+      .day-number{
+        font-size: 3em;
+        text-align: center;
+      }
+      .month{
+        text-align: center;
+          line-height: 2em;
+          font-weight: bold;
+      }
+    }
+  }
+  .time-location{
+    float: left;
+    margin-left: 20px;
+    .time{
+      background: url('../images/clock.png') no-repeat;
+      padding: 5px 40px;
+      font-weight: bold;
+    }
+    .location{
+      background: url('../images/location.png') no-repeat;
+      padding: 5px 40px;
+      font-weight: bold;
+    }
+    .price{
+      background: url('../images/price.png') no-repeat;
+      padding: 5px 40px;
+      font-weight: bold;
+    }
+  }
+}

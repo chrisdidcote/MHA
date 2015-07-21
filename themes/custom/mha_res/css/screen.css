@@ -464,3 +464,47 @@ strong {
 /* line 450, ../sass/screen.scss */
 .page-membership-home .panel-pane {
   margin-bottom: 30px; }
+
+/* line 454, ../sass/screen.scss */
+.event-header {
+  margin: 20px 0; }
+  /* line 457, ../sass/screen.scss */
+  .event-header .date .calendar {
+    background: #ddd;
+    width: 100px;
+    float: left; }
+    /* line 461, ../sass/screen.scss */
+    .event-header .date .calendar .day {
+      background: #B01C2E;
+      text-align: center;
+      font-weight: bold;
+      color: #fff;
+      line-height: 2em; }
+    /* line 468, ../sass/screen.scss */
+    .event-header .date .calendar .day-number {
+      font-size: 3em;
+      text-align: center; }
+    /* line 472, ../sass/screen.scss */
+    .event-header .date .calendar .month {
+      text-align: center;
+      line-height: 2em;
+      font-weight: bold; }
+  /* line 479, ../sass/screen.scss */
+  .event-header .time-location {
+    float: left;
+    margin-left: 20px; }
+    /* line 482, ../sass/screen.scss */
+    .event-header .time-location .time {
+      background: url("../images/clock.png") no-repeat;
+      padding: 5px 40px;
+      font-weight: bold; }
+    /* line 487, ../sass/screen.scss */
+    .event-header .time-location .location {
+      background: url("../images/location.png") no-repeat;
+      padding: 5px 40px;
+      font-weight: bold; }
+    /* line 492, ../sass/screen.scss */
+    .event-header .time-location .price {
+      background: url("../images/price.png") no-repeat;
+      padding: 5px 40px;
+      font-weight: bold; }
