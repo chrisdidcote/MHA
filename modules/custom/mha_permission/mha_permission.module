@@ -1258,64 +1258,68 @@ function mha_permission_join_form_submit($form, &$form_state){
 	//Redirect to the PayPal confirmation screen.
 	$values = $form_state['values'];
 	if($values['op'] == 'Submit'){
-		
-		//This will generate a random password, you could set your own here
-		$password = user_password(8);
-	 
-		//set up the user fields
-		$fields = array(
-			'name' => $values['personal_details']['email'],
-			'mail' => $values['personal_details']['email'],
-			'pass' => $password,
-			'status' => 1,
-			'init' => 'email address',
-			'roles' => array(
-				2 => 'authenticated user',
-				3 => 'Member',
-			),
-		);
-		
-		if($values['personal_details']['salutation'] != 'Other'){
-			$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['salutation'];
+		if(user_load_by_mail($values['personal_details']['email'])){
+			drupal_set_message('A member with this email address already exists.');
 		}
-		else{
-			$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['salutation_other'];
+		else{		
+			//This will generate a random password, you could set your own here
+			$password = user_password(8);
+		 
+			//set up the user fields
+			$fields = array(
+				'name' => $values['personal_details']['email'],
+				'mail' => $values['personal_details']['email'],
+				'pass' => $password,
+				'status' => 1,
+				'init' => 'email address',
+				'roles' => array(
+					2 => 'authenticated user',
+					3 => 'Member',
+				),
+			);
+			
+			if($values['personal_details']['salutation'] != 'Other'){
+				$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['salutation'];
+			}
+			else{
+				$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['salutation_other'];
+			}
+			
+			$fields['field_first_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['first_name'];
+			$fields['field_middle_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['middle_name'];
+			$fields['field_last_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name'];
+			$fields['field_last_name_on_graduation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name_graduation'];
+			$fields['field_post_nominals'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['post_nominals'];
+			$fields['field_date_of_birth'][LANGUAGE_NONE][0]['value'] = strtotime($values['personal_details']['dob']['month'] . '/' . $values['personal_details']['dob']['day'] . '/' . $values['personal_details']['dob']['year']);
+			
+			$fields['field_address_1'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['address1'];
+			$fields['field_address_2'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['address2'];
+			$fields['field_town'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['town'];
+			$fields['field_county'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['county'];
+			$fields['field_post_code'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['postcode'];
+			$fields['field_country'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['country'];
+			
+			$fields['field_membership_class'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['class'];
+			$fields['field_current_student'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_student'];
+			$fields['field_current_course'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_course'];
+			$fields['field_expected_date_of_completio'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['expected_completion'] ? strtotime($values['membership_details']['expected_completion']) : 0;
+			$fields['field_years_in_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['years_in_hall'];
+			$fields['field_affiliation_to_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['affiliation'];
+			//TODO: Add Year of Completion
+			
+			foreach($values['bristol_degrees']['name'] AS $degree){
+				$fields['field_bristol_degrees_held'][LANGUAGE_NONE][]['value'] = $degree;
+			}
+			
+			//the first parameter is left blank so a new user is created
+			$account = user_save('', $fields);
+			
+			$params['account'] = $account;
+			
+			drupal_mail('mha_permission', 'application', $account->mail, user_preferred_language($account), $params);
+			$_SESSION['account'] = $account;
+			$form_state['redirect'] = 'membership/apply/payment';
 		}
-		
-		$fields['field_first_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['first_name'];
-		$fields['field_middle_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['middle_name'];
-		$fields['field_last_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name'];
-		$fields['field_last_name_on_graduation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name_graduation'];
-		$fields['field_post_nominals'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['post_nominals'];
-		$fields['field_date_of_birth'][LANGUAGE_NONE][0]['value'] = strtotime($values['personal_details']['dob']['month'] . '/' . $values['personal_details']['dob']['day'] . '/' . $values['personal_details']['dob']['year']);
-		
-		$fields['field_address_1'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['address1'];
-		$fields['field_address_2'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['address2'];
-		$fields['field_town'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['town'];
-		$fields['field_county'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['county'];
-		$fields['field_post_code'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['postcode'];
-		$fields['field_country'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['country'];
-		
-		$fields['field_membership_class'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['class'];
-		$fields['field_current_student'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_student'];
-		$fields['field_current_course'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_course'];
-		$fields['field_expected_date_of_completio'][LANGUAGE_NONE][0]['value'] = strtotime($values['membership_details']['expected_completion']);
-		$fields['field_years_in_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['years_in_hall'];
-		$fields['field_affiliation_to_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['affiliation'];
-		//TODO: Add Year of Completion
-		
-		foreach($values['bristol_degrees']['name'] AS $degree){
-			$fields['field_bristol_degrees_held'][LANGUAGE_NONE][]['value'] = $degree;
-		}
-		
-		//the first parameter is left blank so a new user is created
-		$account = user_save('', $fields);
-		
-		$params['account'] = $account;
-		
-		drupal_mail('mha_permission', 'application', $account->mail, user_preferred_language($account), $params);
-		$_SESSION['account'] = $account;
-		$form_state['redirect'] = 'membership/apply/payment';
 	}
 }
 
