@@ -99,14 +99,14 @@ function mha_dd_webhook(){
 	$webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
 	header('HTTP/1.1 200 OK');
 	if($webhook_array['payload']['action'] == 'paid'){
-		
+		watchdog('Direct Debit2', print_r($webhook_array, true));
 		$query = new EntityFieldQuery();
 		$query->entityCondition('entity_type', 'user')
 			->fieldCondition('field_direct_debit_subscription', 'value', $webhook_array['payload']['bills'][0]['source_id'], '=');
 
 		$results = $query->execute();
 		$users_ids = array_keys($results['user']);
-
+		watchdog('Direct Debit2', print_r($users_ids, true));
 		$users = user_load_multiple(array_keys($results['user']));
 		foreach($users as $account) {
 			$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'paid';
@@ -114,6 +114,12 @@ function mha_dd_webhook(){
 			user_save($account);
 			mha_permission_log_entry(t('Direct Debit Payment: !name', array('!name' => $account->realname)), $account->uid);
 		}
+	}
+	elseif($webhook_array['payload']['action'] == 'created'){
+		global $user;
+		$account = user_load($user->uid);
+		$params['subscription_id'] = $webhook_array['payload']['bills'][0]['source_id'];
+		drupal_mail('mha_permission', 'dd', 'membership@manorhallassociation.co.uk', user_preferred_language($user), $params);
 	}
 }
 

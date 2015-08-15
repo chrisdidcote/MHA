@@ -797,7 +797,7 @@ function mha_permission_cron(){
 					$user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] = time();
 					user_save($user);
 					$params['account'] = $user;
-					//drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
+					drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
 					mha_permission_log_entry(t('Renewal Email Sent: !name', array('!name' => $user->realname)), $user->uid);
 				}
 		}
@@ -881,6 +881,12 @@ function mha_permission_mail($key, &$message, $params) {
 	$options['language'] = $message['language'];
 	user_mail_tokens($variables, $data, $options);
 	switch($key) {
+		case 'dd':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('New Direct Debit Instruction');
+			$clean_mesaage = 
+			$message['body'][] = t('A new Direct Debit instruction has been received. This subscription ID must manually be linked to the correct member so future withdrawals are automatically tracked by the system. The resorce ID is: !id', array('!id' => $params['subscription_id']), $variables, array('langcode' => $langcode));
+			break;
 		case 'approved':
 			$langcode = $message['language']->language;
 			$message['subject'] = t('Confirmation of Membership');
