@@ -24,7 +24,8 @@ function mha_ereg_menu(){
 function mha_ereg_config(){
 	global $user;
 	if($user->uid){
-		$output = 'apparently signed in';
+		$output = '<p>Select an event</p>';
+		$output .= views_embed_view('eregistration_events');
 	}
 	else{
 		$output = theme('image', array(
@@ -44,7 +45,7 @@ function mha_ereg_form_alter(&$form, &$form_state, $form_id){
 
 function mha_ereg_user_login(&$edit, $account) {
 	if(arg(0) == 'ereg'){
-		$edit['redirect'] = 'ereg/event';
+		$edit['redirect'] = 'ereg';
 	}
 }
 
@@ -60,7 +61,32 @@ function mha_ereg_event($nid = null){
 	}
 	else{
 		$event = node_load($nid);
-		
-		return 'select an event';
+		if($event->type != 'event'){
+			return 'No valid event specified.';
+		}
+		$output = '<h1>' . $event->title . ' eRegistration</h1>';
+		$output .= render(drupal_get_form('mha_ereg_registration_form', $event));
+		return $output;
 	}
+}
+
+function mha_ereg_registration_form($form, &$form_state, $event){
+	$form['event'] = array(
+		'#type' => 'value',
+		'#value' => $event->nid,
+	);
+	
+	$form['non_member'] = array(
+		'#type' => 'fieldset',
+		'#collapsible' => true,
+		'#title' => t('Non-Member'),
+		'#collapsed' => true,
+	);
+	
+	$form['non_member']['non_member_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Full Name'),
+	);
+	
+	return $form;
 }

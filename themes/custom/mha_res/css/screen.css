@@ -515,3 +515,12 @@ strong {
 /* line 503, ../sass/screen.scss */
 .page-user .user-expiry {
   margin-top: 20px; }
+
+/* line 509, ../sass/screen.scss */
+.view-id-events .view-display-id-block .date-display-single {
+  font-weight: bold;
+  margin-bottom: 1em; }
+
+/* line 517, ../sass/screen.scss */
+.front .pane-block-1 h2 {
+  margin-bottom: 1em; }
