@@ -10,9 +10,10 @@ function mha_ereg_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
-	$items['ereg/event'] = array(
+	$items['ereg/event/%'] = array(
     'title' => 'eRegistration', 
-    'page callback' => 'mha_ereg_event',  
+    'page callback' => 'mha_ereg_event',
+		'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
@@ -42,7 +43,9 @@ function mha_ereg_form_alter(&$form, &$form_state, $form_id){
 }
 
 function mha_ereg_user_login(&$edit, $account) {
-  $edit['redirect'] = 'ereg/event';
+	if(arg(0) == 'ereg'){
+		$edit['redirect'] = 'ereg/event';
+	}
 }
 
 
@@ -51,6 +54,13 @@ function _mha_ereg_add_js($element){
 	return $element;
 }
 
-function mha_ereg_event(){
-	return 'select an event';
+function mha_ereg_event($nid = null){
+	if($nid == null){
+		return 'No event specified.';
+	}
+	else{
+		$event = node_load($nid);
+		
+		return 'select an event';
+	}
 }
