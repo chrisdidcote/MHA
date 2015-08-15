@@ -812,7 +812,9 @@ function mha_permission_membership_aprove($uid = null){
 	}
 	else{
 		$account = user_load($uid);
-		$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+		if(empty($account->field_direct_debit_subscription[LANGUAGE_NONE][0]['value'])){
+			$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+		}
 		$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
 		user_save($account);
 		drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
@@ -1013,6 +1015,11 @@ function mha_permission_settings(){
  * Membership application form
  */
 function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
+	$form['intro'] = array(
+		'#type' => 'markup',
+		'#markup' => '<p>To become a member of the Association please complete this form. Current membership fees are &pound;20 for Full and Associate Membership which lasts for three years or &pound;15 for Student Membership, which will last until the end of your current course. If you opt to pay by direct debit you can pay annually; receiving a small discount on these standard fees.</p><p>Full details of fees will be provided once you have completed this form.</p>'
+	);
+	
 	$form['personal_details'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('Personal Details'),
@@ -1807,8 +1814,16 @@ function _mha_permission_countries(){
  * Implements hook_form_alter()
  */
 function mha_permission_form_alter(&$form, &$form_state, $form_id){
-	$captcha = $form['bristol_degrees']['captcha'];
-	unset($form['bristol_degrees']['captcha']);
-	$form['captcha'] = $captcha;
-	$form['captcha']['#weight'] = 10;
+	if($form_id == 'user_profile_form' && !user_access('administer membership')){
+		unset($form['field_membership_class']);
+		unset($form['field_committee_position']);
+		unset($form['field_approved']);
+		unset($form['field_mailchimp']);
+		unset($form['field_expiry_']);
+		unset($form['field_paypal_transactions']);
+		unset($form['field_user_status']);
+		unset($form['field_renewal_email_letter_sent']);
+		unset($form['field_admission_date']);
+		unset($form['field_direct_debit_subscription']);
+	}
 }

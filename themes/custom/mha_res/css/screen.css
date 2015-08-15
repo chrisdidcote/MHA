@@ -508,3 +508,10 @@ strong {
       background: url("../images/price.png") no-repeat;
       padding: 5px 40px;
       font-weight: bold; }
+
+/* line 500, ../sass/screen.scss */
+.page-user .field-name-field-biography {
+  margin-bottom: 20px; }
+/* line 503, ../sass/screen.scss */
+.page-user .user-expiry {
+  margin-top: 20px; }

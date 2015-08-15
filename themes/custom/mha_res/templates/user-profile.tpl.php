@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-md-6">
                       <h2>Telephone Number</h2>
-                      <?php print render ($user_profile['field_phone_number']) . '<br />' ? render ($user_profile['field_phone_number']) : ''?>
+                      <?php print render ($user_profile['field_phone_number']) . '<br />' ? render ($user_profile['field_phone_number']) : 'None Provided'?>
                     </div>
                   </div>
                 </div>
@@ -76,7 +76,7 @@
             <?php print render ($user_profile['field_years_in_hall']) . '<br />' ? render ($user_profile['field_years_in_hall']) : ''?>
             <?php print render ($user_profile['field_affiliation_to_hall']) . '<br />' ? render ($user_profile['field_affiliation_to_hall']) : ''?>
             <?php print render ($user_profile['field_expected_date_of_completio']) . '<br />' ? render ($user_profile['field_expected_date_of_completio']) : ''?>
-            <h2>Membership Expiry Date</h2>
+            <h2 class="user-expiry">Membership Expiry Date</h2>
             <?php print render ($user_profile['field_expiry_']) . '<br />' ? render ($user_profile['field_expiry_']) : ''?>
           </div>
         </div>

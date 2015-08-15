@@ -102,7 +102,9 @@
       hide($content['comments']);
       hide($content['links']);
     ?>
-    <?php $unixTime = strtotime($node->field_date[LANGUAGE_NONE][0]['value']); ?>
+    <?php
+    date_default_timezone_set('UTC');
+    $unixTime = strtotime($node->field_date[LANGUAGE_NONE][0]['value']); ?>
     <div class="header-image">
       <?php print render($content['field_image']); ?>
     </div>

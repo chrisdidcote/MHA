@@ -97,14 +97,12 @@ function mha_dd_webhook(){
 	watchdog('Direct Debit', print_r($webhook_array, true));
 	
 	if($webhook_array['payload']['action'] == 'paid'){
-		watchdog('Direct Debit2', print_r($webhook_array, true));
 		$query = new EntityFieldQuery();
 		$query->entityCondition('entity_type', 'user')
 			->fieldCondition('field_direct_debit_subscription', 'value', $webhook_array['payload']['bills'][0]['source_id'], '=');
 
 		$results = $query->execute();
 		$users_ids = array_keys($results['user']);
-		watchdog('Direct Debit3', print_r($users_ids, true));
 		$users = user_load_multiple(array_keys($results['user']));
 		foreach($users as $account) {
 			$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'paid';
