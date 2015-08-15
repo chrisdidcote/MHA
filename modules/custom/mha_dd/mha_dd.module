@@ -98,7 +98,7 @@ function mha_dd_webhook(){
 	$bill = GoCardless::find('PM0000HM6MZ26A');
 	$webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
 	header('HTTP/1.1 200 OK');
-	if($webhook_array['payload']['action'] == 'paid'){
+	if($webhook_array['payload']['bills']['action'] == 'paid'){
 		watchdog('Direct Debit2', print_r($webhook_array, true));
 		$query = new EntityFieldQuery();
 		$query->entityCondition('entity_type', 'user')
@@ -106,7 +106,7 @@ function mha_dd_webhook(){
 
 		$results = $query->execute();
 		$users_ids = array_keys($results['user']);
-		watchdog('Direct Debit2', print_r($users_ids, true));
+		watchdog('Direct Debit3', print_r($users_ids, true));
 		$users = user_load_multiple(array_keys($results['user']));
 		foreach($users as $account) {
 			$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'paid';
@@ -115,7 +115,7 @@ function mha_dd_webhook(){
 			mha_permission_log_entry(t('Direct Debit Payment: !name', array('!name' => $account->realname)), $account->uid);
 		}
 	}
-	elseif($webhook_array['payload']['action'] == 'created'){
+	elseif($webhook_array['payload']['bills']['action'] == 'created'){
 		global $user;
 		$account = user_load($user->uid);
 		$params['subscription_id'] = $webhook_array['payload']['bills'][0]['source_id'];
