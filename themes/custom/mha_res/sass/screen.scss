@@ -121,6 +121,12 @@ p{
       display: none;
     }
   }
+  .pane-hero-widget{
+    display: none;
+  }
+  .pane-latest-tweets{
+    display: none;
+  }
 }
 .region.region-sidebar-first.well{
   padding-top: 0;
@@ -517,5 +523,8 @@ strong{
     h2{
       margin-bottom: 1em;
     }
+  }
+  .pane-block-12{
+    margin-bottom: 20px;
   }
 }
