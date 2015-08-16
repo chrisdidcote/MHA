@@ -60,7 +60,7 @@ function mha_dd_page_form_submit($form, &$form_state){
 			$period = 'Until the end of your current course';
 			break;
 	}
-	//GoCardless::$environment = 'production';
+	GoCardless::$environment = 'production';
 	
 	// Set config vars
 	$account_details = array(

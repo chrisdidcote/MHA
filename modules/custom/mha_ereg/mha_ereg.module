@@ -18,6 +18,12 @@ function mha_ereg_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
+	$items['ereg/autocomplete'] = array(
+    'page callback' => '_mha_ereg_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+	
 	return $items;
 }
 
@@ -70,11 +76,40 @@ function mha_ereg_event($nid = null){
 	}
 }
 
+
+function _mha_ereg_autocomplete($string){
+	$matches = array();
+  
+  // Some fantasy DB table which holds cities
+  $query = db_select('cities', 'c');
+
+  // Select rows that match the string
+  $return = $query
+    ->fields('c', array('city'))
+    ->condition('c.city', '%' . db_like($string) . '%', 'LIKE')
+    ->range(0, 10)
+    ->execute();
+  
+  // add matches to $matches  
+  foreach ($return as $row) {
+    $matches[$row->city] = check_plain($row->city);
+  }
+  
+  // return for JS
+  drupal_json_output($matches);
+}
+
 function mha_ereg_registration_form($form, &$form_state, $event){
 	$form['event'] = array(
 		'#type' => 'value',
 		'#value' => $event->nid,
 	);
+	
+	$form['member_name'] = array(
+    '#title' => t('Member Surname'),
+    '#type' => 'textfield',
+    '#autocomplete_path' => 'ereg/autocomplete',
+   );
 	
 	$form['non_member'] = array(
 		'#type' => 'fieldset',

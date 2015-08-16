@@ -232,10 +232,10 @@ function mha_permission_user_renewal(){
 	//print_r($account);
 	$output = "<p>You can renew or top-up your membership at any time, each additional period of 3 years will automatically be added to your current membership so you're not at any disadvantage by renewing earlier than required.</p>";
 	$output .= '<p>The current reneqal fee is £20 for 3 years. To proceed to PayPal for secure online payment by credit/debit card please click the button below</p>';
-	$output .= '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+	$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 
 <!-- Identify your business so that you can collect the payments. -->
-<input type="hidden" name="business" value="chris.didcote-facilitator@me.com">
+<input type="hidden" name="business" value="payments@manorhallassociation.co.uk">
 
 <!-- Specify a Buy Now button. -->
 <input type="hidden" name="cmd" value="_xclick">
@@ -245,7 +245,7 @@ function mha_permission_user_renewal(){
 <input type="hidden" name="amount" value="' . $amount . '">
 <input type="hidden" name="currency_code" value="GBP">
 
-<input type="hidden" name="notify_url" value="http://slide.manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="notify_url" value="http://www..manorhallassociation.co.uk/membership/ipn">
 <input type="hidden" name="custom" value="' . $account->uid . '">
 <input type="hidden" name="return" value="' . $return . '">
 
@@ -1387,7 +1387,7 @@ function mha_permission_membership_apply_payment(){
 	//$account = user_load($uid);
 	$account = $_SESSION['account'];
 	
-	$action = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+	$action = 'https://www.paypal.com/cgi-bin/webscr';
 	
 	switch($account->field_membership_class[LANGUAGE_NONE][0]['value']){
 		case 'full' :
@@ -1407,7 +1407,7 @@ function mha_permission_membership_apply_payment(){
 			break;
 	}
 	
-	$return = variable_get('mha_permission_return', 'http://mha.dwelli.co.uk');
+	$return = variable_get('mha_permission_return', 'http://www.manorhallassociation.co.uk');
 	
 	$output = '<p>In order to process your application it is neccessary to receive the appropiate fees for the class of membership you have applied for, a summary of the fees due is provided below.</p>';
 	$output .= '<p>
@@ -1421,10 +1421,10 @@ function mha_permission_membership_apply_payment(){
 	$output .= '<div id="paypal-container">';
 	$output .= '<h2>Pay by Debit/Credit Card</h2>';
 	$output .= '<p>The easiest way to pay your fees is securely online by Debit/Credit card via PayPal by clicking the button below; however, you will receive an email with information on how to pay by cheque if you would prefer.</p>';
-	$output .= '<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+	$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 
 <!-- Identify your business so that you can collect the payments. -->
-<input type="hidden" name="business" value="chris.didcote-facilitator@me.com">
+<input type="hidden" name="business" value="payments@manorhallassociation.co.uk">
 
 <!-- Specify a Buy Now button. -->
 <input type="hidden" name="cmd" value="_xclick">
@@ -1434,12 +1434,12 @@ function mha_permission_membership_apply_payment(){
 <input type="hidden" name="amount" value="' . $amount . '">
 <input type="hidden" name="currency_code" value="GBP">
 
-<input type="hidden" name="notify_url" value="http://slide.manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="notify_url" value="http://www.manorhallassociation.co.uk/membership/ipn">
 <input type="hidden" name="custom" value="' . $account->uid . '">
 <input type="hidden" name="return" value="' . $return . '">
 
 <!-- Display the payment button. -->
-<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Proceed to Payment by Credit/Debit Card</button>
+<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Pay by Credit/Debit Card</button>
 
 </form>';
 	$output .= '</div>';
