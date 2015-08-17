@@ -1826,4 +1826,19 @@ function mha_permission_form_alter(&$form, &$form_state, $form_id){
 		unset($form['field_admission_date']);
 		unset($form['field_direct_debit_subscription']);
 	}
+
+/**
+ * Implements hook_menu_link_alter
+ */
+function mha_permission_menu_link_alter(&$item) {
+  if ($item ['link_path'] == 'membership/apply') {
+    $item ['hidden'] = 1;
+  }
+}
+
+/**
+ * Implements hook_menu_alter
+ */
+function mha_permission_menu_alter(&$items) {
+  $items ['user']['title'] = 'Your Account';
 }

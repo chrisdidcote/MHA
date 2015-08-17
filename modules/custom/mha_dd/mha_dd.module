@@ -78,9 +78,9 @@ function mha_dd_page_form_submit($form, &$form_state){
 		'interval_length'  => 12,
 		'interval_unit'    => 'month',
 		'name' => $item,
-		'description' => 'Direct Debit Payment for member MHA-905',
+		'description' => 'Direct Debit Payment for member MHA-' . $account->uid,
 		'state' => '905',
-		'resource_uri' => 'http://slide.manorhallassociation.co.uk/membership/dd/webhook'
+		'resource_uri' => 'http://www.manorhallassociation.co.uk/membership/dd/webhook'
 		
 	);
 
