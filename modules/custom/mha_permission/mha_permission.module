@@ -1826,7 +1826,7 @@ function mha_permission_form_alter(&$form, &$form_state, $form_id){
 		unset($form['field_admission_date']);
 		unset($form['field_direct_debit_subscription']);
 	}
-
+}
 /**
  * Implements hook_menu_link_alter
  */
