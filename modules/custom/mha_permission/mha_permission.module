@@ -1849,6 +1849,14 @@ function mha_permission_form_alter(&$form, &$form_state, $form_id){
 		unset($form['field_admission_date']);
 		unset($form['field_direct_debit_subscription']);
 	}
+	
+	if($form_id == 'user_login'){
+		$form['intro'] = array(
+			'#type' => 'markup',
+			'#markup' => '<p>Existing members can log in to manage their membership account, including updating the contact information the Association holds and online renewals. You username is the email address you used when applying for membership. If you haven’t received a password, or have forgotten in then please use the ‘Request new password’ link above.</p>',
+			'#weight' => -100,
+		);
+	}
 }
 
 /**
