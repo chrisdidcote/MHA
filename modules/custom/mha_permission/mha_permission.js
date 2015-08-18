@@ -33,7 +33,7 @@
           $('#mha-permission-join-form .form-item-membership-details-current-student').slideDown('slow');
           $('#mha-permission-join-form .form-item-membership-details-current-course').slideDown('slow');
           $('#mha-permission-join-form .form-item-membership-details-expected-completion').slideDown('slow');
-          $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+          $('#mha-permission-join-form .form-item-membership-details-years-in-hall').slideDown('slow');
           $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
           break;
         case 'full' :
@@ -65,7 +65,7 @@
              $('#mha-permission-join-form .form-item-membership-details-current-student').slideDown('slow');
             $('#mha-permission-join-form .form-item-membership-details-current-course').slideDown('slow');
             $('#mha-permission-join-form .form-item-membership-details-expected-completion').slideDown('slow');
-            $('#mha-permission-join-form .form-item-membership-details-years-in-hall').hide();
+            $('#mha-permission-join-form .form-item-membership-details-years-in-hall').slideDown('slow');
             $('#mha-permission-join-form .form-item-membership-details-affiliation').hide();
             break;
           case 'full' :

@@ -784,7 +784,7 @@ function mha_permission_cron(){
 	$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'user')
 		->fieldCondition('field_expiry_', 'value', strtotime('+1 month'), '<')
-		->fieldCondition('field_user_status', 'value', 'active', '<');
+		->fieldCondition('field_user_status', 'value', 'active', '=');
 	$results = $query->execute();
 	$users = user_load_multiple(array_keys($results['user']));
 	foreach($users as $user) {
@@ -883,6 +883,18 @@ function mha_permission_mail($key, &$message, $params) {
 	$options['language'] = $message['language'];
 	user_mail_tokens($variables, $data, $options);
 	switch($key) {
+		case 'update_user':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Member Record Updated');
+			$clean_mesaage = 
+			$message['body'][] = t('A member has been updated in the membership database: !user',array('!user' => $params['account']->realname), $variables, array('langcode' => $langcode));
+			break;
+		case 'insert_user':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('New Member Added');
+			$clean_mesaage = 
+			$message['body'][] = t('A new member has been added to the membership database: !user',array('!user' => $params['account']->realname), $variables, array('langcode' => $langcode));
+			break;
 		case 'dd':
 			$langcode = $message['language']->language;
 			$message['subject'] = t('New Direct Debit Instruction');
@@ -1043,11 +1055,13 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['personal_details']['salutation_other'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Other'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['first_name'] = array(
 		'#type' => 'textfield',
 		'#title' => t('First Name'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['middle_name'] = array(
@@ -1058,6 +1072,7 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['personal_details']['last_name'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Last Name'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['last_name_graduation'] = array(
@@ -1078,6 +1093,7 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['personal_details']['address1'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Address Line 1'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['address2'] = array(
@@ -1093,16 +1109,19 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['personal_details']['county'] = array(
 		'#type' => 'textfield',
 		'#title' => t('County'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['postcode'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Postal Code'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['country'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Country'),
+		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['phone'] = array(
@@ -1113,6 +1132,7 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['personal_details']['email'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Email Address'),
+		'#required' => TRUE,
 	);
 	
 	$form['membership_details'] = array(
@@ -1223,6 +1243,7 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['consent']['declaration'] = array(
 		'#type' => 'checkbox',
 		'#title' => t('I agree to be adhere to the rules set down in the Constitution of the Association specific to the class of membership for which I have applied.'),
+		'#required' => TRUE,
 	);
 	
 	
@@ -1299,6 +1320,9 @@ function mha_permission_join_form_validate($form, &$form_state){
 				}
 				if(empty($values['membership_details']['expected_completion'])){
 					form_set_error('membership_details][expected_completion', t('You must specify your expected year of completion in order to apply for Student Membership'));
+				}
+				if(empty($values['membership_details']['years_in_hall'])){
+					form_set_error('membership_details][years_in_hall', t('Please enter the years you lived in Manor Hall to apply for Student Membership'));
 				}
 				break;
 			case 'full' :
@@ -1841,4 +1865,20 @@ function mha_permission_menu_link_alter(&$item) {
  */
 function mha_permission_menu_alter(&$items) {
   $items ['user']['title'] = 'Your Account';
+}
+
+/**
+ * Implements hook_user_insert
+ */
+function mha_permission_user_insert(&$edit, $account, $category) {
+  $params['account'] = $account;
+	drupal_mail('mha_permission', 'insert_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
+}
+
+/**
+ * Implements hook_user_update
+ */
+function mha_permission_user_update(&$edit, $account, $category) {
+  $params['account'] = $account;
+	drupal_mail('mha_permission', 'update_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
 }
