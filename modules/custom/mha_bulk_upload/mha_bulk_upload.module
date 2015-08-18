@@ -17,8 +17,8 @@ function mha_bulk_upload_menu(){
  * Page callback for the residents bulk upload
  */
 function mha_bulk_upload_page(){
-	$output = '<p>You can use this page to bulk upload a CSV file contating all the resident members to the membership database.</p>';
-	$output .= '<p><strong>Note: The by performing a bulk upload all current resident members in the database will be automatically purged.</strong></p>';
+	$output = '<p>You can use this page to bulk upload a CSV file containing all the resident members to the membership database.</p>';
+	$output .= '<p><strong>Note: If this is a fresh upload of resident members it is recommended that you purge all existing resident members in the database.</strong></p>';
 	$output .= render(drupal_get_form('mha_bulk_upload_purge_form'));
 	$output .= '<p>The format of the CSV should be the same at the example shown below, with the column headers being exactly the same.</p>';
 	$output .= '<table class="table">

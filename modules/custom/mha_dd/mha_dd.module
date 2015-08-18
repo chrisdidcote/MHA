@@ -23,8 +23,8 @@ function mha_dd_menu(){
 function mha_dd_page(){
 	$output = '<div id="direct-debit-container">';
 	$output .= '<h2>Pay by Direct Debit</h2>';
-	$output .= '<p>Members who opt to pay their subscription fees via Direct Debit will benefit from futher discounts on their membership fees wih Full/Alumni & Affiliate Members pay &pound;5.00 a year and Student Members pay &pound;2.50 a year.';
-	$output .= '<p>All direct debit payments are processed securely by GoCardless.com, this will be what shows up on your bank statement you will be redirected to GoCardless to complete the initialiseationn of you Direct Debit.</p>';
+	$output .= '<p>Members who opt to pay their subscription fees via Direct Debit will benefit from further discounts on their membership fees with Full/Alumni & Affiliate Members paying &pound;5.00 a year and Student Members paying &pound;2.50 a year.';
+	$output .= '<p>All direct debit payments are processed securely by GoCardless.com and this will be what shows up on your bank statement. You will be redirected to GoCardless to complete the initialisation of you Direct Debit.</p>';
 	$output .= render(drupal_get_form('mha_dd_page_form'));
 	$output .= '</div>';
 	return $output;

@@ -314,7 +314,7 @@ function mha_permission_membership_renew_admin_form_submit($form, &$form_state){
 }
 
 function mha_permission_membership_mailing(){
-	$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Use the options below to select which labels you want to generate.</p>';
 	$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
 	
 	$output .= render(drupal_get_form('mha_permission_membership_mailing_form'));
@@ -1055,7 +1055,6 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	$form['personal_details']['salutation_other'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Other'),
-		'#required' => TRUE,
 	);
 	
 	$form['personal_details']['first_name'] = array(
@@ -1422,7 +1421,7 @@ function mha_permission_membership_apply_payment(){
 		case 'affiliate' :
 			$amount = variable_get('mha_permission_cost_full', '20');
 			$item = 'Affiliate Membership';
-			$period = '3 years from date of approval (Affiliate members must also be ratified at an AGM)';
+			$period = '3 years from the date of approval (Affiliate members must also be ratified at an AGM)';
 			break;
 		case 'student' :
 			$amount = variable_get('mha_permission_cost_student', '15');
@@ -1433,18 +1432,18 @@ function mha_permission_membership_apply_payment(){
 	
 	$return = variable_get('mha_permission_return', 'http://www.manorhallassociation.co.uk');
 	
-	$output = '<p>In order to process your application it is neccessary to receive the appropiate fees for the class of membership you have applied for, a summary of the fees due is provided below.</p>';
+	$output = '<p>In order to process your application it is necessary to receive the appropriate fees for the class of membership you have applied for, a summary of the fees due is provided below.</p>';
 	$output .= '<p>
 								<ul>
 									<li><strong>Membership Class: </strong>' . $item . '</li>
 									<li><strong>Duration: </strong>' . $period . '</li>
-									<li><strong>Fees Due: </strong>' . $amount . '</li>
+									<li><strong>Fees Due: </strong>&pound;' . $amount . '.00</li>
 							</ul>';
-	$output .= '<p>All membership applications need to be approved by the Executive Committee before becoming fully active and this is the date your membership will officially start and you\'ll receive an email to confirm this.</p>';
+	$output .= '<p>All membership applications need to be approved by the Executive Committee before becoming fully active and this is the date your membership will officially start; you will receive an email to confirm when this has been completed.</p>';
 	$output .= mha_dd_page();
 	$output .= '<div id="paypal-container">';
 	$output .= '<h2>Pay by Debit/Credit Card</h2>';
-	$output .= '<p>The easiest way to pay your fees is securely online by Debit/Credit card via PayPal by clicking the button below; however, you will receive an email with information on how to pay by cheque if you would prefer.</p>';
+	$output .= '<p>For members you would prefer not to pay by direct debit the easiest way to pay your subscription fees is securely online by Debit/Credit card via PayPal by clicking the button below; however, you will receive an email with information on how to pay by cheque if you would prefer.</p>';
 	$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 
 <!-- Identify your business so that you can collect the payments. -->
@@ -1851,28 +1850,16 @@ function mha_permission_form_alter(&$form, &$form_state, $form_id){
 		unset($form['field_direct_debit_subscription']);
 	}
 }
-/**
- * Implements hook_menu_link_alter
- */
-function mha_permission_menu_link_alter(&$item) {
-  if ($item ['link_path'] == 'membership/apply') {
-    $item ['hidden'] = 1;
-  }
-}
-
-/**
- * Implements hook_menu_alter
- */
-function mha_permission_menu_alter(&$items) {
-  $items ['user']['title'] = 'Your Account';
-}
 
 /**
  * Implements hook_user_insert
  */
 function mha_permission_user_insert(&$edit, $account, $category) {
-  $params['account'] = $account;
-	drupal_mail('mha_permission', 'insert_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
+	if($account->field_membership_class[LANGUAGE_NONE][0]['value'] != 'resident'){
+		//Ignore resident members so we don't spam the committee when we do the bulk upload
+		$params['account'] = $account;
+		drupal_mail('mha_permission', 'insert_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
+	}
 }
 
 /**

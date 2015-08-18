@@ -563,3 +563,12 @@ strong {
   /* line 553, ../sass/screen.scss */
   .front .pane-block-14 .pane-content img {
     float: left; }
+
+/* line 560, ../sass/screen.scss */
+.view-id-news.view-display-id-page .views-field-title {
+  margin: 0.5em 0; }
+
+/* line 564, ../sass/screen.scss */
+.field-name-field-images,
+.field-name-field-image {
+  margin-bottom: 1em; }
