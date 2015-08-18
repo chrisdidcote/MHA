@@ -1,0 +1,60 @@
+name = mha_events
+description = Provides the events functionaliy
+core = 7.x
+package = Manor Hall Association
+version = 7.x-1.0-dev
+project = mha_events
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = file
+dependencies[] = media
+dependencies[] = node
+dependencies[] = number
+dependencies[] = strongarm
+dependencies[] = text
+dependencies[] = views
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[field][] = node-event-body
+features[field][] = node-event-field_date
+features[field][] = node-event-field_image
+features[field][] = node-event-field_price
+features[field][] = node-event-field_venue
+features[node][] = event
+features[variable][] = comment_anonymous_event
+features[variable][] = comment_default_mode_event
+features[variable][] = comment_default_per_page_event
+features[variable][] = comment_event
+features[variable][] = comment_form_location_event
+features[variable][] = comment_preview_event
+features[variable][] = comment_subject_field_event
+features[variable][] = menu_options_event
+features[variable][] = menu_parent_event
+features[variable][] = node_options_event
+features[variable][] = node_preview_event
+features[variable][] = node_submitted_event
+features[views_view][] = events
+
+
+; Information added by drush on 2012-08-17
+version = "master-dev"
+project = "mha"
+datestamp = "1345240051"
+
+
+
+; Information added by drush on 2012-08-18
+version = "master-dev"
+project = "mha"
+datestamp = "1345247105"
+
+
+
+; Information added by drush on 2015-03-18
+version = "master-dev"
+project = "mha"
+datestamp = "1426708279"
+

@@ -1,0 +1,105 @@
+<?php
+/**
+ * @file
+ * Code for the mha_news feature.
+ */
+
+include_once 'mha_news.features.inc';
+
+/**
+ * Implements hook_block_info()
+ */
+function mha_news_block_info(){
+  $blocks['mha_news_author'] = array(
+    'info' => t('News Author'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  $blocks['social_share'] = array(
+    'info' => t('Social Share'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view()
+ */
+function mha_news_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'mha_news_author':
+      $block['subject'] = '';
+      $block['content'] = mha_news_author_content();
+      break;
+    
+    case 'social_share':
+      $block['subject'] = '';
+      $block['content'] = mha_news_social_share();
+      break;
+  }
+  return $block;
+}
+
+function mha_news_social_share(){
+  global $base_url;
+  $facebook_image = theme('image', array(
+    'path' => drupal_get_path('module', 'mha_news') . '/images/facebook-32.png',
+    'alt' => 'Facebook Share'
+  ));
+  
+  $facebook_link = l($facebook_image, 'http://www.facebook.com/sharer/sharer.php?u=#' . $base_url . '/' . drupal_get_path_alias(), array('html' => 'true', 'attributes' => array('target'=>'_blank')));
+  
+  $google_image = theme('image', array(
+    'path' => drupal_get_path('module', 'mha_news') . '/images/googleplus-32.png',
+    'alt' => 'Google+ Share'
+  ));
+  
+  $google_link = l($google_image, 'https://plus.google.com/share?url=' . $base_url . '/' . drupal_get_path_alias(), array('html' => 'true', 'attributes' => array('target'=>'_blank')));
+  
+  $linkedin_image = theme('image', array(
+    'path' => drupal_get_path('module', 'mha_news') . '/images/linkedin-32.png',
+    'alt' => 'Google+ Share'
+  ));
+  
+  $linkedin_link = l($linkedin_image, 'http://www.linkedin.com/shareArticle?mini=true&url=' . $base_url . '/' . drupal_get_path_alias(), array('html' => 'true', 'attributes' => array('target'=>'_blank')));
+  
+  $twitter_image = theme('image', array(
+    'path' => drupal_get_path('module', 'mha_news') . '/images/twitter-32.png',
+    'alt' => 'Google+ Share'
+  ));
+  
+  $twitter_link = l($twitter_image, 'http://twitter.com/intent/tweet?status=' . $base_url . '/' . drupal_get_path_alias(), array('html' => 'true', 'attributes' => array('target'=>'_blank')));
+  
+  
+  $output = $facebook_link . $twitter_link . $google_link . $linkedin_link;
+  
+  return $output;
+}
+
+function mha_news_author_content(){
+  if(arg(0) == 'node' && is_numeric(arg(1))){
+    $node = node_load(arg(1));
+    if($node->type == 'news_article'){
+      $user = user_load($node->uid);
+      $first_name = field_get_items('user', $user, 'field_first_name');
+      $last_name = field_get_items('user', $user, 'field_last_name');
+      $picture = field_get_items('user', $user, 'field_profile_picture');
+      $position_tid = field_get_items('user', $user, 'field_committee_position');
+      $position = taxonomy_term_load($position_tid[0]['tid']);
+      $output = theme('image_style', array(
+        'style_name' => 'author_avatar',
+        'path' => $picture[0]['uri'],
+      ));
+      $output .= '<div class="author">By <strong>' . $first_name[0]['value'] . ' ' . $last_name[0]['value'] . '</strong></div>';
+      if(isset($position)){
+        $output .= '<div class="position">' . $position->name . '</div>';
+      }
+      $output .= '<div class="date">' . date('jS F Y', $node->created) . '</div>';
+      return $output;
+    }
+  }
+}

@@ -1,0 +1,1884 @@
+<?php
+/**
+  * Implements hook_permission()
+  */
+function mha_permission_permission() {
+  return array(
+    'administer membership' => array(
+      'title' => t('Administer Membership'), 
+      'description' => t('Control how the website handles membership applications'),
+    ),
+    'apply for membership' => array(
+      'title' => t('Apply for Membership'), 
+    ),
+		'renew own membership' => array(
+      'title' => t('Renew Own Membershipp'), 
+    ),
+  );
+}
+
+/**
+  * Implements hook_menu()
+  */
+function mha_permission_menu(){
+  $items['membership/apply'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_membership_apply', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+	
+	$items['membership/apply/payment'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_membership_apply_payment', 
+    'access arguments' => array('access content'),
+		'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+  );
+	
+	$items['membership/ipn'] = array(
+    'title' => 'Apply for Membership', 
+    'page callback' => 'mha_permission_ipn', 
+    'access arguments' => array('access content'), 
+    'type' => MENU_CALLBACK,
+  );
+	
+	$items['user/renewal'] = array(
+    'title' => 'Renew or Top-up Membership', 
+    'page callback' => 'mha_permission_user_renewal', 
+    'access arguments' => array('renew own membership'), 
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/membership/settings'] = array(
+    'title' => 'Membership Settings', 
+    'page callback' => 'drupal_get_form', 
+    'page arguments' => array('mha_permission_settings'), 
+    'access arguments' => array('administer membership'), 
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/%/approve'] = array(
+    'title' => 'Membership Approve Member', 
+    'page callback' => 'mha_permission_membership_aprove',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(1),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/emails'] = array(
+    'title' => 'Edit Email/Letter Text Defaults', 
+    'page callback' => 'mha_permission_membership_emails',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/%/renewal-letter'] = array(
+    'title' => 'Membership Renewal Letter', 
+    'page callback' => 'mha_permission_membership_renewal_letter',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(1),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/register'] = array(
+    'title' => 'Membership Register', 
+    'page callback' => 'mha_permission_membership_register',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/mailing-labels'] = array(
+    'title' => 'Generate Postage Labels', 
+    'page callback' => 'mha_permission_membership_mailing',  
+    'access arguments' => array('administer membership'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/mailing-labels/generated/%'] = array(
+    'title' => 'Generate Postage Labels', 
+    'page callback' => 'mha_permission_membership_mailing_generated',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(3),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/renew/%'] = array(
+    'title' => 'Membership Renewal', 
+    'page callback' => 'mha_permission_membership_renew_admin',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/delete/%'] = array(
+    'title' => 'Delete Membership Application', 
+    'page callback' => 'mha_permission_membership_delete',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/paid/%'] = array(
+    'title' => 'Delete Membership Application', 
+    'page callback' => 'mha_permission_membership_paid',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+	$items['membership/renew-sent/%'] = array(
+    'title' => 'Renewal Letter Sent', 
+    'page callback' => 'mha_permission_membership_renewal_sent',  
+    'access arguments' => array('administer membership'),
+		'page arguments' => array(2),
+    'type' => MENU_NORMAL_ITEM,
+  );
+	
+  return $items;
+}
+
+function mha_permission_membership_renewal_sent($uid = null){
+	$account = user_load($uid);
+	//$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+	//mha_permission_log_entry(t('!duration years membership manually added: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+	user_save($account);
+}
+
+function mha_permission_membership_delete($uid = null){
+	if($uid){
+		$account = user_load($uid);
+		$output = '<p>Are you sure you want to delete ' . $account->realname . '\'s membership application?';
+		$output .= render(drupal_get_form('mha_permission_membership_delete_form', $uid));
+		return $output;
+	}
+	else return 'You must select an application to delete. Please go back to the Membership Dashboard.';
+}
+
+function mha_permission_membership_delete_form($form, &$form_state, $uid){
+	$form['uid'] = array(
+		'#type' => 'value',
+		'#value' => $uid,
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Delete this Application'),
+	);
+	
+	$form['cancel'] = array(
+		'#type' => 'markup',
+		'#markup' => l('Cancel', 'membership/home'),
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_delete_form_submit($form, &$form_state){
+	$values = $form_state['values'];
+	user_delete($values['uid']);
+	$form_state['redirect'] = 'membership/home';
+}
+
+function mha_permission_membership_paid($uid = null){
+	if($uid){
+		$account = user_load($uid);
+		$output = '<p>Are you sure you want to mark ' . $account->realname . '\'s membership application as paid?';
+		$output .= render(drupal_get_form('mha_permission_membership_paid_form', $uid));
+		return $output;
+	}
+	else return 'You must select an application to mark as paid. Please go back to the Membership Dashboard.';
+}
+
+function mha_permission_membership_paid_form($form, &$form_state, $uid){
+	$form['uid'] = array(
+		'#type' => 'value',
+		'#value' => $uid,
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Mark this Application as Paid'),
+	);
+	
+	$form['cancel'] = array(
+		'#type' => 'markup',
+		'#markup' => l('Cancel', 'membership/home'),
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_paid_form_submit($form, &$form_state){
+	$values = $form_state['values'];
+	$account = user_load($values['uid']);
+	$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'paid';
+	$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+	mha_permission_log_entry(t('!duration years membership manually added: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+	user_save($account);
+	$params['account'] = $account;
+	$params['duration'] = $values['duration'];
+	drupal_mail('mha_permission', 'payment_application', $account->mail, user_preferred_language($account), $params);
+	$form_state['redirect'] = 'membership/home';
+}
+
+function mha_permission_user_renewal(){
+	global $user;
+	$account = user_load($user->uid);
+	$item = 'Renewal/Top-up of Membership';
+	$amount = 20.00;
+	$return = 'http://www.manorhallassociation.co.uk';
+	
+	//print_r($account);
+	$output = "<p>You can renew or top-up your membership at any time, each additional period of 3 years will automatically be added to your current membership so you're not at any disadvantage by renewing earlier than required.</p>";
+	$output .= '<p>The current reneqal fee is £20 for 3 years. To proceed to PayPal for secure online payment by credit/debit card please click the button below</p>';
+	$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+<!-- Identify your business so that you can collect the payments. -->
+<input type="hidden" name="business" value="payments@manorhallassociation.co.uk">
+
+<!-- Specify a Buy Now button. -->
+<input type="hidden" name="cmd" value="_xclick">
+
+<!-- Specify details about the item that buyers will purchase. -->
+<input type="hidden" name="item_name" value="' . $item . '">
+<input type="hidden" name="amount" value="' . $amount . '">
+<input type="hidden" name="currency_code" value="GBP">
+
+<input type="hidden" name="notify_url" value="http://www..manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="custom" value="' . $account->uid . '">
+<input type="hidden" name="return" value="' . $return . '">
+
+<!-- Display the payment button. -->
+<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Proceed to Payment</button>
+
+</form>';
+	return $output;
+}
+
+function mha_permission_user_renewal_form($form, &$form_state){
+	
+}
+
+function mha_permission_membership_renew_admin($uid = null){
+	$account = user_load($uid);
+	$output = '<p>You are about to manually renew the following member, please confirm payment has been received that the membership class is still correct.<p>';
+	$output .= '<p><strong>Member: </strong>' . $account->realname . '</p>';
+		
+	$output .= render(drupal_get_form('mha_permission_membership_renew_admin_form', $account));
+	return $output;
+}
+
+function mha_permission_membership_renew_admin_form($form, &$form_state, $account){
+	$form['uid'] = array(
+		'#type' => 'value',
+		'#value' => $account->uid,
+	);
+	
+	$form['membership_class'] = array(
+		'#type' => 'select',
+		'#title' => t('Membership Class'),
+		'#options' => array(
+			'full' => t('Full/Alumni'),
+			'student' => t('Student'),
+			'affiliate' => t('Affiliate'),
+		),
+		'#default_value' => $account->field_membership_class[LANGUAGE_NONE][0]['value'],
+	);
+	
+	$form['duration'] = array(
+		'#type' => 'textfield',
+		'#title' => t("How many years do you want to add to this member's membership"),
+		'#default_value' => '3',
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Manually Renew Membership',
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_renew_admin_form_submit($form, &$form_state){
+	$values = $form_state['values'];
+	$account = user_load($values['uid']);
+	$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+	$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+' . $values['duration'] . ' years', $account->field_expiry_[LANGUAGE_NONE][0]['value']);
+	mha_permission_log_entry(t('!duration years membership manually added: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+	user_save($account);
+	$params['account'] = $account;
+	$params['duration'] = $values['duration'];
+	drupal_mail('mha_permission', 'renew_add', $account->mail, user_preferred_language($account), $params);
+	$form_state['redirect'] = 'membership/home';
+}
+
+function mha_permission_membership_mailing(){
+	$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	
+	$output .= render(drupal_get_form('mha_permission_membership_mailing_form'));
+	return $output;
+}
+
+function mha_permission_membership_mailing_form(){
+	$form['preset'] = array(
+		'#type' => 'select',
+		'#title' => t('Select a Preset of Mailing Labels'),
+		'#options' => array(
+			'mail_only' => t('Mail Only Members'),
+			'non_resident' => t('All Non-Resident Only Members'),
+			'non_resident_full' => t('Non-Resident Only Members Excluding Student Members'),
+			'all' => t('All Members'),
+		),
+		'#default_value' => 'mail_only',
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Generate Mailing Labels'),
+	);
+	
+	return $form;
+}
+
+function mha_permission_membership_mailing_form_submit($form, &$form_state){
+	$form_state['redirect'] = 'membership/mailing-labels/generated/' . $form_state['values']['preset'];
+}
+
+function mha_permission_membership_mailing_generated($type){
+	switch($type){
+		case 'all' :
+			mha_permission_membership_mailing_full();
+			break;
+		case 'mail_only' :
+			mha_permission_membership_mailing_postage();
+			break;
+		case 'non_resident' :
+			mha_permission_membership_mailing_non_resident();
+			break;
+		case 'non_resident_full' :
+			mha_permission_membership_mailing_non_resident_full();
+	}
+}
+
+function mha_permission_membership_mailing_non_resident_full(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style="padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_membership_class', 'value', 'resident', '!=')
+		->fieldCondition('field_membership_class', 'value', 'student', '!=');
+		
+
+	$results = $query->execute();
+	$users_ids = array_keys($results['user']);
+	
+	
+	$users = user_load_multiple(array_keys($results['user']));
+	$count = 1;
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
+}
+
+function mha_permission_membership_mailing_non_resident(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style=" padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_membership_class', 'value', 'resident', '!=');
+
+	$results = $query->execute();
+	$users_ids = array_keys($results['user']);
+	
+	
+	$users = user_load_multiple(array_keys($results['user']));
+	$count = 1;
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
+}
+
+function mha_permission_membership_mailing_full(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style=" padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$count = 1;
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user');
+	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $account) {
+		if($count % 2 == 1){
+			$output .= '<tr>';
+			$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+		}
+		else{
+			$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			$output .= '</tr>';
+		}
+		$count++;
+	}
+	if($count % 2 == 1){
+		$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;"></td>';
+			$output .= '</tr>';
+	}
+	//TODO: The end of the table row might need properly closing if we have a odd number of records.
+	$output .= '</table>';
+	$output .= '</body>';
+	pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+	return $output;
+}
+/**
+ * Helper function to get a sanitised address for a given user
+ */ 
+function _mha_permission_get_address($uid){
+	$account = user_load($uid);
+	$first_name_items = field_get_items('user', $account, 'field_first_name');
+	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
+	
+	$last_name_items = field_get_items('user', $account, 'field_last_name');
+	$last_name = field_view_value('user', $account, 'field_last_name', $last_name_items[0]);
+	
+	$address1_items = field_get_items('user', $account, 'field_address_1');
+	$address1 = field_view_value('user', $account, 'field_address_1', $address1_items[0]);
+	
+	$address2_items = field_get_items('user', $account, 'field_address_2');
+	$address2 = field_view_value('user', $account, 'field_address_2', $address2_items[0]);
+	
+	$town_items = field_get_items('user', $account, 'field_town');
+	$town = field_view_value('user', $account, 'field_town', $town_items[0]);
+	
+	$post_code_items = field_get_items('user', $account, 'field_post_code');
+	$post_code = field_view_value('user', $account, 'field_post_code', $post_code_items[0]);
+	$output = '<div id="addres-block" style="padding-top: 2cm; font-size: 12px;">';
+	$output .= render($first_name) . ' ' . render($last_name) . "<br />";
+	$output .= render($address1) ? render($address1) . "<br />" : '';
+	$output .= render($address2) ? render($address2) . "<br />" : '';
+	$output .= render($town) ? render($town) . "<br />" : '';
+	$output .= render($post_code) ? render($post_code) . "<br />" : '';
+	$output .= '</div>';
+	
+	return $output;
+}
+
+
+function mha_permission_membership_mailing_postage(){
+	$output = '<html>
+<head>
+<style>
+@page {
+  margin: 5mm;
+	margin-top: 1.5cm;
+}
+</style>
+</head>';
+	//$output = '<p>You can use this page to generate mailing labels for any mail outs the Association needs to make. Your the options below to select which labels you want to generate.</p>';
+	//$output .= '<p><strong>Labels will be formatted to be printed on any Avery 99.1x38.1mm compatible labels (Avery code: L7163)</strong></p>';
+	$output .= '<body>';
+	$output .= '<table width="100%" style="padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';	
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_postal_only', 'value', 'yes', '=');
+
+	$results = $query->execute();
+	$users_ids = array_keys($results['user']);
+	
+	if(is_array($results['user']) && !empty($results['user'])){
+		$users = user_load_multiple(array_keys($results['user']));
+		$count = 0;
+		foreach($users as $account) {
+			if($count % 2 == 1){
+				$output .= '<tr>';
+				$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+			}
+			else{
+				$output .= '<td style=" height: 3.81cm; width: 9.91cm; padding-left: 20px;">' . _mha_permission_get_address($account->uid) .'</td>';
+				$output .= '</tr>';
+			}
+			$count++;
+		}
+		//TODO: The end of the table row might need properly closing if we have a odd number of records.
+		$output .= '</table>';
+		$output .= '</body>';
+		pdf_using_mpdf_api($output, 'labels' . time() . '.pdf');
+		return $output;
+	}
+}
+
+function mha_permission_membership_register(){
+	$_SESSION['member_register'] = '<table width="100%" style="padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">';
+	
+	$_SESSION['member_register'] .= '<tr>';
+	$_SESSION['member_register'] .= '<th style=" background: #cccccc; padding*: 0;">Surname</th>';
+	$_SESSION['member_register'] .= '<th style=" background: #cccccc; padding*: 0;">Forename(s)</th>';
+	$_SESSION['member_register'] .= '<th width="35%" style=" background: #cccccc; padding*: 0;">Signed</th>';
+	$_SESSION['member_register'] .= '</tr>';
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user');
+	$query->fieldOrderBy('field_last_name', 'value', 'ASC');
+	$results = $query->execute();
+	$_SESSION['members'] = array_keys($results['user']);
+	
+	//$users = user_load_multiple(array_keys($results['user']));
+	batch_set(mha_permission_register_row());
+	batch_process();
+	
+}
+
+/**
+* Batch operation: Create user entities
+*/
+function mha_permission_register_row() {
+  drupal_set_message('Preparing to generate membership register');
+	//if(is_array($_SESSION['members'])){
+		foreach($_SESSION['members'] as $resident) {
+			// $operations[] = array(<function name>, <array of arguments to pass to function>);
+			$operations[] = array('mha_permission_register_row_generate', array($resident));
+		}
+	//}
+  // build the batch instructions
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'mha_permission_register_finished',
+		'title' => 'Generating Full Membership Register (PDF)',
+  );
+  return $batch;
+}
+
+function mha_permission_register_finished($success, $results, $operations) {
+  if ($success) {
+    // Here we could do something meaningful with the results.
+    // We just display the number of nodes we processed...
+    drupal_set_message(t('`Successfully Generated Register of Members'));
+		$_SESSION['member_register'] .= '</table>';
+		
+		pdf_using_mpdf_api($_SESSION['member_register'], 'membership' . time() . '.pdf');
+  } else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+  }
+}
+
+/**
+* This is the function that is called on each operation in the above.
+*/
+function mha_permission_register_row_generate($resident, &$context) {
+	$account = user_load($resident);
+	$context['message'] = t('Adding Member: ' . $account->realname);
+	drupal_set_message($account->realname . ' added to register');
+	$first_name_items = field_get_items('user', $account, 'field_first_name');
+	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
+	
+	$last_name_items = field_get_items('user', $account, 'field_last_name');
+	$last_name = field_view_value('user', $account, 'field_last_name', $last_name_items[0]);
+
+	$_SESSION['member_register'] .= '<tr>';
+	$_SESSION['member_register'] .= '<td style=" height: 50px;">' . render($last_name) . '</td>';
+	$_SESSION['member_register'] .= '<td style=" height: 50px;">' . render($first_name) . '</td>';
+	$_SESSION['member_register'] .= '<td style=" height: 50px;" width="35%"></td>';
+	$_SESSION['member_register'] .= '</tr>';
+}
+
+function mha_permission_membership_renewal_letter($uid = null){
+	$account = user_load($uid);
+	$first_name_items = field_get_items('user', $account, 'field_first_name');
+	$first_name = field_view_value('user', $account, 'field_first_name', $first_name_items[0]);
+	
+	$last_name_items = field_get_items('user', $account, 'field_last_name');
+	$last_name = field_view_value('user', $account, 'field_last_name', $last_name_items[0]);
+	
+	$address1_items = field_get_items('user', $account, 'field_address_1');
+	$address1 = field_view_value('user', $account, 'field_address_1', $address1_items[0]);
+	
+	$address2_items = field_get_items('user', $account, 'field_address_2');
+	$address2 = field_view_value('user', $account, 'field_address_2', $address2_items[0]);
+	
+	$town_items = field_get_items('user', $account, 'field_town');
+	$town = field_view_value('user', $account, 'field_town', $town_items[0]);
+	
+	$post_code_items = field_get_items('user', $account, 'field_post_code');
+	$post_code = field_view_value('user', $account, 'field_post_code', $post_code_items[0]);
+	$output = '<img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterHead.png" width="20cm"/>';
+	$output .= '<div id="addres-block" style="padding-top: 2cm; font-size: 12px;">';
+	$output .= render($first_name) . ' ' . render($last_name) . "<br />";
+	$output .= !empty($address1) ? render($address1) . "<br />" : '';
+	$output .= !empty($address2) ? render($address2) . "<br />" : '';
+	$output .= !empty($town) ? render($town) . "<br />" : '';
+	$output .= !empty($post_code) ? render($post_code) . "<br />" : '';
+	$output .= '</div>';
+	$output .= '<div id="date-block" style="font-size: 12px; text-align: right;">' . date('l, jS F Y') .'</div>' ;
+	$output .= '<div id="message-block" style="padding-top: 1cm; font-size: 12px;">';
+	
+	$output .= nl2br(t(variable_get('mha_permission_renewal', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!realname' => $account->realname,
+																							 '!reference' => 'MHA-' . $account->uid,
+																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!date' => date('l, jS F Y', $account->field_expiry_[LANGUAGE_NONE][0]['value']))));
+	$output .= '<div style="text-align: center; padding-top: 1cm;"><img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterFoot.png" width="15cm"/></div>';
+	mha_permission_log_entry(t('Renewal Letter Generated: !name', array('!name' => $account->realname)), $account->uid);
+	pdf_using_mpdf_api($output, $uid . 'renewal' . time() . '.pdf');
+	return 'Renewal Letter Generate and has been downloaded as a PDF. Please print this onto Association Headed Paper an post to the relevant member.';
+}
+
+function mha_permission_membership_emails(){
+	$output = t('In order to automate much of the membership process certain emails will automatically get sent to Members. You can use this section to alter what these emails contain. In the event of postal only members all these emails can be output to headed paper with the members details automatically filled in so they can be sent via normal post.');
+	$output .= render(drupal_get_form('mha_permission_email_settings'));
+	return $output;
+}
+
+function mha_permission_email_settings(){;
+	$form['application']['mha_permission_approval'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Approval Email'),
+  	'#default_value' => variable_get('mha_permission_approval', 'Dear !realname,
+Thank you for your recent application to join the Manor Hall Association. As required by our constitution I am emailing to confirm that your application has now been approved by the Executive Committee and as such you are now a !class member of the Association.
+
+Your membership will expire on !date and you can update your contact details at anytime by either emailing the Membership Secretary or loggin into our website. Likewise, if you would like to contribute anything towards any of our newsletters or an article for our website then please do get in touch.
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when a member is approved.</p>
+		<p>Available placeholders !title, !suranme, !duration, !date</p>',
+  );
+	
+	$form['application']['mha_permission_renewal'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Renewal Email'),
+  	'#default_value' => variable_get('mha_permission_renewal', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email/letter that gets sent when a renewal is due.</p>
+		<p>Available placeholders !title, !suranme, !date</p>',
+  );
+	
+	$form['application']['mha_permission_application'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Application Email'),
+  	'#default_value' => variable_get('mha_permission_application', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when someone applies for membership.</p>
+		<p>Available placeholders !title, !suranme</p>',
+  );
+	
+	$form['application']['mha_permission_payment_application'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Payment Confirmation Email'),
+  	'#default_value' => variable_get('mha_permission_payment_application', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when a sucessful payment is received.</p>
+		<p>Available placeholders !title, !suranme</p>',
+  );
+	
+	$form['application']['mha_permission_paymentr_renew_add'] = array(
+  	'#type' => 'textarea',
+  	'#title' => t('Renewal Confirmation Email'),
+  	'#default_value' => variable_get('mha_permission_paymentr_renew_add', 'Dear !title !surname,
+																					
+!duration years and will expire on !date
+
+Best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'),
+		'#description' => '<p>This is the email that gets sent when a sucessful renewal or account top-up is received.</p>
+		<p>Available placeholders !title, !suranme, !duration, !date</p>',
+  );
+	
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_cron()
+ */
+function mha_permission_cron(){
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'user')
+		->fieldCondition('field_expiry_', 'value', strtotime('+1 month'), '<')
+		->fieldCondition('field_user_status', 'value', 'active', '=');
+	$results = $query->execute();
+	$users = user_load_multiple(array_keys($results['user']));
+	foreach($users as $user) {
+		if($user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'full' ||
+			 $user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'affiliate' ||
+			 $user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'student'){ 
+				if($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] < strtotime('-2 weeks') ||
+					 empty($user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'])){
+					$user->field_user_status[LANGUAGE_NONE][0]['value'] = 'renew';
+					$user->field_renewal_email_letter_sent[LANGUAGE_NONE][0]['value'] = time();
+					user_save($user);
+					$params['account'] = $user;
+					drupal_mail('mha_permission', 'renew', $user->mail, user_preferred_language($user), $params);
+					mha_permission_log_entry(t('Renewal Email Sent: !name', array('!name' => $user->realname)), $user->uid);
+				}
+		}
+	}
+}
+/**
+ * Page Callback for the Membership Dashboard Page
+ */
+function mha_permission_membership_aprove($uid = null){
+	if($uid == null){
+		drupal_set_message(t('You must select a valid user to approve'), 'error');
+	}
+	else{
+		$account = user_load($uid);
+		if(empty($account->field_direct_debit_subscription[LANGUAGE_NONE][0]['value'])){
+			$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+		}
+		$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+		user_save($account);
+		drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
+	}
+	mha_permission_log_entry(t('Member Approved: !name', array('!name' => $account->realname)), $account->uid);
+	$params['account'] = $account;
+	drupal_mail('mha_permission', 'approved', $account->mail, user_preferred_language($account), $params);
+	mha_permission_log_entry(t('Approval Email Sent: !name', array('!name' => $account->realname)), $account->uid);
+	mha_permission_mailchimp_sync($account);
+	drupal_goto('membership/home');
+}
+
+function mha_permission_mailchimp_sync($account){
+	
+	$listID = '407b6529b4';
+	if(mailchimp_is_subscribed($listID, $account->mail, TRUE)){
+	 $message = t('!user already added to the Non-Residents mailing list', array('!user' => $account->realname));
+	}
+	else{
+		$merge_vars = array(
+			'TITLE' => $account->field_salutation[LANGUAGE_NONE][0]['value'],
+			'FNAME' => $account->field_first_name[LANGUAGE_NONE][0]['value'],
+			'LNAME' => $account->field_last_name[LANGUAGE_NONE][0]['value'],
+		);
+		if(mailchimp_subscribe($listID, $account->mail, $merge_vars, FALSE, FALSE, 'html')){
+			$message = t('!user added to the Non-Residents mailing list', array('!user' => $account->realname));
+		}
+	}
+	if(isset($message)){
+		mha_permission_log_entry($message, $account->uid);
+	}
+	else{
+		watchdog("Couldn't add Members to Mailchimp", 'error');
+	}
+}
+
+function mha_permission_log_entry($title, $uid) {
+  global $user;
+
+  $node = new stdClass();
+  $node->title = $title;
+  $node->type = "membership_log_entry";
+  node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+  $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+  $node->uid = $user->uid; 
+  $node->status = 0; //(1 or 0): published or not
+  $node->promote = 0; //(1 or 0): promoted to front page
+  $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+  // User Reference
+  $node->field_member_reference[$node->language][]['uid'] = $uid;
+  // 'node' is default,
+  // Other possible values are "user" and  "taxonomy_term" 
+
+  $node = node_submit($node); // Prepare node for saving
+  node_save($node);
+}
+function mha_permission_node_view($node, $view_mode, $langcode) {
+  //print_r($node);
+}
+
+/**
+ * Implements hook_mail()
+ */
+function mha_permission_mail($key, &$message, $params) {
+	$data['user'] = $params['account'];
+	$options['language'] = $message['language'];
+	user_mail_tokens($variables, $data, $options);
+	switch($key) {
+		case 'update_user':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Member Record Updated');
+			$clean_mesaage = 
+			$message['body'][] = t('A member has been updated in the membership database: !user',array('!user' => $params['account']->realname), $variables, array('langcode' => $langcode));
+			break;
+		case 'insert_user':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('New Member Added');
+			$clean_mesaage = 
+			$message['body'][] = t('A new member has been added to the membership database: !user',array('!user' => $params['account']->realname), $variables, array('langcode' => $langcode));
+			break;
+		case 'dd':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('New Direct Debit Instruction');
+			$clean_mesaage = 
+			$message['body'][] = t('A new Direct Debit instruction has been received. This subscription ID must manually be linked to the correct member so future withdrawals are automatically tracked by the system. The resorce ID is: !id', array('!id' => $params['subscription_id']), $variables, array('langcode' => $langcode));
+			break;
+		case 'approved':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Confirmation of Membership');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_approval', 'Dear !realname,
+Thank you for your recent application to join the Manor Hall Association. As required by our constitution I am emailing to confirm that your application has now been approved by the Executive Committee and as such you are now a !class member of the Association.
+
+Your membership will expire on !date and you can update your contact details at anytime by either emailing the Membership Secretary or loggin into our website. Likewise, if you would like to contribute anything towards any of our newsletters or an article for our website then please do get in touch.
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!realname' => $data['user']->realname,
+																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!class' => $data['user']->field_membership_class[LANGUAGE_NONE][0]['value'],
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+		case 'renew':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Renewal of Membership');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_renewal', 'Dear !realname,
+According to our records
+
+With very best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!realname' => $data['user']->realname,
+																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!reference' => 'MHA-' . $data['user']->uid,
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+		case 'application':
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Application for Membership');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_application', 'Dear !title !surname,
+Thank you for your recent membership application
+
+Best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!reference' => 'MHA-' . $data['user']->uid,
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+		case 'payment_application' :
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Payment Confirmation');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_payment_application', 'Dear !title !surname,
+Thank you for your recent membership application
+
+Best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!reference' => 'MHA-' . $data['user']->uid,
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+		case 'renew_add' :
+			$langcode = $message['language']->language;
+			$message['subject'] = t('Membership Renewed');
+			$clean_mesaage = 
+			$message['body'][] = t(variable_get('mha_permission_paymentr_renew_add', 'Dear !title !surname,
+																					
+!duration years and will expire on !date
+
+Best wishes,
+
+Kieran Freear
+<strong>Membership Secretary</strong>'), array('!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!duration' => $params['duration'],
+																							 '!reference' => 'MHA-' . $data['user']->uid,
+																							 '!date' => date('l, jS F Y', $data['user']->field_expiry_[LANGUAGE_NONE][0]['value'])), $variables, array('langcode' => $langcode));
+			break;
+	}
+}
+/**
+  * Settings for the the membership
+  */
+function mha_permission_settings(){
+  $form['application']['mha_permission_cost_full'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Full/Affiliate Membership Fees (£)'),
+  	'#default_value' => variable_get('mha_permission_cost_full', '20'),
+  );
+	
+	$form['application']['mha_permission_cost_student'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Student Membership Fees (£)'),
+  	'#default_value' => variable_get('mha_permission_cost_student', '20'),
+  );
+
+  $form['application']['mha_permission_duration'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Membership Duration (Years)'),
+  	'#default_value' => variable_get('mha_permission_duration', '3'),
+  );
+
+  $form['application']['mha_permission_return'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('Return URL for Payment Provider'),
+  	'#default_value' => variable_get('mha_permission_return', 'http://mha.dwelli.co.uk'),
+  );
+
+  $form['application']['mha_permission_email'] = array(
+  	'#type' => 'textfield',
+  	'#title' => t('PayPal Email Address'),
+  	'#default_value' => variable_get('mha_permission_email', 'example@example.com'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Membership application form
+ */
+function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
+	$form['intro'] = array(
+		'#type' => 'markup',
+		'#markup' => '<p>To become a member of the Association please complete this form. Current membership fees are &pound;20 for Full and Associate Membership which lasts for three years or &pound;15 for Student Membership, which will last until the end of your current course. If you opt to pay by direct debit you can pay annually; receiving a small discount on these standard fees.</p><p>Full details of fees will be provided once you have completed this form.</p>'
+	);
+	
+	$form['personal_details'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('Personal Details'),
+	);
+	
+	$form['personal_details']['salutation'] = array(
+		'#type' => 'select',
+		'#title' => t('Saluation'),
+		'#options' => array(
+			'none' => t('- Please Select -'),
+			'Mr' => t('Mr'),
+			'Mrs' => t('Mrs'),
+			'Ms' => t('Ms'),
+			'Miss' => t('Miss'),
+			'Dr' => t('Dr'),
+			'Professor' => t('Professor'),
+			'Other' => t('Other'),
+		)
+	);
+	
+	$form['personal_details']['salutation_other'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Other'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['first_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('First Name'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['middle_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Middle Name(s)'),
+	);
+	
+	$form['personal_details']['last_name'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Last Name'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['last_name_graduation'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Last Name on Graduation (if different)'),
+	);
+	
+	$form['personal_details']['post_nominals'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Post Nominals (e.g. MBE, BSc, PhD)'),
+	);
+	
+	$form['personal_details']['dob'] = array(
+		'#type' => 'date',
+		'#title' => t('Date of Birth'),
+	);
+	
+	$form['personal_details']['address1'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Address Line 1'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['address2'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Address Line 2'),
+	);
+	
+	$form['personal_details']['town'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Town'),
+	);
+	
+	$form['personal_details']['county'] = array(
+		'#type' => 'textfield',
+		'#title' => t('County'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['postcode'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Postal Code'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['country'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Country'),
+		'#required' => TRUE,
+	);
+	
+	$form['personal_details']['phone'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Contact Telephone Number'),
+	);
+	
+	$form['personal_details']['email'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Email Address'),
+		'#required' => TRUE,
+	);
+	
+	$form['membership_details'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('Membership Details'),
+	);
+	
+	$form['membership_details']['class'] = array(
+		'#type' => 'select',
+		'#title' => t('Membership Class'),
+		'#options' => array(
+			'none' => t('- Please Select -'),
+			'full' => t('Full/Alumni'),
+			'student' => t('Student'),
+			'affiliate' => t('Affiliate'),
+		),
+	);
+	
+	$form['membership_details']['current_student'] = array(
+		'#type' => 'select',
+		'#title' => t('Are you a current student of the University of Bristol?'),
+		'#options' => array(
+			'none' => t('- Please Select -'),
+			'yes' => t('Yes'),
+			'no' => t('No'),
+		),
+	);
+	
+	$form['membership_details']['current_course'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Current Course e.g. Mathematics'),
+	);
+	
+	$form['membership_details']['expected_completion'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Expected Year of Completion e.g. 2016'),
+	);
+	
+	$form['membership_details']['years_in_hall'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Years spent living in hall (e.g. 20007, 2008, 2009)'),
+		'#description' => t('Please separate each year with a comma'),
+	);
+	
+	$form['membership_details']['affiliation'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Affiliation to Manor Hall (e.g. Former member of staff)'),
+	);
+
+  // Because we have many fields with the same values, we have to set
+  // #tree to be able to access them.
+  $form['#tree'] = TRUE;
+  $form['bristol_degrees'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Bristol Degrees Held'),
+    
+    // Set up the wrapper so that AJAX will be able to replace the fieldset.
+    '#prefix' => '<div id="names-fieldset-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  // Build the fieldset with the proper number of names. We'll use
+  // $form_state['num_names'] to determine the number of textfields to build.
+  if (empty($form_state['num_names'])) {
+    $form_state['num_names'] = 1;
+  }
+  for ($i = 0; $i < $form_state['num_names']; $i++) {
+    $form['bristol_degrees']['name'][$i] = array(
+      '#type' => 'textfield',
+      '#title' => t('Degree, Subject and Year Awarded (e.g. BSc Mathematics 2008)'),
+			'#description' => t('e.g. BSc Mathematics 2008'),
+    );
+  }
+  $form['bristol_degrees']['add_name'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add another degree'),
+    '#submit' => array('mha_permission_join_form_add_one'),
+    
+    // See the examples in ajax_example.module for more details on the
+    // properties of #ajax.
+    '#ajax' => array(
+      'callback' => 'mha_permission_join_form_callback',
+      'wrapper' => 'names-fieldset-wrapper',
+    ),
+  );
+  if ($form_state['num_names'] > 1) {
+    $form['bristol_degrees']['remove_name'] = array(
+      '#type' => 'submit',
+      '#value' => t('Remove one'),
+      '#submit' => array('mha_permission_join_form_remove_one'),
+      '#ajax' => array(
+        'callback' => 'mha_permission_join_form_callback',
+        'wrapper' => 'names-fieldset-wrapper',
+      ),
+    );
+  }
+	
+	$form['consent'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('Confirmation'),
+	);
+	
+	//$form['consent']['promotion'] = array(
+	//	'#type' => 'textfield',
+	//	'#title' => t('If you have a promotional code please enter it here'),
+	//);
+	
+	$form['consent']['declaration'] = array(
+		'#type' => 'checkbox',
+		'#title' => t('I agree to be adhere to the rules set down in the Constitution of the Association specific to the class of membership for which I have applied.'),
+		'#required' => TRUE,
+	);
+	
+	
+	//$form['bot'] = array(
+	//	'#type' => 'markup',
+	//	'#markup' => '<div class="g-recaptcha" data-sitekey="6LcQrQgTAAAAAF5Iue8hB2HzYcFJiTxVXPb-oUo9"></div>',
+	//);
+	
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+		'#weight' => 11,
+  );
+	
+	//We need to add the JS so it gets included if form errors are set
+	$form['form_js']['#after_build'] = array('_mha_permission_add_js');
+  return $form;
+}
+
+function _mha_permission_add_js($element){
+	drupal_add_js(drupal_get_path('module', 'mha_permission') . '/mha_permission.js');
+	return $element;
+}
+
+function mha_permission_join_form_add_one($form, &$form_state) {
+  $form_state['num_names']++;
+  $form_state['rebuild'] = TRUE;
+}
+function mha_permission_join_form_callback($form, $form_state) {
+  return $form['bristol_degrees'];
+}
+function mha_permission_join_form_remove_one($form, &$form_state) {
+  if ($form_state['num_names'] > 1) {
+    $form_state['num_names']--;
+  }
+  $form_state['rebuild'] = TRUE;
+}
+/**
+ * Validation handler for the membership form
+ */
+function mha_permission_join_form_validate($form, &$form_state){
+	$values = $form_state['values'];
+	if($values['op'] == 'Submit'){
+		if($values['personal_details']['salutation'] == 'none'){
+			form_set_error('personal_details][salutation', t('You must select a salutation'));
+		}
+		
+		if($values['personal_details']['salutation'] == 'Other' && empty($values['personal_details']['salutation_other'])){
+			form_set_error('personal_details][salutation_other', t('You must specify a salutation'));
+		}
+		
+		//Check to make sure the email address is in a valid syntax
+		if(!valid_email_address($values['personal_details']['email'])){
+			form_set_error('personal_details][email', t('You must enter a valid email address'));
+		}
+		
+		if(user_load_by_mail($values['personal_details']['email'])){
+			form_set_error('personal_details][email', t('This email address is already registered as a member.'));
+		}
+		
+		switch($values['membership_details']['class']){
+			case 'none' :
+				form_set_error('membership_details][class', t('You must select the membership class you are applying for'));
+				break;
+			case 'student' :
+				if($values['membership_details']['current_student'] == 'none'){
+					form_set_error('membership_details][current_student', t('You must confirm you are a current student of the University of Bristol to apply for Student Membership'));
+				}
+				if($values['membership_details']['current_student'] == 'no'){
+					form_set_error('membership_details][current_student', t('Only current students of the University of Bristol can apply for Student Membership'));
+				}
+				if(empty($values['membership_details']['current_course'])){
+					form_set_error('membership_details][current_course', t('You must specify your current course in order to apply for Student Membership'));
+				}
+				if(empty($values['membership_details']['expected_completion'])){
+					form_set_error('membership_details][expected_completion', t('You must specify your expected year of completion in order to apply for Student Membership'));
+				}
+				if(empty($values['membership_details']['years_in_hall'])){
+					form_set_error('membership_details][years_in_hall', t('Please enter the years you lived in Manor Hall to apply for Student Membership'));
+				}
+				break;
+			case 'full' :
+				if(empty($values['membership_details']['years_in_hall'])){
+					form_set_error('membership_details][years_in_hall', t('Please enter the years you lived in Manor Hall to apply for Full/Alumni Membership'));
+				}
+				break;
+			case 'affiliate' :
+				if(empty($values['membership_details']['affiliation'])){
+					form_set_error('membership_details][affiliation', t('Please enter your affiliation to Manor Hall to apply for Affiliate Membership'));
+				}
+				break;
+		}
+	}
+}
+
+/**
+ * Submit handler for the membership form
+ */
+function mha_permission_join_form_submit($form, &$form_state){
+	//TODO: Build up the user object
+	//Redirect to the PayPal confirmation screen.
+	$values = $form_state['values'];
+	if($values['op'] == 'Submit'){
+		//This will generate a random password, you could set your own here
+		$password = user_password(8);
+	 
+		//set up the user fields
+		$fields = array(
+			'name' => $values['personal_details']['email'],
+			'mail' => $values['personal_details']['email'],
+			'pass' => $password,
+			'status' => 1,
+			'init' => 'email address',
+			'roles' => array(
+				2 => 'authenticated user',
+				3 => 'Member',
+			),
+		);
+		
+		if($values['personal_details']['salutation'] != 'Other'){
+			$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['salutation'];
+		}
+		else{
+			$fields['field_salutation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['salutation_other'];
+		}
+		
+		$fields['field_first_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['first_name'];
+		$fields['field_middle_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['middle_name'];
+		$fields['field_last_name'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name'];
+		$fields['field_last_name_on_graduation'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['last_name_graduation'];
+		$fields['field_post_nominals'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['post_nominals'];
+		$fields['field_date_of_birth'][LANGUAGE_NONE][0]['value'] = strtotime($values['personal_details']['dob']['month'] . '/' . $values['personal_details']['dob']['day'] . '/' . $values['personal_details']['dob']['year']);
+		
+		$fields['field_address_1'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['address1'];
+		$fields['field_address_2'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['address2'];
+		$fields['field_town'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['town'];
+		$fields['field_county'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['county'];
+		$fields['field_post_code'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['postcode'];
+		$fields['field_country'][LANGUAGE_NONE][0]['value'] = $values['personal_details']['country'];
+		
+		$fields['field_membership_class'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['class'];
+		$fields['field_current_student'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_student'];
+		$fields['field_current_course'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['current_course'];
+		$fields['field_expected_date_of_completio'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['expected_completion'] ? strtotime($values['membership_details']['expected_completion']) : 0;
+		$fields['field_years_in_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['years_in_hall'];
+		$fields['field_affiliation_to_hall'][LANGUAGE_NONE][0]['value'] = $values['membership_details']['affiliation'];
+		//TODO: Add Year of Completion
+		
+		foreach($values['bristol_degrees']['name'] AS $degree){
+			$fields['field_bristol_degrees_held'][LANGUAGE_NONE][]['value'] = $degree;
+		}
+		
+		//the first parameter is left blank so a new user is created
+		$account = user_save('', $fields);
+		
+		$params['account'] = $account;
+		
+		drupal_mail('mha_permission', 'application', $account->mail, user_preferred_language($account), $params);
+		$_SESSION['account'] = $account;
+		$form_state['redirect'] = 'membership/apply/payment';
+	}
+}
+
+function mha_permission_membership_apply_payment(){
+	//$account = user_load($uid);
+	$account = $_SESSION['account'];
+	
+	$action = 'https://www.paypal.com/cgi-bin/webscr';
+	
+	switch($account->field_membership_class[LANGUAGE_NONE][0]['value']){
+		case 'full' :
+			$amount = variable_get('mha_permission_cost_full', '20');
+			$item = 'Full/Alumni Membership';
+			$period = '3 years from date of approval';
+			break;
+		case 'affiliate' :
+			$amount = variable_get('mha_permission_cost_full', '20');
+			$item = 'Affiliate Membership';
+			$period = '3 years from date of approval (Affiliate members must also be ratified at an AGM)';
+			break;
+		case 'student' :
+			$amount = variable_get('mha_permission_cost_student', '15');
+			$item = 'Student Membership';
+			$period = 'Until the end of your current course';
+			break;
+	}
+	
+	$return = variable_get('mha_permission_return', 'http://www.manorhallassociation.co.uk');
+	
+	$output = '<p>In order to process your application it is neccessary to receive the appropiate fees for the class of membership you have applied for, a summary of the fees due is provided below.</p>';
+	$output .= '<p>
+								<ul>
+									<li><strong>Membership Class: </strong>' . $item . '</li>
+									<li><strong>Duration: </strong>' . $period . '</li>
+									<li><strong>Fees Due: </strong>' . $amount . '</li>
+							</ul>';
+	$output .= '<p>All membership applications need to be approved by the Executive Committee before becoming fully active and this is the date your membership will officially start and you\'ll receive an email to confirm this.</p>';
+	$output .= mha_dd_page();
+	$output .= '<div id="paypal-container">';
+	$output .= '<h2>Pay by Debit/Credit Card</h2>';
+	$output .= '<p>The easiest way to pay your fees is securely online by Debit/Credit card via PayPal by clicking the button below; however, you will receive an email with information on how to pay by cheque if you would prefer.</p>';
+	$output .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+<!-- Identify your business so that you can collect the payments. -->
+<input type="hidden" name="business" value="payments@manorhallassociation.co.uk">
+
+<!-- Specify a Buy Now button. -->
+<input type="hidden" name="cmd" value="_xclick">
+
+<!-- Specify details about the item that buyers will purchase. -->
+<input type="hidden" name="item_name" value="' . $item . '">
+<input type="hidden" name="amount" value="' . $amount . '">
+<input type="hidden" name="currency_code" value="GBP">
+
+<input type="hidden" name="notify_url" value="http://www.manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="custom" value="' . $account->uid . '">
+<input type="hidden" name="return" value="' . $return . '">
+
+<!-- Display the payment button. -->
+<button class="btn btn-primary form-submit" id="edit-submit" name="op" value="Submit" type="submit">Pay by Credit/Debit Card</button>
+
+</form>';
+	$output .= '</div>';
+	return $output;
+}
+
+/**
+  * The page callback for the membership application
+  */
+function mha_permission_membership_apply(){
+		$output = drupal_render(drupal_get_form('mha_permission_join_form'));
+		return $output;
+}
+
+/**
+  * A function to consume the IPN
+  */
+function mha_permission_ipn(){
+	watchdog('IPN', print_r($_POST, true));
+	//Test $_POST
+//	$_POST = array
+//(
+//    'mc_gross' => 20.00,
+//    'protection_eligibility' => 'Eligible',
+//    'address_status' => 'confirmed',
+//    'payer_id' => 'GWSXDMWMZXYVN',
+//    'tax' => 0.00,
+//    'address_street' => '1 Main Terrace',
+//    'payment_date' => '12:23:02 Jun 22, 2015 PDT',
+//    'payment_status' => 'Completed',
+//    'charset' => 'windows-1252',
+//    'address_zip' => 'W12 4LQ',
+//    'first_name' => 'test',
+//    'mc_fee' => 0.88,
+//    'address_country_code' => 'GB',
+//    'address_name' => 'test buyer',
+//    'notify_version' => 3.8,
+//    'custom' => 931,
+//    'payer_status' => 'verified',
+//    'business' => 'chris.didcote-facilitator@me.com',
+//    'address_country' => 'United Kingdom',
+//    'address_city' => 'Wolverhampton',
+//    'quantity' => 1,
+//    'verify_sign' => 'Ak-agUltOdfoBCdY8pa3CM4u.jmFAm0E5sDFqjrhHWgvikwviuBJv52U',
+//		'payer_email' => 'chris.didcote-buyer@me.com',
+//    'txn_id' => '9DY55925KB193640Y',
+//    'payment_type' => 'instant',
+//    'last_name' => 'buyer',
+//    'address_state' => 'West Midlands',
+//    'receiver_email' => 'chris.didcote-facilitator@me.com',
+//    'payment_fee' => '',
+//    'receiver_id' => 'BD7KBRGFT3MSY',
+//    'txn_type' => 'web_accept',
+//    'item_name' => 'Renewal/Top-up of Membership',
+//    'mc_currency' => 'GBP',
+//    'item_number' => '',
+//    'residence_country' => 'GB',
+//    'test_ipn' => 1,
+//    'handling_amount' => '0.00',
+//    'transaction_subject' => '931',
+//    'payment_gross' => '',
+//    'shipping' => '0.00',
+//    'ipn_track_id' => 'f6c46e2aa6a48'
+//	);
+	
+	$account = user_load($_POST['custom']);
+	
+	if($_POST['payment_status'] == 'Completed'){
+		if($_POST['item_name'] == 'Renewal/Top-up of Membership'){
+			$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+			$account->field_paypal_transactions[LANGUAGE_NONE][]['value'] = $_POST['txn_id'] . '|' .$_POST['item_name'];
+			$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years', $account->field_expiry_[LANGUAGE_NONE][0]['value']);
+			mha_permission_log_entry(t('Member Renewed/Topped-up Membership: !name', array('!duration' => $values['duration'] , '!name' => $account->realname)), $account->uid);
+			user_save($account);
+			$params['account'] = $account;
+			$params['duration'] = '3';
+			drupal_mail('mha_permission', 'renew_add', $account->mail, user_preferred_language($account), $params);
+		}
+		else{
+			if($account->field_user_status[LANGUAGE_NONE][0]['value'] == 'pending'){
+				$account->field_paypal_transactions[LANGUAGE_NONE][]['value'] = $_POST['txn_id'] . '|' .$_POST['item_name'];
+				$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'paid';
+				$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
+				user_save($account);
+				mha_permission_log_entry(t('Subscription Payment Received: !name', array('!name' => $account->realname)), $account->uid);
+				$params['account'] = $account;
+				drupal_mail('mha_permission', 'payment_application', $account->mail, user_preferred_language($account), $params);
+			}
+		}
+	}
+}
+
+/**
+ * A simple helper function to list the countries
+ */
+function _mha_permission_countries(){
+	return array(
+		'GE' => 'Abkhazia',
+		'AF' => 'Afghanistan',
+		'AX' => 'Aland',
+		'AL' => 'Albania',
+		'DZ' => 'Algeria',
+		'AS' => 'American Samoa',
+		'AD' => 'Andorra',
+		'AO' => 'Angola',
+		'AI' => 'Anguilla',
+		'AQ' => 'Antarctica',
+		'AG' => 'Antigua and Barbuda',
+		'AR' => 'Argentina',
+		'AM' => 'Armenia',
+		'AW' => 'Aruba',
+		'AC' => 'Ascension',
+		'AU' => 'Ashmore and Cartier Islands',
+		'AU' => 'Australia',
+		'AQ' => 'Australian Antarctic Territory',
+		'AT' => 'Austria',
+		'AZ' => 'Azerbaijan',
+		'BS' => 'Bahamas, The',
+		'BH' => 'Bahrain',
+		'UM' => 'Baker Island',
+		'BD' => 'Bangladesh',
+		'BB' => 'Barbados',
+		'BY' => 'Belarus',
+		'BE' => 'Belgium',
+		'BZ' => 'Belize',
+		'BJ' => 'Benin',
+		'BM' => 'Bermuda',
+		'BT' => 'Bhutan',
+		'BO' => 'Bolivia',
+		'BA' => 'Bosnia and Herzegovina',
+		'BW' => 'Botswana',
+		'BV' => 'Bouvet Island',
+		'BR' => 'Brazil',
+		'IO' => 'British Indian Ocean Territory',
+		'VG' => 'British Virgin Islands',
+		'BN' => 'Brunei',
+		'BG' => 'Bulgaria',
+		'BF' => 'Burkina Faso',
+		'BI' => 'Burundi',
+		'KH' => 'Cambodia',
+		'CM' => 'Cameroon',
+		'CA' => 'Canada',
+		'CV' => 'Cape Verde',
+		'KY' => 'Cayman Islands',
+		'CF' => 'Central African Republic',
+		'TD' => 'Chad',
+		'CL' => 'Chile',
+		'CN' => 'China, People\'s Republic of',
+		'TW' => 'China, Republic of (Taiwan)',
+		'CX' => 'Christmas Island',
+		'PF' => 'Clipperton Island',
+		'CC' => 'Cocos (Keeling) Islands',
+		'CO' => 'Colombia',
+		'KM' => 'Comoros',
+		'CD' => 'Congo, Democratic Republic of the (Congo – Kinshasa)',
+		'CG' => 'Congo, Republic of the (Congo – Brazzaville)',
+		'CK' => 'Cook Islands',
+		'AU' => 'Coral Sea Islands',
+		'CR' => 'Costa Rica',
+		'CI' => 'Cote d\'Ivoire (Ivory Coast)',
+		'HR' => 'Croatia',
+		'CU' => 'Cuba',
+		'CY' => 'Cyprus',
+		'CZ' => 'Czech Republic',
+		'DK' => 'Denmark',
+		'DJ' => 'Djibouti',
+		'DM' => 'Dominica',
+		'DO' => 'Dominican Republic',
+		'EC' => 'Ecuador',
+		'EG' => 'Egypt',
+		'SV' => 'El Salvador',
+		'GQ' => 'Equatorial Guinea',
+		'ER' => 'Eritrea',
+		'EE' => 'Estonia',
+		'ET' => 'Ethiopia',
+		'FK' => 'Falkland Islands (Islas Malvinas)',
+		'FO' => 'Faroe Islands',
+		'FJ' => 'Fiji',
+		'FI' => 'Finland',
+		'FR' => 'France',
+		'GF' => 'French Guiana',
+		'PF' => 'French Polynesia',
+		'TF' => 'French Southern and Antarctic Lands',
+		'GA' => 'Gabon',
+		'GM' => 'Gambia, The',
+		'GE' => 'Georgia',
+		'DE' => 'Germany',
+		'GH' => 'Ghana',
+		'GI' => 'Gibraltar',
+		'GR' => 'Greece',
+		'GL' => 'Greenland',
+		'GD' => 'Grenada',
+		'GP' => 'Guadeloupe',
+		'GU' => 'Guam',
+		'GT' => 'Guatemala',
+		'GG' => 'Guernsey',
+		'GN' => 'Guinea',
+		'GW' => 'Guinea-Bissau',
+		'GY' => 'Guyana',
+		'HT' => 'Haiti',
+		'HM' => 'Heard Island and McDonald Islands',
+		'HN' => 'Honduras',
+		'HK' => 'Hong Kong',
+		'UM' => 'Howland Island',
+		'HU' => 'Hungary',
+		'IS' => 'Iceland',
+		'IN' => 'India',
+		'ID' => 'Indonesia',
+		'IR' => 'Iran',
+		'IQ' => 'Iraq',
+		'IE' => 'Ireland',
+		'IM' => 'Isle of Man',
+		'IL' => 'Israel',
+		'IT' => 'Italy',
+		'JM' => 'Jamaica',
+		'JP' => 'Japan',
+		'UM' => 'Jarvis Island',
+		'JE' => 'Jersey',
+		'UM' => 'Johnston Atoll',
+		'JO' => 'Jordan',
+		'KZ' => 'Kazakhstan',
+		'KE' => 'Kenya',
+		'UM' => 'Kingman Reef',
+		'KI' => 'Kiribati',
+		'KP' => 'Korea, Democratic People\'s Republic of (North Korea)',
+		'KR' => 'Korea, Republic of (South Korea)',
+		'CS' => 'Kosovo',
+		'KW' => 'Kuwait',
+		'KG' => 'Kyrgyzstan',
+		'LA' => 'Laos',
+		'LV' => 'Latvia',
+		'LB' => 'Lebanon',
+		'LS' => 'Lesotho',
+		'LR' => 'Liberia',
+		'LY' => 'Libya',
+		'LI' => 'Liechtenstein',
+		'LT' => 'Lithuania',
+		'LU' => 'Luxembourg',
+		'MO' => 'Macau',
+		'MK' => 'Macedonia',
+		'MG' => 'Madagascar',
+		'MW' => 'Malawi',
+		'MY' => 'Malaysia',
+		'MV' => 'Maldives',
+		'ML' => 'Mali',
+		'MT' => 'Malta',
+		'MH' => 'Marshall Islands',
+		'MQ' => 'Martinique',
+		'MR' => 'Mauritania',
+		'MU' => 'Mauritius',
+		'YT' => 'Mayotte',
+		'MX' => 'Mexico',
+		'FM' => 'Micronesia',
+		'UM' => 'Midway Islands',
+		'MD' => 'Moldova',
+		'MC' => 'Monaco',
+		'MN' => 'Mongolia',
+		'ME' => 'Montenegro',
+		'MS' => 'Montserrat',
+		'MA' => 'Morocco',
+		'MZ' => 'Mozambique',
+		'MM' => 'Myanmar (Burma)',
+		'AZ' => 'Nagorno-Karabakh',
+		'NA' => 'Namibia',
+		'NR' => 'Nauru',
+		'UM' => 'Navassa Island',
+		'NP' => 'Nepal',
+		'NL' => 'Netherlands',
+		'AN' => 'Netherlands Antilles',
+		'NC' => 'New Caledonia',
+		'NZ' => 'New Zealand',
+		'NI' => 'Nicaragua',
+		'NE' => 'Niger',
+		'NG' => 'Nigeria',
+		'NU' => 'Niue',
+		'NF' => 'Norfolk Island',
+		'CY' => 'Northern Cyprus',
+		'MP' => 'Northern Mariana Islands',
+		'NO' => 'Norway',
+		'OM' => 'Oman',
+		'PK' => 'Pakistan',
+		'PW' => 'Palau',
+		'PS' => 'Palestinian Territories (Gaza Strip and West Bank)',
+		'UM' => 'Palmyra Atoll',
+		'PA' => 'Panama',
+		'PG' => 'Papua New Guinea',
+		'PY' => 'Paraguay',
+		'PE' => 'Peru',
+		'AQ' => 'Peter I Island',
+		'PH' => 'Philippines',
+		'PN' => 'Pitcairn Islands',
+		'PL' => 'Poland',
+		'PT' => 'Portugal',
+		'MD' => 'Pridnestrovie (Transnistria)',
+		'PR' => 'Puerto Rico',
+		'QA' => 'Qatar',
+		'AQ' => 'Queen Maud Land',
+		'RE' => 'Reunion',
+		'RO' => 'Romania',
+		'AQ' => 'Ross Dependency',
+		'RU' => 'Russia',
+		'RW' => 'Rwanda',
+		'GP' => 'Saint Barthelemy',
+		'SH' => 'Saint Helena',
+		'KN' => 'Saint Kitts and Nevis',
+		'LC' => 'Saint Lucia',
+		'GP' => 'Saint Martin',
+		'PM' => 'Saint Pierre and Miquelon',
+		'VC' => 'Saint Vincent and the Grenadines',
+		'WS' => 'Samoa',
+		'SM' => 'San Marino',
+		'ST' => 'Sao Tome and Principe',
+		'SA' => 'Saudi Arabia',
+		'SN' => 'Senegal',
+		'RS' => 'Serbia',
+		'SC' => 'Seychelles',
+		'SL' => 'Sierra Leone',
+		'SG' => 'Singapore',
+		'SK' => 'Slovakia',
+		'SI' => 'Slovenia',
+		'SB' => 'Solomon Islands',
+		'SO' => 'Somalia',
+		'SO' => 'Somaliland',
+		'ZA' => 'South Africa',
+		'GS' => 'South Georgia and the South Sandwich Islands',
+		'GE' => 'South Ossetia',
+		'ES' => 'Spain',
+		'LK' => 'Sri Lanka',
+		'SD' => 'Sudan',
+		'SR' => 'Suriname',
+		'SJ' => 'Svalbard',
+		'SZ' => 'Swaziland',
+		'SE' => 'Sweden',
+		'CH' => 'Switzerland',
+		'SY' => 'Syria',
+		'TJ' => 'Tajikistan',
+		'TZ' => 'Tanzania',
+		'TH' => 'Thailand',
+		'TL' => 'Timor-Leste (East Timor)',
+		'TG' => 'Togo',
+		'TK' => 'Tokelau',
+		'TO' => 'Tonga',
+		'TT' => 'Trinidad and Tobago',
+		'TA' => 'Tristan da Cunha',
+		'TN' => 'Tunisia',
+		'TR' => 'Turkey',
+		'TM' => 'Turkmenistan',
+		'TC' => 'Turks and Caicos Islands',
+		'TV' => 'Tuvalu',
+		'VI' => 'U.S. Virgin Islands',
+		'UG' => 'Uganda',
+		'UA' => 'Ukraine',
+		'AE' => 'United Arab Emirates',
+		'GB' => 'United Kingdom',
+		'US' => 'United States',
+		'UY' => 'Uruguay',
+		'UZ' => 'Uzbekistan',
+		'VU' => 'Vanuatu',
+		'VA' => 'Vatican City',
+		'VE' => 'Venezuela',
+		'VN' => 'Vietnam',
+		'UM' => 'Wake Island',
+		'WF' => 'Wallis and Futuna',
+		'EH' => 'Western Sahara',
+		'YE' => 'Yemen',
+		'ZM' => 'Zambia',
+		'ZW' => 'Zimbabwe',
+	);
+}
+
+/**
+ * Implements hook_form_alter()
+ */
+function mha_permission_form_alter(&$form, &$form_state, $form_id){
+	if($form_id == 'user_profile_form' && !user_access('administer membership')){
+		unset($form['field_membership_class']);
+		unset($form['field_committee_position']);
+		unset($form['field_approved']);
+		unset($form['field_mailchimp']);
+		unset($form['field_expiry_']);
+		unset($form['field_paypal_transactions']);
+		unset($form['field_user_status']);
+		unset($form['field_renewal_email_letter_sent']);
+		unset($form['field_admission_date']);
+		unset($form['field_direct_debit_subscription']);
+	}
+}
+/**
+ * Implements hook_menu_link_alter
+ */
+function mha_permission_menu_link_alter(&$item) {
+  if ($item ['link_path'] == 'membership/apply') {
+    $item ['hidden'] = 1;
+  }
+}
+
+/**
+ * Implements hook_menu_alter
+ */
+function mha_permission_menu_alter(&$items) {
+  $items ['user']['title'] = 'Your Account';
+}
+
+/**
+ * Implements hook_user_insert
+ */
+function mha_permission_user_insert(&$edit, $account, $category) {
+  $params['account'] = $account;
+	drupal_mail('mha_permission', 'insert_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
+}
+
+/**
+ * Implements hook_user_update
+ */
+function mha_permission_user_update(&$edit, $account, $category) {
+  $params['account'] = $account;
+	drupal_mail('mha_permission', 'update_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
+}
