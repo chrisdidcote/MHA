@@ -68,222 +68,226 @@ h1 {
   color: #B01C2E;
   font-size: 1.7em; }
 
-/* line 16, ../sass/screen.scss */
+/* line 15, ../sass/screen.scss */
+a {
+  color: #B01C2E; }
+
+/* line 19, ../sass/screen.scss */
 .region-content h2 {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.4em; }
-/* line 21, ../sass/screen.scss */
+/* line 24, ../sass/screen.scss */
 .region-content h3 {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.2em; }
 
-/* line 27, ../sass/screen.scss */
+/* line 30, ../sass/screen.scss */
 .region-content h2 a {
   color: #B01C2E;
   font-size: 1em; }
 
-/* line 32, ../sass/screen.scss */
+/* line 35, ../sass/screen.scss */
 .view-id-committee.view-display-id-page img {
   float: left;
   margin-right: 20px; }
-/* line 36, ../sass/screen.scss */
+/* line 39, ../sass/screen.scss */
 .view-id-committee.view-display-id-page .views-row {
   margin-top: 20px; }
-/* line 39, ../sass/screen.scss */
+/* line 42, ../sass/screen.scss */
 .view-id-committee.view-display-id-page h2 {
   margin-top: 20px;
   border-bottom: 1px solid #ddd; }
 
-/* line 46, ../sass/screen.scss */
+/* line 49, ../sass/screen.scss */
 .js #mha-permission-membership-apply-form .form-item-salutation-other {
   display: none; }
 
-/* line 51, ../sass/screen.scss */
+/* line 54, ../sass/screen.scss */
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
-  /* line 57, ../sass/screen.scss */
+  /* line 60, ../sass/screen.scss */
   body #footer-wrapper {
     background: #161B20;
     color: #fff; }
 
-/* line 63, ../sass/screen.scss */
+/* line 66, ../sass/screen.scss */
 .region-sidebar-second h2.block-title {
   margin: -19px -19px 0px -19px;
   background: #B01C2E;
   padding: 19px;
   color: #fff; }
 
-/* line 71, ../sass/screen.scss */
+/* line 74, ../sass/screen.scss */
 .region-sidebar-first h2.block-title {
   margin: -19px -19px 0px -19px;
   background: #B01C2E;
   padding: 19px;
   color: #fff; }
-/* line 78, ../sass/screen.scss */
+/* line 81, ../sass/screen.scss */
 .region-sidebar-first ul li {
   padding: 10px 0px;
   border-bottom: 1px #e3e3e3 solid; }
-/* line 84, ../sass/screen.scss */
+/* line 87, ../sass/screen.scss */
 .region-sidebar-first .view-display-id-block_1 .views-row {
   padding: 10px 0px;
   border-bottom: 1px #e3e3e3 solid; }
 
-/* line 90, ../sass/screen.scss */
+/* line 93, ../sass/screen.scss */
 p {
   margin-bottom: 1em; }
 
-/* line 93, ../sass/screen.scss */
+/* line 96, ../sass/screen.scss */
 #block-mha-news-mha-news-author {
   margin-bottom: 20px;
   font-size: 0.9em;
   border-bottom: 1px #eee solid;
   border-top: 1px #eee solid;
   padding: 10px 0; }
-  /* line 94, ../sass/screen.scss */
+  /* line 97, ../sass/screen.scss */
   #block-mha-news-mha-news-author img {
     float: left;
     margin-right: 10px; }
-  /* line 98, ../sass/screen.scss */
+  /* line 101, ../sass/screen.scss */
   #block-mha-news-mha-news-author .position {
     margin-bottom: 1em;
     font-weight: bold; }
-  /* line 102, ../sass/screen.scss */
+  /* line 105, ../sass/screen.scss */
   #block-mha-news-mha-news-author .date {
     font-weight: bold;
     color: #B01C2E; }
 
 @media (min-width: 768px) {
-  /* line 113, ../sass/screen.scss */
+  /* line 116, ../sass/screen.scss */
   .footer {
     background: transparent url("../images/whitelogo.png") bottom right no-repeat; } }
 @media (max-width: 768px) {
-  /* line 120, ../sass/screen.scss */
+  /* line 123, ../sass/screen.scss */
   .page-membership-apply .region-sidebar-first {
     display: none; }
 
-  /* line 124, ../sass/screen.scss */
+  /* line 127, ../sass/screen.scss */
   .pane-hero-widget {
     display: none; }
 
-  /* line 127, ../sass/screen.scss */
+  /* line 130, ../sass/screen.scss */
   .pane-latest-tweets {
     display: none; } }
-/* line 131, ../sass/screen.scss */
+/* line 134, ../sass/screen.scss */
 .region.region-sidebar-first.well {
   padding-top: 0; }
 
-/* line 134, ../sass/screen.scss */
+/* line 137, ../sass/screen.scss */
 .navbar-full {
   background: #161B20;
   margin-bottom: 20px; }
-  /* line 137, ../sass/screen.scss */
+  /* line 140, ../sass/screen.scss */
   .navbar-full .container {
     padding: 0; }
-    /* line 139, ../sass/screen.scss */
+    /* line 142, ../sass/screen.scss */
     .navbar-full .container a {
       color: #fff; }
-    /* line 142, ../sass/screen.scss */
+    /* line 145, ../sass/screen.scss */
     .navbar-full .container a:hover {
       color: #000; }
 
-/* line 148, ../sass/screen.scss */
+/* line 151, ../sass/screen.scss */
 .front .navbar-full {
   margin-bottom: 0; }
-/* line 151, ../sass/screen.scss */
+/* line 154, ../sass/screen.scss */
 .front .view-latest-tweets {
   background: #161B20 url("../images/Twitter_logo_white.png") 10px 10px no-repeat;
   padding: 13px 0 13px 50px;
   margin-bottom: 20px;
   color: #fff; }
-  /* line 156, ../sass/screen.scss */
+  /* line 159, ../sass/screen.scss */
   .front .view-latest-tweets a {
     color: #fff;
     text-decoration: underline;
     font-size: 0.9em; }
-  /* line 161, ../sass/screen.scss */
+  /* line 164, ../sass/screen.scss */
   .front .view-latest-tweets span {
     width: 100%;
     font-size: 0.9em; }
-/* line 167, ../sass/screen.scss */
+/* line 170, ../sass/screen.scss */
 .front .main-container h2 {
   font-size: 1.5em;
   background: #B01C2E;
   padding: 10px;
   color: #fff; }
-/* line 176, ../sass/screen.scss */
+/* line 179, ../sass/screen.scss */
 .front .pane-events .views-row,
 .front .pane-news .views-row {
   border-bottom: 1px solid #ddd;
   padding-bottom: 20px;
   margin-bottom: 20px; }
-/* line 181, ../sass/screen.scss */
+/* line 184, ../sass/screen.scss */
 .front .pane-events .views-row:first-child,
 .front .pane-news .views-row:first-child {
   padding-top: 0; }
-/* line 184, ../sass/screen.scss */
+/* line 187, ../sass/screen.scss */
 .front .pane-events .views-field-title,
 .front .pane-news .views-field-title {
   padding: 10px 0; }
-  /* line 186, ../sass/screen.scss */
+  /* line 189, ../sass/screen.scss */
   .front .pane-events .views-field-title a,
   .front .pane-news .views-field-title a {
     font-size: 1.3em;
     color: #B01C2E; }
 
-/* line 193, ../sass/screen.scss */
+/* line 196, ../sass/screen.scss */
 .view-display-id-attachment_1 {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #ddd; }
 
-/* line 200, ../sass/screen.scss */
+/* line 203, ../sass/screen.scss */
 .views-bootstrap-grid-plugin-style .views-field-title a {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.2em; }
-/* line 206, ../sass/screen.scss */
+/* line 209, ../sass/screen.scss */
 .views-bootstrap-grid-plugin-style .col {
   margin-bottom: 30px; }
 
-/* line 210, ../sass/screen.scss */
+/* line 213, ../sass/screen.scss */
 .pagination > .active > a,
 .pagination > .active > a:hover {
   background-color: #B01C2E;
   border-color: #B01C2E; }
 
-/* line 215, ../sass/screen.scss */
+/* line 218, ../sass/screen.scss */
 .pagination > li > a {
   color: #B01C2E; }
 
-/* line 219, ../sass/screen.scss */
+/* line 222, ../sass/screen.scss */
 #block-mha-news-social-share img {
   float: left;
   margin-right: 10px; }
 
 @media (min-width: 768px) {
-  /* line 226, ../sass/screen.scss */
+  /* line 229, ../sass/screen.scss */
   .navbar-full li {
     float: left !important; } }
-/* line 231, ../sass/screen.scss */
+/* line 234, ../sass/screen.scss */
 .navbar-default {
   border: none;
   background: none; }
 
-/* line 236, ../sass/screen.scss */
+/* line 239, ../sass/screen.scss */
 .view-id-hero_widget .container-fluid {
   background: #B01C2E; }
-/* line 239, ../sass/screen.scss */
+/* line 242, ../sass/screen.scss */
 .view-id-hero_widget .col-md-4 {
   padding-top: 30px;
   color: #fff; }
-  /* line 242, ../sass/screen.scss */
+  /* line 245, ../sass/screen.scss */
   .view-id-hero_widget .col-md-4 a {
     color: #fff;
     font-size: 1.5em; }
 
-/* line 251, ../sass/screen.scss */
+/* line 254, ../sass/screen.scss */
 .view-image-gallery .views-bootstrap-grid-plugin-style .views-field-title a {
   position: absolute;
   background: #B01C2E;
@@ -291,26 +295,26 @@ p {
   top: 30px;
   color: #fff; }
 
-/* line 263, ../sass/screen.scss */
+/* line 266, ../sass/screen.scss */
 .view-id-events.view-display-id-page img,
 .view-id-events.view-display-id-page_1 img {
   float: left;
   margin-right: 20px; }
-/* line 267, ../sass/screen.scss */
+/* line 270, ../sass/screen.scss */
 .view-id-events.view-display-id-page .views-row,
 .view-id-events.view-display-id-page_1 .views-row {
   margin-top: 20px;
   padding: 20px 0;
   border-bottom: 1px solid #ddd;
   border-top: 1px solid #ddd; }
-/* line 274, ../sass/screen.scss */
+/* line 277, ../sass/screen.scss */
 .view-id-events.view-display-id-page .views-field-title a,
 .view-id-events.view-display-id-page_1 .views-field-title a {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.2em; }
 
-/* line 282, ../sass/screen.scss */
+/* line 285, ../sass/screen.scss */
 .region-sidebar-second .block {
   min-height: 20px;
   padding: 19px;
@@ -321,15 +325,15 @@ p {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   padding-top: 0; }
-  /* line 292, ../sass/screen.scss */
+  /* line 295, ../sass/screen.scss */
   .region-sidebar-second .block p {
     font-size: 0.9em;
     margin-top: 1em; }
-  /* line 296, ../sass/screen.scss */
+  /* line 299, ../sass/screen.scss */
   .region-sidebar-second .block a {
     font-size: 0.9em; }
 
-/* line 303, ../sass/screen.scss */
+/* line 306, ../sass/screen.scss */
 .node-type-news-article .region-sidebar-second .block {
   min-height: 20px;
   padding: 0;
@@ -340,116 +344,120 @@ p {
   box-shadow: none;
   background: none; }
 
-/* line 316, ../sass/screen.scss */
+/* line 319, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page img {
   float: left;
   margin-right: 20px; }
-/* line 320, ../sass/screen.scss */
+/* line 323, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .views-row {
   padding: 20px 0;
   border-top: 1px solid #ddd; }
-/* line 325, ../sass/screen.scss */
+/* line 328, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content h3 {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #B01C2E;
   font-size: 1.5em;
   margin-top: 20px; }
-/* line 332, ../sass/screen.scss */
+/* line 335, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content .views-field-title h3 {
   font-size: 1.2em; }
-/* line 336, ../sass/screen.scss */
+/* line 339, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content .views-row-first {
   margin-top: 20px; }
-/* line 339, ../sass/screen.scss */
+/* line 342, ../sass/screen.scss */
 .view-id-elton_house_award.view-display-id-page .view-content .views-field-body {
   padding-top: 1em; }
 
-/* line 344, ../sass/screen.scss */
+/* line 347, ../sass/screen.scss */
 strong {
   font-weight: bold; }
 
-/* line 348, ../sass/screen.scss */
+/* line 351, ../sass/screen.scss */
 .node-elton-house-award-recipient .field-name-field-course {
   font-weight: bold;
   margin-bottom: 1em; }
-/* line 352, ../sass/screen.scss */
+/* line 355, ../sass/screen.scss */
 .node-elton-house-award-recipient .field-type-image {
   float: left;
   margin-right: 20px; }
 
-/* line 358, ../sass/screen.scss */
+/* line 361, ../sass/screen.scss */
 #block-system-main ul {
   list-style: circle;
   margin-left: 20px;
   margin-bottom: 1em; }
-  /* line 362, ../sass/screen.scss */
+  /* line 365, ../sass/screen.scss */
   #block-system-main ul li {
     list-style: circle; }
 
 @media (min-width: 768px) {
-  /* line 369, ../sass/screen.scss */
+  /* line 372, ../sass/screen.scss */
   .region-footer .block {
     width: 33.33%;
     float: left; } }
 @media (min-width: 992px) {
-  /* line 377, ../sass/screen.scss */
+  /* line 380, ../sass/screen.scss */
   .navbar-header {
     float: none; }
 
-  /* line 380, ../sass/screen.scss */
+  /* line 383, ../sass/screen.scss */
   #header-committee {
     font-family: Georgia, "Times New Roman", Times, serif;
     text-align: right;
     float: right;
     margin-top: 10px;
     font-size: 0.9em; }
-    /* line 386, ../sass/screen.scss */
+    /* line 389, ../sass/screen.scss */
     #header-committee p {
       margin: 0;
       font-size: 1em; }
-    /* line 390, ../sass/screen.scss */
+    /* line 393, ../sass/screen.scss */
     #header-committee strong {
       font-size: 1em; } }
-/* line 396, ../sass/screen.scss */
+/* line 399, ../sass/screen.scss */
 .region-footer a {
   color: #fff; }
-/* line 399, ../sass/screen.scss */
+/* line 402, ../sass/screen.scss */
 .region-footer a:hover {
   background: none; }
-/* line 402, ../sass/screen.scss */
+/* line 405, ../sass/screen.scss */
 .region-footer .nav > li > a:hover, .region-footer .nav > li > a:focus {
   background: none;
   text-decoration: underline; }
 
-/* line 408, ../sass/screen.scss */
+/* line 411, ../sass/screen.scss */
 .navbar-collapse a[href*="membership/apply"] {
   background: #428bca; }
-/* line 411, ../sass/screen.scss */
+/* line 414, ../sass/screen.scss */
 .navbar-collapse a[href*="membership/home"] {
   background: #5cb85c; }
 
-/* line 415, ../sass/screen.scss */
+/* line 420, ../sass/screen.scss */
+.logged-in .navbar-collapse a[href*="membership/apply"] {
+  display: none; }
+
+/* line 425, ../sass/screen.scss */
 .caret {
   display: none !important; }
 
-/* line 419, ../sass/screen.scss */
+/* line 429, ../sass/screen.scss */
 #block-menu-menu-membership-administration .block-title {
   background: #5cb85c; }
 
-/* line 424, ../sass/screen.scss */
+/* line 434, ../sass/screen.scss */
 #mha-permission-email-settings .form-type-textarea {
   margin-top: 40px; }
-  /* line 426, ../sass/screen.scss */
+  /* line 436, ../sass/screen.scss */
   #mha-permission-email-settings .form-type-textarea p {
     font-size: 0.8em;
     color: #777; }
-/* line 431, ../sass/screen.scss */
+/* line 441, ../sass/screen.scss */
 #mha-permission-email-settings label {
   font-size: 1.2em;
   font-weight: bold;
   color: #B01C2E; }
 
-/* line 437, ../sass/screen.scss */
+/* line 447, ../sass/screen.scss */
 #direct-debit-container,
 #paypal-container {
   border: 1px solid;
@@ -457,86 +465,101 @@ strong {
   margin-bottom: 15px;
   background: transparent url("../images/dd_form.gif") bottom right no-repeat; }
 
-/* line 444, ../sass/screen.scss */
+/* line 454, ../sass/screen.scss */
 #paypal-container {
   background: transparent url("../images/pp.jpg") bottom right no-repeat; }
 
-/* line 447, ../sass/screen.scss */
+/* line 457, ../sass/screen.scss */
 .page-ereg {
   background: #3e3e3f;
   color: #D4C69B; }
-  /* line 450, ../sass/screen.scss */
+  /* line 460, ../sass/screen.scss */
   .page-ereg img {
     margin: 45px auto; }
 
-/* line 456, ../sass/screen.scss */
+/* line 466, ../sass/screen.scss */
 .page-membership-home .panel-pane {
   margin-bottom: 30px; }
 
-/* line 460, ../sass/screen.scss */
+/* line 470, ../sass/screen.scss */
 .event-header {
   margin: 20px 0; }
-  /* line 463, ../sass/screen.scss */
+  /* line 473, ../sass/screen.scss */
   .event-header .date .calendar {
     background: #ddd;
     width: 100px;
     float: left; }
-    /* line 467, ../sass/screen.scss */
+    /* line 477, ../sass/screen.scss */
     .event-header .date .calendar .day {
       background: #B01C2E;
       text-align: center;
       font-weight: bold;
       color: #fff;
       line-height: 2em; }
-    /* line 474, ../sass/screen.scss */
+    /* line 484, ../sass/screen.scss */
     .event-header .date .calendar .day-number {
       font-size: 3em;
       text-align: center; }
-    /* line 478, ../sass/screen.scss */
+    /* line 488, ../sass/screen.scss */
     .event-header .date .calendar .month {
       text-align: center;
       line-height: 2em;
       font-weight: bold; }
-  /* line 485, ../sass/screen.scss */
+  /* line 495, ../sass/screen.scss */
   .event-header .time-location {
     float: left;
     margin-left: 20px; }
-    /* line 488, ../sass/screen.scss */
+    /* line 498, ../sass/screen.scss */
     .event-header .time-location .time {
       background: url("../images/clock.png") no-repeat;
       padding: 5px 40px;
       font-weight: bold; }
-    /* line 493, ../sass/screen.scss */
+    /* line 503, ../sass/screen.scss */
     .event-header .time-location .location {
       background: url("../images/location.png") no-repeat;
       padding: 5px 40px;
       font-weight: bold; }
-    /* line 498, ../sass/screen.scss */
+    /* line 508, ../sass/screen.scss */
     .event-header .time-location .price {
       background: url("../images/price.png") no-repeat;
       padding: 5px 40px;
       font-weight: bold; }
 
-/* line 506, ../sass/screen.scss */
+/* line 516, ../sass/screen.scss */
 .page-user .field-name-field-biography {
   margin-bottom: 20px; }
-/* line 509, ../sass/screen.scss */
+/* line 519, ../sass/screen.scss */
 .page-user .user-expiry {
   margin-top: 20px; }
 
-/* line 514, ../sass/screen.scss */
+/* line 524, ../sass/screen.scss */
 .view-id-events.view-display-id-block .date-display-single {
   font-weight: bold;
   line-height: 2em; }
 
-/* line 521, ../sass/screen.scss */
-.front .pane-block-1 .pane-content {
+/* line 530, ../sass/screen.scss */
+.front .pane-block-1 {
+  margin-bottom: 20px; }
+  /* line 531, ../sass/screen.scss */
+  .front .pane-block-1 .pane-content {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); }
+/* line 541, ../sass/screen.scss */
+.front .pane-block-12 {
+  margin-bottom: 20px; }
+/* line 545, ../sass/screen.scss */
+.front .pane-block-14 .pane-content {
   padding: 20px;
   background-color: #f5f5f5;
   border: 1px solid #e3e3e3;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); }
-/* line 530, ../sass/screen.scss */
-.front .pane-block-12 {
-  margin-bottom: 20px; }
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  line-height: 2em; }
+  /* line 553, ../sass/screen.scss */
+  .front .pane-block-14 .pane-content img {
+    float: left; }
