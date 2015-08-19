@@ -247,7 +247,7 @@ function mha_permission_user_renewal(){
 			$dd .= "<p>As payment on your account is up-to-date it isn't possible to setup a new direct debit until your next renewal period.</p>";
 			break;
 		case 'renew' :
-			$intro = "<p>Your membership is due for renewal, you can pay by credit/debit card or setup a direct debit by clicking the appropiate link below. Renewal fees are &pound;20.00 for three years.</p>";
+			$intro = "<p>Your membership is due for renewal, you can pay by credit/debit card or setup a direct debit by clicking the appropriate link below. Renewal fees are &pound;20.00 for three years.</p>";
 			if($account->field_membership_class[LANGUAGE_NONE][0]['value'] == 'student'){
 				$intro .= '<p><strong>By renewing your membership you will be converting to a Full/Alumni Member of the Association. If you are still a student of the University then please contact us at membership@manorhallassociation.co.uk.</strong></p>';
 			}
@@ -255,7 +255,7 @@ function mha_permission_user_renewal(){
 			$dd = mha_dd_page();
 			break;
 		case 'expired' :
-			$intro = "<p>Your membership has expired, if you wish to remain a member you can pay by credit/debit card or setup a direct debit by clicking the appropiate link below. Renewal fees are &pound;20.00 for three years.</p>";
+			$intro = "<p>Your membership has expired, if you wish to remain a member you can pay by credit/debit card or setup a direct debit by clicking the appropriate link below. Renewal fees are £20.00 for three years.</p>";
 			if($account->field_membership_class[LANGUAGE_NONE][0]['value'] == 'student'){
 				$intro .= '<p><strong>By renewing your membership you will be converting to a Full/Alumni Member of the Association. If you are still a student of the University then please contact us at membership@manorhallassociation.co.uk.</strong></p>';
 			}
@@ -1949,7 +1949,7 @@ function mha_permission_user_insert(&$edit, $account, $category) {
  */
 function mha_permission_user_update(&$edit, $account, $category) {
   $params['account'] = $account;
-	//drupal_mail('mha_permission', 'update_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
+	drupal_mail('mha_permission', 'update_user', 'membership@manorhallassociation.co.uk', user_preferred_language($account), $params);
 }
 
 /**
