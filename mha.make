@@ -11,10 +11,10 @@ api = 2
 ; ==============================================================================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
+projects[admin_menu][version] = "3.0-rc5"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.1"
+projects[advanced_help][version] = "1.3"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta3"
@@ -23,19 +23,19 @@ projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta3"
 
 projects[block_class][subdir] = "contrib"
-projects[block_class][version] = "1.1"
+projects[block_class][version] = "1.3"
 
 projects[boxes][subdir] = "contrib"
-projects[boxes][version] = "1.1"
+projects[boxes][version] = "1.2"
 
 projects[bxslider][subdir] = "contrib"
-projects[bxslider][version] = "1.1"
+projects[bxslider][version] = "1.2"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.0"
+projects[captcha][version] = "1.3"
 
 projects[colorbox][subdir] = "contrib"
-projects[colorbox][version] = "2.5"
+projects[colorbox][version] = "2.9"
 
 projects[content_access][subdir] = "contrib"
 projects[content_access][version] = "1.2-beta2"
@@ -44,7 +44,7 @@ projects[context][subdir] = "contrib"
 projects[context][version] = "3.6"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.7"
+projects[ctools][version] = "1.9"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
@@ -62,7 +62,7 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
 projects[entity_email][subdir] = "contrib"
-projects[entity_email][version] = "1.2"
+projects[entity_email][version] = "1.3"
 
 projects[fboauth][subdir] = "contrib"
 projects[fboauth][version] = "1.6"
@@ -86,7 +86,7 @@ projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
 
 projects[gmap][subdir] = "contrib"
-projects[gmap][version] = "2.8"
+projects[gmap][version] = "2.9"
 
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.4"
@@ -109,16 +109,16 @@ projects[jquery_update][version] = "2.6"
 projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/jquery_update-support-optionally-2156881-46.patch"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.1"
+projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.0-alpha3"
 
 projects[location][subdir] = "contrib"
-projects[location][version] = "3.1"
+projects[location][version] = "3.7"
 
 projects[mailchimp][subdir] = "contrib"
-projects[mailchimp][version] = "3.3"
+projects[mailchimp][version] = "3.4"
 
 projects[maillog][subdir] = "development"
 projects[maillog][download][type] = "git"
@@ -134,22 +134,22 @@ projects[mandrill][subdir] = "contrib"
 projects[mandrill][version] = "2.1"
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "1.4"
+projects[media][version] = "1.5"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "1.0-beta3"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.1"
+projects[metatag][version] = "1.7"
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.3"
+projects[menu_block][version] = "2.7"
 
 projects[nodequeue][subdir] = "contrib"
-projects[nodequeue][version] = "2.0-beta1"
+projects[nodequeue][version] = "2.0"
 
 projects[oauth][subdir] = "contrib"
-projects[oauth][version] = "3.1"
+projects[oauth][version] = "3.2"
 
 projects[omega_tools][subdir] = "contrib"
 projects[omega_tools][version] = "3.0-rc4"
@@ -160,7 +160,7 @@ projects[onecomment][download][url] = "git://git.drupal.org/project/onecomment.g
 projects[onecomment][download][revision] = "0eaf6bb8a19c6376a44b9fea393123cb3d1ef95c"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.3"
+projects[panels][version] = "3.5"
 
 projects[panels_bootstrap_layouts][subdir] = "contrib"
 projects[panels_bootstrap_layouts][version] = "3.0"
@@ -178,13 +178,13 @@ projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.6"
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.1"
+projects[realname][version] = "1.2"
 
 projects[recaptcha][subdir] = "contrib"
 projects[recaptcha][version] = "2.0"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc1"
+projects[redirect][version] = "1.0-rc3"
 
 projects[references][subdir] = "contrib"
 projects[references][download][type] = "git"
@@ -195,7 +195,7 @@ projects[rpx][subdir] = "contrib"
 projects[rpx][version] = "2.2"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.6"
+projects[rules][version] = "2.9"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -204,7 +204,7 @@ projects[styles][subdir] = "contrib"
 projects[styles][version] = "2.0-alpha8"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[twitter][subdir] = "contrib"
 projects[twitter][version] = "5.8"
@@ -247,7 +247,7 @@ projects[widgets][subdir] = "contrib"
 projects[widgets][version] = "1.0-rc1"
 
 projects[workbench_moderation][subdir] = "contrib"
-projects[workbench_moderation][version] = "1.3"
+projects[workbench_moderation][version] = "1.4"
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"
