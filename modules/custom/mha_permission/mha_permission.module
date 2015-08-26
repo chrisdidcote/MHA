@@ -721,10 +721,10 @@ With very best wishes,
 Kieran Freear
 <strong>Membership Secretary</strong>'), array('!realname' => $account->realname,
 																							 '!reference' => 'MHA-' . $account->uid,
-																							 '!title' => $data['user']->field_salutation[LANGUAGE_NONE][0]['value'],
-																							 '!surname' => $data['user']->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!title' => $account->field_salutation[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $$account->field_last_name[LANGUAGE_NONE][0]['value'],
 																							 '!date' => date('l, jS F Y', $account->field_expiry_[LANGUAGE_NONE][0]['value']))));
-	$output .= '<div style="text-align: center; padding-top: 1cm;"><img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterFoot.png" width="15cm"/></div>';
+	//$output .= '<div style="text-align: center; padding-top: 1cm;"><img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterFoot.png" width="15cm"/></div>';
 	mha_permission_log_entry(t('Renewal Letter Generated: !name', array('!name' => $account->realname)), $account->uid);
 	pdf_using_mpdf_api($output, $uid . 'renewal' . time() . '.pdf');
 	return 'Renewal Letter Generate and has been downloaded as a PDF. Please print this onto Association Headed Paper an post to the relevant member.';
@@ -867,24 +867,75 @@ function mha_permission_cron(){
 function mha_permission_membership_aprove($uid = null){
 	if($uid == null){
 		drupal_set_message(t('You must select a valid user to approve'), 'error');
+		drupal_goto('membership/home');
 	}
 	else{
 		$account = user_load($uid);
 		if(empty($account->field_direct_debit_subscription[LANGUAGE_NONE][0]['value'])){
+			//TODO: This is too naive - probably need an intermediate page to display the expirey date for student members
 			$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
 		}
 		$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
-		user_save($account);
-		drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
+		
+		$output = t('<p>This member has applied for !class membership. Please confirm the expiry date shown below, making ammendments as required.</p>', array('!class' => $account->field_membership_class[LANGUAGE_NONE][0]['value']));
+		$output .= render(drupal_get_form('mha_permission_approval_form', $account));
+		return $output;
 	}
+}
+
+function mha_permission_approval_form($form, &$form_state){
+	//print_r($user);
+	if($user->field_membership_class[LANGUAGE_NONE][0]['value'] == 'student'){
+		///Find expected date of completion and build up array
+		$expiry = array(
+			'year' => date('Y', $user->field_expected_date_of_completio[LANGUAGE_NONE][0]['value']),
+			'month' => 6,
+			'day' => 30,
+		);
+	}
+	else{
+		$expiry = array(
+			'year' => date('Y', strtotime('+ 3 years')),
+			'month' => date('n', strtotime('+ 3 years')),
+			'day' => date('j', strtotime('+ 3 years')),
+		);
+	}
+	
+	$form['uid'] = array(
+		'#type' => 'value',
+		'#value' => $user->uid,
+	);
+	
+	$form['expiry'] = array(
+		'#type' => 'date',
+		'#title' => t('Membership Expiry Date'),
+		'#default_value' => $expiry,
+	);
+	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Confirm Expiry Date'),
+	);
+	
+	return $form;
+}
+function mha_permission_approval_form_submit($form, &$form_state, $user){
+	$values = $form_state['values'];
+	$account = user_load($values['uid']);
+	if(empty($account->field_direct_debit_subscription[LANGUAGE_NONE][0]['value'])){
+		$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime($values['expiry']['month'] . '/' . $values['expiry']['day'] . '/' . $values['expiry']['year']);
+	}
+	$account->field_user_status[LANGUAGE_NONE][0]['value'] = 'active';
+	user_save($account);
+	drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
 	mha_permission_log_entry(t('Member Approved: !name', array('!name' => $account->realname)), $account->uid);
 	$params['account'] = $account;
 	drupal_mail('mha_permission', 'approved', $account->mail, user_preferred_language($account), $params);
 	mha_permission_log_entry(t('Approval Email Sent: !name', array('!name' => $account->realname)), $account->uid);
 	mha_permission_mailchimp_sync($account);
-	drupal_goto('membership/home');
+	drupal_set_message(t('!user has been approved as a member of the Association. A confirmation email has been sent.', array('!user' => $account->realname)));
+	$form_state['redirect'] = 'membership/home';
 }
-
 function mha_permission_mailchimp_sync($account){
 	
 	$listID = '407b6529b4';
@@ -1240,13 +1291,26 @@ function  mha_permission_join_form($form, &$form_state, $no_js_use = FALSE){
 	);
 	
 	$form['membership_details']['expected_completion'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Expected Year of Completion e.g. 2016'),
+		'#type' => 'select',
+		'#options' => array(
+			date('Y', strtotime('now')) => date('Y', strtotime('now')),
+			date('Y', strtotime('now + 1 year')) => date('Y', strtotime('now + 1 year')),
+			date('Y', strtotime('now + 2 year')) => date('Y', strtotime('now + 2 years')),
+			date('Y', strtotime('now + 3 year')) => date('Y', strtotime('now + 3 years')),
+			date('Y', strtotime('now + 4 year')) => date('Y', strtotime('now + 4 years')),
+			date('Y', strtotime('now + 5 year')) => date('Y', strtotime('now + 5 years')),
+			date('Y', strtotime('now + 6 year')) => date('Y', strtotime('now + 6 years')),
+			date('Y', strtotime('now + 7 year')) => date('Y', strtotime('now + 7 years')),
+			date('Y', strtotime('now + 8 year')) => date('Y', strtotime('now + 8 years')),
+			date('Y', strtotime('now + 9 year')) => date('Y', strtotime('now + 9 years')),
+			date('Y', strtotime('now + 10 year')) => date('Y', strtotime('now + 10 years')),
+		),
+		'#title' => t('Expected Year of Completion'),
 	);
 	
 	$form['membership_details']['years_in_hall'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Years spent living in hall (e.g. 20007, 2008, 2009)'),
+		'#title' => t('Years spent living in hall (e.g. 2007, 2008, 2009)'),
 		'#description' => t('Please separate each year with a comma'),
 	);
 	
@@ -1393,6 +1457,9 @@ function mha_permission_join_form_validate($form, &$form_state){
 				}
 				if(empty($values['membership_details']['expected_completion'])){
 					form_set_error('membership_details][expected_completion', t('You must specify your expected year of completion in order to apply for Student Membership'));
+				}
+				if(!is_numeric($values['membership_details']['expected_completion'])){
+					form_set_error('membership_details][expected_completion', t('Your expected year of completion must be a numeric value.'));
 				}
 				if(empty($values['membership_details']['years_in_hall'])){
 					form_set_error('membership_details][years_in_hall', t('Please enter the years you lived in Manor Hall to apply for Student Membership'));
