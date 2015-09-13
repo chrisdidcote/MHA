@@ -919,8 +919,8 @@ function mha_permission_approval_form($form, &$form_state){
 	
 	return $form;
 }
-function mha_permission_approval_form_submit($form, &$form_state, $user){
-	$values = $form_state['values'];
+function mha_permission_approval_form_submit($form, &$form_state){
+	$values = $form_state['values']; 
 	$account = user_load($values['uid']);
 	if(empty($account->field_direct_debit_subscription[LANGUAGE_NONE][0]['value'])){
 		$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime($values['expiry']['month'] . '/' . $values['expiry']['day'] . '/' . $values['expiry']['year']);
