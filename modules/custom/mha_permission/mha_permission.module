@@ -228,7 +228,7 @@ function mha_permission_user_renewal(){
 	$item = 'Renewal/Top-up of Membership';
 	$amount = 20.00;
 	$return = 'http://www.manorhallassociation.co.uk';
-	
+	$_SESSION['account'] = $account;
 	//print_r($account);
 
 	switch($account->field_user_status[LANGUAGE_NONE][0]['value']){

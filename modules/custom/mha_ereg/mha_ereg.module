@@ -79,20 +79,35 @@ function mha_ereg_event($nid = null){
 
 function _mha_ereg_autocomplete($string){
 	$matches = array();
-  
-  // Some fantasy DB table which holds cities
-  $query = db_select('cities', 'c');
-
-  // Select rows that match the string
-  $return = $query
-    ->fields('c', array('city'))
-    ->condition('c.city', '%' . db_like($string) . '%', 'LIKE')
-    ->range(0, 10)
-    ->execute();
-  
+	$result = db_select('users')
+	  ->fields('users', array('field_last_name'))
+		->condition('field_last_name', db_like($string) . '%', 'LIKE')
+		->range(0, 10)
+	->execute();
+	
   // add matches to $matches  
-  foreach ($return as $row) {
-    $matches[$row->city] = check_plain($row->city);
+  foreach ($results as $row) {
+    $matches[$row->field_last_name] = check_plain($row->field_last_name);
+  }
+	
+	$field_name = 'field_last_name'; // Change this to your address field's machine name.
+  $column_name = $field_name . '_name_line';
+  $matches = array();
+  $query = db_select('users', 'u');
+  $query->innerJoin(
+    'field_data_' . $field_name,
+    'address',
+    "address.entity_id = u.uid AND address.bundle = 'user'"
+  );
+  $query->condition("address.$column_name", '%' . db_like($string) . '%', 'LIKE');
+  $query->condition('u.uid', 0, '<>');
+  $query->fields('u', array('uid', 'name'));
+  $query->fields('address', array($column_name));
+  $query->range(0, 10);
+  $results = $query->execute();
+  foreach ($results as $row) {
+    $key = $row->{$column_name} . " ($row->uid)";
+    $matches[$key] = check_plain($row->{$column_name});
   }
   
   // return for JS
@@ -105,23 +120,33 @@ function mha_ereg_registration_form($form, &$form_state, $event){
 		'#value' => $event->nid,
 	);
 	
-	$form['member_name'] = array(
-    '#title' => t('Member Surname'),
-    '#type' => 'textfield',
-    '#autocomplete_path' => 'ereg/autocomplete',
-   );
-	
-	$form['non_member'] = array(
-		'#type' => 'fieldset',
-		'#collapsible' => true,
-		'#title' => t('Non-Member'),
-		'#collapsed' => true,
+	$form['my_entity_reference'] = array(
+		'#type' => 'entityreference',
+		'#title' => t('Member Surname'),
+		'#era_entity_type' => 'user',  // Mandatory.
+		'#era_bundles' => array(), // Optional (Any bundle by default).
+		'#era_query_settings' => array(
+			'limit' => 15, // Default is 50.
+		),
 	);
+
 	
 	$form['non_member']['non_member_name'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Full Name'),
 	);
 	
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Check-in Member'
+	);
+	
 	return $form;
 }
+
+function mha_ereg_registration_form_submit($form, &$form_state){
+	$values = $form_state['values'];
+	print_r($values);
+	exit;
+}
+
