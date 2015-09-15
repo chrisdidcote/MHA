@@ -278,7 +278,7 @@ function mha_permission_user_renewal(){
 <input type="hidden" name="amount" value="' . $amount . '">
 <input type="hidden" name="currency_code" value="GBP">
 
-<input type="hidden" name="notify_url" value="http://www..manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="notify_url" value="http://manorhallassociation.co.uk/membership/ipn">
 <input type="hidden" name="custom" value="' . $account->uid . '">
 <input type="hidden" name="return" value="' . $return . '">
 
@@ -1609,7 +1609,7 @@ function mha_permission_membership_apply_payment(){
 <input type="hidden" name="amount" value="' . $amount . '">
 <input type="hidden" name="currency_code" value="GBP">
 
-<input type="hidden" name="notify_url" value="http://www.manorhallassociation.co.uk/membership/ipn">
+<input type="hidden" name="notify_url" value="http://manorhallassociation.co.uk/membership/ipn">
 <input type="hidden" name="custom" value="' . $account->uid . '">
 <input type="hidden" name="return" value="' . $return . '">
 
