@@ -548,6 +548,12 @@ function _mha_permission_get_address($uid){
 	$town_items = field_get_items('user', $account, 'field_town');
 	$town = field_view_value('user', $account, 'field_town', $town_items[0]);
 	
+	$county_items = field_get_items('user', $account, 'field_county');
+	$county = field_view_value('user', $account, 'field_county', $county_items[0]);
+	
+	$country_items = field_get_items('user', $account, 'field_country');
+	$country = field_view_value('user', $account, 'field_country', $country_items[0]);
+	
 	$post_code_items = field_get_items('user', $account, 'field_post_code');
 	$post_code = field_view_value('user', $account, 'field_post_code', $post_code_items[0]);
 	$output = '<div id="addres-block" style="padding-top: 2cm; font-size: 12px;">';
@@ -555,6 +561,8 @@ function _mha_permission_get_address($uid){
 	$output .= render($address1) ? render($address1) . "<br />" : '';
 	$output .= render($address2) ? render($address2) . "<br />" : '';
 	$output .= render($town) ? render($town) . "<br />" : '';
+	$output .= render($county) ? render($county) . "<br />" : '';
+	$output .= render($country) ? render($country) . "<br />" : '';
 	$output .= render($post_code) ? render($post_code) . "<br />" : '';
 	$output .= '</div>';
 	
