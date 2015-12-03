@@ -730,7 +730,7 @@ Kieran Freear
 <strong>Membership Secretary</strong>'), array('!realname' => $account->realname,
 																							 '!reference' => 'MHA-' . $account->uid,
 																							 '!title' => $account->field_salutation[LANGUAGE_NONE][0]['value'],
-																							 '!surname' => $$account->field_last_name[LANGUAGE_NONE][0]['value'],
+																							 '!surname' => $account->field_last_name[LANGUAGE_NONE][0]['value'],
 																							 '!date' => date('l, jS F Y', $account->field_expiry_[LANGUAGE_NONE][0]['value']))));
 	//$output .= '<div style="text-align: center; padding-top: 1cm;"><img src="' . drupal_get_path('module', 'mha_permission') . '/images/LetterFoot.png" width="15cm"/></div>';
 	mha_permission_log_entry(t('Renewal Letter Generated: !name', array('!name' => $account->realname)), $account->uid);
