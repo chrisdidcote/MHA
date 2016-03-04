@@ -108,6 +108,9 @@ projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.6"
 projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/jquery_update-support-optionally-2156881-46.patch"
 
+projects[juicebox][subdir] = "contrib"
+projects[juicebox][version] = "2.1"
+
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
