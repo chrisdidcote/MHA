@@ -572,3 +572,10 @@ strong {
 .field-name-field-images,
 .field-name-field-image {
   margin-bottom: 1em; }
+.webform-component{
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+.webform-component label{
+  font-weight: bold;
+}
