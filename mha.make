@@ -25,6 +25,9 @@ projects[apc][version] = "1.0-beta3"
 projects[block_class][subdir] = "contrib"
 projects[block_class][version] = "1.3"
 
+projects[block_query][subdir] = "contrib"
+projects[block_query][version] = "1.3"
+
 projects[boxes][subdir] = "contrib"
 projects[boxes][version] = "1.2"
 
