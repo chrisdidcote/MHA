@@ -203,6 +203,9 @@ projects[rpx][version] = "2.2"
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.9"
 
+projects[sendgrid_integration][subdir] = "contrib"
+projects[sendgrid_integration][version] = "1.0-beta3"
+
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
