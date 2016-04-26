@@ -40,6 +40,9 @@ projects[captcha][version] = "1.3"
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.5"
 
+projects[composer_manager][subdir] = "contrib"
+projects[composer_manager][version] = "1.8"
+
 projects[content_access][subdir] = "contrib"
 projects[content_access][version] = "1.2-beta2"
 
