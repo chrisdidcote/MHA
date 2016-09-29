@@ -146,6 +146,7 @@ function mha_permission_menu(){
 }
 
 function mha_permission_webhooks_mailchimp(){
+  print_r($_POST);
   return 'here';
 }
 function mha_permission_membership_renewal_sent($uid = null){
