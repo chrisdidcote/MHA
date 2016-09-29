@@ -127,17 +127,26 @@ function mha_permission_menu(){
     'type' => MENU_NORMAL_ITEM,
   );
 	
-	$items['membership/renew-sent/%'] = array(
+  $items['membership/renew-sent/%'] = array(
     'title' => 'Renewal Letter Sent', 
     'page callback' => 'mha_permission_membership_renewal_sent',  
     'access arguments' => array('administer membership'),
 		'page arguments' => array(2),
     'type' => MENU_NORMAL_ITEM,
   );
+  
+  $items['webhooks/mailchimp'] = array(
+    'title' => 'MailChimp Webhook', 
+    'page callback' => 'mha_permission_webhooks_mailchimp',  
+    'type' => MENU_NORMAL_ITEM,
+  );
 	
   return $items;
 }
 
+function mha_permission_webhooks_mailchimp(){
+  return 'here';
+}
 function mha_permission_membership_renewal_sent($uid = null){
 	$account = user_load($uid);
 	//$account->field_expiry_[LANGUAGE_NONE][0]['value'] = strtotime('+3 years');
