@@ -137,7 +137,8 @@ function mha_permission_menu(){
   
   $items['webhooks/mailchimp'] = array(
     'title' => 'MailChimp Webhook', 
-    'page callback' => 'mha_permission_webhooks_mailchimp',  
+    'page callback' => 'mha_permission_webhooks_mailchimp',
+	'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
 	
